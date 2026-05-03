@@ -1,0 +1,85 @@
+<view class="dev-home">
+  <!-- Header -->
+  <view class="page-header">
+    <text class="page-title">开发者模式</text>
+    <text class="page-sub">拥有全部权限，可访问所有功能</text>
+  </view>
+
+  <!-- Developer Section -->
+  <view class="section">
+    <view class="section-title">开发者功能</view>
+    <view class="menu-item full" bindtap="goReviewApplications">
+      <text class="menu-label">审批管理申请</text>
+      <text class="menu-sub">审核管理员申请</text>
+    </view>
+  </view>
+
+  <!-- User Section -->
+  <view class="section">
+    <view class="section-title">用户端功能</view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goUserHome">
+        <text class="menu-label">用户首页</text>
+        <text class="menu-sub">查看用户端界面</text>
+      </view>
+      <view class="menu-item" bindtap="goCreateOrder">
+        <text class="menu-label">创建订单</text>
+        <text class="menu-sub">模拟用户下单</text>
+      </view>
+    </view>
+    <view class="menu-item full" bindtap="goUserOrders">
+      <text class="menu-label">我的订单</text>
+      <text class="menu-sub">查看用户订单列表</text>
+    </view>
+  </view>
+
+  <!-- Technician Section -->
+  <view class="section">
+    <view class="section-title">维修工端功能</view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goTechHome">
+        <text class="menu-label">师傅首页</text>
+        <text class="menu-sub">查看师傅端界面</text>
+      </view>
+      <view class="menu-item" bindtap="goTechRegister">
+        <text class="menu-label">注册申请</text>
+        <text class="menu-sub">模拟师傅注册</text>
+      </view>
+    </view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goTechOrders">
+        <text class="menu-label">我的订单</text>
+        <text class="menu-sub">查看师傅订单</text>
+      </view>
+      <view class="menu-item" bindtap="goTechIncome">
+        <text class="menu-label">收入明细</text>
+        <text class="menu-sub">查看收入记录</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- Admin Section -->
+  <view class="section">
+    <view class="section-title">管理端功能</view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goAdminHome">
+        <text class="menu-label">管理首页</text>
+        <text class="menu-sub">数据概览</text>
+      </view>
+      <view class="menu-item" bindtap="goAdminOrders">
+        <text class="menu-label">全部订单</text>
+        <text class="menu-sub">订单管理</text>
+      </view>
+    </view>
+    <view class="menu-grid">
+      <view class="menu-item" bindtap="goAdminTechnicians">
+        <text class="menu-label">师傅管理</text>
+        <text class="menu-sub">审核/禁用</text>
+      </view>
+      <view class="menu-item" bindtap="goAdminFeedback">
+        <text class="menu-label">反馈管理</text>
+        <text class="menu-sub">处理反馈</text>
+      </view>
+    </view>
+  </view>
+</view>

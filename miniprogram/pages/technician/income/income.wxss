@@ -1,0 +1,16 @@
+.income-page { padding: 20rpx 30rpx; }
+.summary { display: flex; padding: 40rpx 30rpx; }
+.summary-item { flex: 1; text-align: center; }
+.summary-num { display: block; font-size: 44rpx; font-weight: 700; color: #27ae60; }
+.summary-num.pending { color: #f39c12; }
+.summary-label { display: block; font-size: 24rpx; color: #999; margin-top: 8rpx; }
+.section-title { font-size: 30rpx; font-weight: 600; color: #333; margin: 20rpx 0; }
+.income-item { display: flex; justify-content: space-between; padding: 24rpx; }
+.income-type { font-size: 28rpx; color: #333; display: block; }
+.income-order { font-size: 22rpx; color: #999; display: block; margin-top: 6rpx; }
+.income-time { font-size: 22rpx; color: #bbb; display: block; margin-top: 6rpx; }
+.income-amount { font-size: 32rpx; font-weight: 600; color: #27ae60; display: block; text-align: right; }
+.income-amount.deduction { color: #e74c3c; }
+.income-status { font-size: 22rpx; display: block; text-align: right; margin-top: 6rpx; }
+.income-status.settled { color: #27ae60; }
+.income-status.pending { color: #f39c12; }

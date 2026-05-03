@@ -1,0 +1,30 @@
+<view class="order-list-page">
+  <view class="tabs">
+    <view
+      class="tab {{currentTab === item.key ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-tab="{{item.key}}"
+      bindtap="onTabChange"
+    >
+      {{item.text}}
+    </view>
+  </view>
+
+  <view class="order-list" wx:if="{{orders.length > 0}}">
+    <order-card
+      wx:for="{{orders}}"
+      wx:key="_id"
+      order="{{item}}"
+      role="user"
+    />
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
+    <text class="empty-text">暂无订单</text>
+  </view>
+
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+</view>

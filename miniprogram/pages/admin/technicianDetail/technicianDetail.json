@@ -1,0 +1,4 @@
+{
+  "navigationBarTitleText": "师傅详情",
+  "usingComponents": { "star-rating": "/components/starRating/starRating" }
+}

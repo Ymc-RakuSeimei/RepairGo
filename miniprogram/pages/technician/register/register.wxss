@@ -1,0 +1,54 @@
+.register-page {
+  padding: 20rpx 30rpx;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.form-item {
+  display: flex;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.form-label {
+  width: 160rpx;
+  font-size: 28rpx;
+  color: #666;
+  flex-shrink: 0;
+}
+
+.form-input {
+  flex: 1;
+  font-size: 28rpx;
+}
+
+.skill-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+}
+
+.skill-tag {
+  padding: 16rpx 30rpx;
+  border-radius: 30rpx;
+  font-size: 26rpx;
+  background: #f0f0f0;
+  color: #666;
+  transition: all 0.2s;
+}
+
+.skill-tag.active {
+  background: #4A90D9;
+  color: #fff;
+}
+
+.submit-btn {
+  margin-top: 40rpx;
+  width: 100%;
+}

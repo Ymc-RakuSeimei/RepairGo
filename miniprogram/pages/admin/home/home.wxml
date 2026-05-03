@@ -1,0 +1,93 @@
+<view class="admin-home">
+  <view class="page-header">
+    <text class="page-title">管理中心</text>
+  </view>
+
+  <!-- Stats -->
+  <view class="stats-grid">
+    <view class="stat-card" bindtap="goOrderList">
+      <text class="stat-num pending">{{stats.pendingOrders}}</text>
+      <text class="stat-label">待处理订单</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num active">{{stats.activeOrders}}</text>
+      <text class="stat-label">进行中</text>
+    </view>
+    <view class="stat-card" bindtap="goTechnicians">
+      <text class="stat-num online">{{stats.onlineTechs}}</text>
+      <text class="stat-label">在线师傅</text>
+    </view>
+    <view class="stat-card">
+      <text class="stat-num done">{{stats.todayCompleted}}</text>
+      <text class="stat-label">今日完成</text>
+    </view>
+  </view>
+
+  <!-- Menu -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goOrderList">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#2E6CE6"></view>
+        <view class="menu-text">
+          <text class="menu-label">订单管理</text>
+          <text class="menu-sub">查看全部订单</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goTechnicians">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#34C759"></view>
+        <view class="menu-text">
+          <text class="menu-label">师傅管理</text>
+          <text class="menu-sub">审核与管理</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+    <view class="menu-item" bindtap="goFeedbackList">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#FF9500"></view>
+        <view class="menu-text">
+          <text class="menu-label">反馈处理</text>
+          <text class="menu-sub">处理用户反馈</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <!-- Developer only: review admin applications -->
+    <view class="menu-item" wx:if="{{isDeveloper}}" bindtap="goReviewApplications">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#AF52DE"></view>
+        <view class="menu-text">
+          <text class="menu-label">审批管理申请</text>
+          <text class="menu-sub">审核管理员申请</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="goUserHome">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#5856D6"></view>
+        <view class="menu-text">
+          <text class="menu-label">用户端</text>
+          <text class="menu-sub">提交订单</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="goBack">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#8E8E93"></view>
+        <view class="menu-text">
+          <text class="menu-label">切换角色</text>
+          <text class="menu-sub">返回首页</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+</view>

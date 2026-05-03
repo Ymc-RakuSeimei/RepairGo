@@ -1,0 +1,36 @@
+<view class="feedback-page">
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">反馈类型</text>
+      <picker range="{{types}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker-value {{typeIndex < 0 ? 'placeholder' : ''}}">
+          {{typeIndex >= 0 ? types[typeIndex] : '请选择类型'}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">标题</text>
+      <input class="form-input" placeholder="简要描述问题" value="{{title}}" data-field="title" bindinput="onInputChange" />
+    </view>
+    <view class="form-item" style="align-items: flex-start;">
+      <text class="form-label">详情</text>
+      <textarea class="form-textarea" placeholder="详细描述您的问题或建议" value="{{content}}" data-field="content" bindinput="onInputChange" maxlength="500" />
+    </view>
+    <view class="image-section">
+      <text class="form-label">图片（可选）</text>
+      <view class="image-list">
+        <view class="image-item" wx:for="{{images}}" wx:key="*this">
+          <image src="{{item}}" mode="aspectFill" class="preview-img" />
+          <view class="remove-btn" data-index="{{index}}" bindtap="removeImage">✕</view>
+        </view>
+        <view class="image-add" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <button class="btn-primary submit-btn" bindtap="onSubmit" disabled="{{submitting}}">
+    {{submitting ? '提交中...' : '提交反馈'}}
+  </button>
+</view>

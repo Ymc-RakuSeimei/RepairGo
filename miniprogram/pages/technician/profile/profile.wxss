@@ -1,0 +1,15 @@
+.profile-page { padding: 20rpx 30rpx; }
+.profile-header { display: flex; align-items: center; }
+.avatar-wrap { width: 120rpx; height: 120rpx; border-radius: 50%; background: #4A90D9; display: flex; align-items: center; justify-content: center; margin-right: 30rpx; }
+.avatar-text { font-size: 48rpx; color: #fff; font-weight: 700; }
+.profile-info .name { font-size: 34rpx; font-weight: 600; color: #333; display: block; }
+.profile-info .phone { font-size: 26rpx; color: #999; display: block; margin-top: 6rpx; }
+.rating-wrap { display: flex; align-items: center; margin-top: 10rpx; }
+.rating-text { font-size: 24rpx; color: #f39c12; margin-left: 10rpx; }
+.info-row { display: flex; padding: 16rpx 0; font-size: 28rpx; border-bottom: 1rpx solid #f0f0f0; }
+.info-row .label { width: 140rpx; color: #999; flex-shrink: 0; }
+.section-title { font-size: 30rpx; font-weight: 600; color: #333; margin: 20rpx 0; }
+.review-item { padding: 20rpx; }
+.review-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10rpx; }
+.review-time { font-size: 22rpx; color: #bbb; }
+.review-content { font-size: 26rpx; color: #333; }

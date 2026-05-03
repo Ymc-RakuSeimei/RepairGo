@@ -1,0 +1,31 @@
+<view class="fb-detail" wx:if="{{!loading && feedback}}">
+  <view class="card">
+    <view class="fb-header">
+      <text class="fb-title">{{feedback.title}}</text>
+      <view class="fb-type">{{feedback.type === 'complaint' ? '投诉' : feedback.type === 'suggestion' ? '建议' : feedback.type === 'question' ? '咨询' : '其他'}}</view>
+    </view>
+    <text class="fb-content">{{feedback.content}}</text>
+    <view class="fb-images" wx:if="{{feedback.images.length > 0}}">
+      <image wx:for="{{feedback.images}}" wx:key="*this" src="{{item}}" mode="aspectFill" class="fb-img" />
+    </view>
+    <view class="fb-meta">
+      <text>提交者：{{feedback.submitterName}}（{{feedback.submitterRole === 'user' ? '用户' : '师傅'}}）</text>
+    </view>
+  </view>
+
+  <view class="section-title" wx:if="{{feedback.replies.length > 0}}">回复记录</view>
+  <view class="reply-item card" wx:for="{{feedback.replies}}" wx:key="index">
+    <text class="reply-admin">{{item.adminName}}</text>
+    <text class="reply-content">{{item.content}}</text>
+    <text class="reply-time">{{item.createdAt}}</text>
+  </view>
+
+  <view class="card reply-form" wx:if="{{feedback.status !== 'closed'}}">
+    <view class="section-title">回复</view>
+    <textarea class="reply-textarea" placeholder="输入回复内容..." value="{{replyContent}}" bindinput="onReplyInput" maxlength="500" />
+    <view class="reply-actions">
+      <button class="btn-primary" bindtap="onReply" disabled="{{submitting}}">发送回复</button>
+      <button class="btn-outline" bindtap="onClose" style="margin-left: 16rpx;">关闭工单</button>
+    </view>
+  </view>
+</view>

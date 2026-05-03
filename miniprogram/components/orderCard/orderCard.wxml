@@ -1,0 +1,26 @@
+<view class="order-card" bindtap="onTap">
+  <view class="order-header">
+    <text class="order-no">{{order.orderNo}}</text>
+    <view class="status-tag" style="background: {{statusInfo.color}}20; color: {{statusInfo.color}}">
+      {{statusInfo.text}}
+    </view>
+  </view>
+  <view class="order-body">
+    <view class="info-row">
+      <text class="label">电器：</text>
+      <text>{{order.applianceType}} {{order.applianceBrand}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">地址：</text>
+      <text>{{order.userAddress}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">故障：</text>
+      <text class="fault-text">{{order.faultDescription}}</text>
+    </view>
+  </view>
+  <view class="order-footer">
+    <text class="time">{{order.createdAt}}</text>
+    <text class="arrow">›</text>
+  </view>
+</view>

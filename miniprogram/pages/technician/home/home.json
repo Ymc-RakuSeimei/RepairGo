@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "维修中心",
+  "usingComponents": {
+    "order-card": "/components/orderCard/orderCard",
+    "status-badge": "/components/statusBadge/statusBadge"
+  }
+}

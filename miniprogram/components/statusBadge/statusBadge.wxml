@@ -1,0 +1,3 @@
+<view class="badge" style="background: {{info.color}}20; color: {{info.color}}">
+  {{info.text}}
+</view>

@@ -1,0 +1,85 @@
+<view class="order-detail" wx:if="{{!loading}}">
+  <view class="card">
+    <view class="header-row">
+      <text class="order-no">{{order.orderNo}}</text>
+      <status-badge status="{{order.status}}" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">电器信息</view>
+    <view class="info-row">
+      <text class="label">类型</text>
+      <text>{{order.applianceType}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.applianceBrand}}">
+      <text class="label">品牌</text>
+      <text>{{order.applianceBrand}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">故障</text>
+      <text>{{order.faultDescription}}</text>
+    </view>
+    <view class="image-row" wx:if="{{order.faultImages.length > 0}}">
+      <image wx:for="{{order.faultImages}}" wx:key="*this" src="{{item}}" mode="aspectFill" class="fault-img" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">联系信息</view>
+    <view class="info-row">
+      <text class="label">姓名</text>
+      <text>{{order.userName}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">电话</text>
+      <text>{{order.userPhone}}</text>
+    </view>
+    <view class="info-row">
+      <text class="label">地址</text>
+      <text>{{order.userAddress}}</text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{order.technicianName}}">
+    <view class="section-title">维修师傅</view>
+    <view class="info-row">
+      <text class="label">师傅</text>
+      <text>{{order.technicianName}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.acceptedAt}}">
+      <text class="label">接单时间</text>
+      <text>{{order.acceptedAt}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.completedAt}}">
+      <text class="label">完成时间</text>
+      <text>{{order.completedAt}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.repairNotes}}">
+      <text class="label">维修备注</text>
+      <text>{{order.repairNotes}}</text>
+    </view>
+  </view>
+
+  <!-- 评价区域 -->
+  <view class="card" wx:if="{{canReview}}">
+    <view class="section-title">服务评价</view>
+    <view class="review-form">
+      <view class="rating-row">
+        <text class="label">评分</text>
+        <star-rating rating="{{reviewRating}}" bind:change="onReviewRatingChange" size="50" />
+      </view>
+      <textarea class="review-textarea" placeholder="请写下您的评价..." value="{{reviewContent}}" bindinput="onReviewInput" maxlength="200" />
+      <button class="btn-primary" bindtap="onSubmitReview">提交评价</button>
+    </view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-bar" wx:if="{{canCancel}}">
+    <button class="btn-danger" bindtap="onCancel">取消订单</button>
+  </view>
+</view>
+
+<view class="loading-wrap" wx:if="{{loading}}">
+  <text>加载中...</text>
+</view>

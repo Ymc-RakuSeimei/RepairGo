@@ -1,0 +1,43 @@
+<view class="order-detail" wx:if="{{!loading}}">
+  <view class="card">
+    <view class="header-row">
+      <text class="order-no">{{order.orderNo}}</text>
+      <status-badge status="{{order.status}}" />
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">客户信息</view>
+    <view class="info-row"><text class="label">姓名</text><text>{{order.userName}}</text></view>
+    <view class="info-row"><text class="label">电话</text><text>{{order.userPhone}}</text></view>
+    <view class="info-row"><text class="label">地址</text><text>{{order.userAddress}}</text></view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">电器信息</view>
+    <view class="info-row"><text class="label">类型</text><text>{{order.applianceType}} {{order.applianceBrand}}</text></view>
+    <view class="info-row"><text class="label">故障</text><text>{{order.faultDescription}}</text></view>
+  </view>
+
+  <view class="card" wx:if="{{order.technicianName}}">
+    <view class="section-title">维修师傅</view>
+    <view class="info-row"><text class="label">师傅</text><text>{{order.technicianName}}</text></view>
+    <view class="info-row" wx:if="{{order.repairNotes}}"><text class="label">备注</text><text>{{order.repairNotes}}</text></view>
+    <view class="info-row" wx:if="{{order.price}}"><text class="label">费用</text><text>{{order.price}}</text></view>
+  </view>
+
+  <view class="card" wx:if="{{canDispatch}}">
+    <view class="section-title">派单操作</view>
+    <view class="form-item">
+      <text class="form-label">选择师傅</text>
+      <picker range="{{availableTechs}}" range-key="realName" value="{{selectedTechIndex}}" bindchange="onTechChange">
+        <view class="picker-value {{selectedTechIndex < 0 ? 'placeholder' : ''}}">
+          {{selectedTechIndex >= 0 ? availableTechs[selectedTechIndex].realName : '请选择空闲师傅'}}
+        </view>
+      </picker>
+    </view>
+    <button class="btn-primary" style="margin-top: 20rpx;" bindtap="onDispatch">确认派单</button>
+  </view>
+</view>
+
+<view class="loading-wrap" wx:if="{{loading}}"><text>加载中...</text></view>

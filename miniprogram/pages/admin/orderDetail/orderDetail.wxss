@@ -1,0 +1,10 @@
+.order-detail { padding: 20rpx 30rpx; }
+.header-row { display: flex; justify-content: space-between; align-items: center; }
+.order-no { font-size: 26rpx; color: #999; }
+.section-title { font-size: 30rpx; font-weight: 600; color: #333; margin-bottom: 16rpx; }
+.info-row { display: flex; padding: 12rpx 0; font-size: 28rpx; }
+.info-row .label { width: 140rpx; color: #999; flex-shrink: 0; }
+.form-item { display: flex; align-items: center; padding: 24rpx 0; border-bottom: 1rpx solid #f0f0f0; }
+.form-label { width: 160rpx; font-size: 28rpx; color: #666; flex-shrink: 0; }
+.picker-value { flex: 1; font-size: 28rpx; }
+.picker-value.placeholder { color: #ccc; }

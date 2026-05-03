@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/user/home/home",
+    "pages/user/createOrder/createOrder",
+    "pages/user/orderList/orderList",
+    "pages/user/orderDetail/orderDetail",
+    "pages/user/feedback/feedback",
+    "pages/user/applyAdmin/applyAdmin",
+    "pages/technician/home/home",
+    "pages/technician/orderList/orderList",
+    "pages/technician/orderDetail/orderDetail",
+    "pages/technician/income/income",
+    "pages/technician/profile/profile",
+    "pages/technician/register/register",
+    "pages/admin/home/home",
+    "pages/admin/orderList/orderList",
+    "pages/admin/orderDetail/orderDetail",
+    "pages/admin/technicians/technicians",
+    "pages/admin/technicianDetail/technicianDetail",
+    "pages/admin/feedbackList/feedbackList",
+    "pages/admin/feedbackDetail/feedbackDetail",
+    "pages/developer/home/home",
+    "pages/developer/reviewApplications/reviewApplications"
+  ],
+  "window": {
+    "backgroundColor": "#F7F8FA",
+    "navigationBarBackgroundColor": "#FFFFFF",
+    "navigationBarTitleText": "电器维修",
+    "navigationBarTextStyle": "black"
+  },
+  "sitemapLocation": "sitemap.json",
+  "style": "v2"
+}

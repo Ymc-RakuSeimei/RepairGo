@@ -1,0 +1,96 @@
+.review-page {
+  min-height: 100vh;
+  background: #F7F8FA;
+  padding: 0 32rpx;
+}
+
+.page-header {
+  padding: 40rpx 0 24rpx;
+}
+
+.page-title {
+  display: block;
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #1A1A2E;
+  margin-bottom: 8rpx;
+}
+
+.page-desc {
+  display: block;
+  font-size: 26rpx;
+  color: #8E8E93;
+}
+
+.app-list {
+  margin-top: 16rpx;
+}
+
+.app-item {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 16rpx;
+}
+
+.app-info {
+  margin-bottom: 20rpx;
+}
+
+.app-name {
+  display: block;
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin-bottom: 6rpx;
+}
+
+.app-phone {
+  display: block;
+  font-size: 26rpx;
+  color: #8E8E93;
+  margin-bottom: 4rpx;
+}
+
+.app-time {
+  display: block;
+  font-size: 22rpx;
+  color: #C7C7CC;
+}
+
+.app-actions {
+  display: flex;
+  gap: 20rpx;
+}
+
+.btn-approve {
+  flex: 1;
+  background: #34C759;
+  color: #FFFFFF;
+  font-size: 28rpx;
+  font-weight: 600;
+  border-radius: 12rpx;
+  padding: 18rpx 0;
+  text-align: center;
+  border: none;
+}
+
+.btn-approve::after {
+  border: none;
+}
+
+.btn-reject {
+  flex: 1;
+  background: #FFFFFF;
+  color: #FF3B30;
+  font-size: 28rpx;
+  font-weight: 500;
+  border-radius: 12rpx;
+  padding: 18rpx 0;
+  text-align: center;
+  border: 1rpx solid #FFD4D1;
+}
+
+.btn-reject::after {
+  border: none;
+}

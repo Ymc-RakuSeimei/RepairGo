@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "订单详情",
+  "usingComponents": {
+    "status-badge": "/components/statusBadge/statusBadge",
+    "star-rating": "/components/starRating/starRating"
+  }
+}

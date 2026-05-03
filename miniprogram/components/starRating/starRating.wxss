@@ -1,0 +1,13 @@
+.star-rating {
+  display: flex;
+  gap: 10rpx;
+}
+
+.star {
+  color: #ddd;
+  transition: color 0.2s;
+}
+
+.star.active {
+  color: #f39c12;
+}

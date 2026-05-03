@@ -1,0 +1,81 @@
+.order-detail {
+  padding: 20rpx 30rpx;
+  padding-bottom: 40rpx;
+}
+
+.header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.order-no {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.info-row {
+  display: flex;
+  padding: 12rpx 0;
+  font-size: 28rpx;
+}
+
+.info-row .label {
+  width: 140rpx;
+  color: #999;
+  flex-shrink: 0;
+}
+
+.image-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 16rpx;
+}
+
+.fault-img {
+  width: 180rpx;
+  height: 180rpx;
+  border-radius: 12rpx;
+}
+
+.review-form {
+  margin-top: 16rpx;
+}
+
+.rating-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.rating-row .label {
+  margin-right: 20rpx;
+  font-size: 28rpx;
+  color: #666;
+}
+
+.review-textarea {
+  width: 100%;
+  min-height: 150rpx;
+  border: 1rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  font-size: 28rpx;
+  margin-bottom: 20rpx;
+  box-sizing: border-box;
+}
+
+.action-bar {
+  margin-top: 30rpx;
+}
+
+.action-bar .btn-danger {
+  width: 100%;
+}

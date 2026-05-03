@@ -1,0 +1,62 @@
+<view class="create-order">
+  <view class="card">
+    <view class="section-title">电器信息</view>
+    <view class="form-item">
+      <text class="form-label">电器类型</text>
+      <picker mode="selector" range="{{applianceTypes}}" value="{{typeIndex}}" bindchange="onTypeChange">
+        <view class="picker-value {{typeIndex < 0 ? 'placeholder' : ''}}">
+          {{typeIndex >= 0 ? applianceTypes[typeIndex] : '请选择电器类型'}}
+        </view>
+      </picker>
+    </view>
+    <view class="form-item">
+      <text class="form-label">品牌型号</text>
+      <input class="form-input" placeholder="如：格力 KFR-35GW" value="{{brand}}" data-field="brand" bindinput="onInputChange" />
+    </view>
+    <view class="form-item" style="align-items: flex-start;">
+      <text class="form-label">故障描述</text>
+      <textarea class="form-textarea" placeholder="请详细描述故障现象" value="{{faultDesc}}" data-field="faultDesc" bindinput="onInputChange" maxlength="500" />
+    </view>
+
+    <view class="image-section">
+      <text class="form-label">故障图片（可选，最多3张）</text>
+      <view class="image-list">
+        <view class="image-item" wx:for="{{images}}" wx:key="*this">
+          <image src="{{item}}" mode="aspectFill" class="preview-img" />
+          <view class="remove-btn" data-index="{{index}}" bindtap="removeImage">✕</view>
+        </view>
+        <view class="image-add" wx:if="{{images.length < 3}}" bindtap="chooseImage">
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">联系信息</view>
+    <view class="form-item">
+      <text class="form-label">姓名</text>
+      <input class="form-input" placeholder="请输入您的姓名" value="{{userName}}" data-field="userName" bindinput="onInputChange" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">电话</text>
+      <input class="form-input" type="number" placeholder="请输入联系电话" value="{{userPhone}}" data-field="userPhone" bindinput="onInputChange" maxlength="11" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">地址</text>
+      <input class="form-input" placeholder="请输入维修地址" value="{{userAddress}}" data-field="userAddress" bindinput="onInputChange" />
+    </view>
+    <view class="form-item">
+      <text class="form-label">期望时间</text>
+      <picker mode="date" value="{{preferredTime}}" bindchange="onTimeChange">
+        <view class="picker-value {{preferredTime ? '' : 'placeholder'}}">
+          {{preferredTime || '请选择期望上门时间'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <button class="submit-btn btn-primary" bindtap="onSubmit" disabled="{{submitting}}">
+    {{submitting ? '提交中...' : '提交订单'}}
+  </button>
+</view>

@@ -1,0 +1,32 @@
+<view class="setup-page">
+  <view class="setup-card" wx:if="{{!setupComplete}}">
+    <view class="setup-icon">R</view>
+    <text class="setup-title">首次设置</text>
+    <text class="setup-desc">请选择您的角色：</text>
+    
+    <view class="setup-options">
+      <button class="setup-btn admin-btn" bindtap="onSetAdmin" disabled="{{loading}}">
+        <text class="btn-icon">A</text>
+        <text class="btn-text">设为管理员</text>
+        <text class="btn-desc">派单调度 · 师傅管理</text>
+      </button>
+      
+      <button class="setup-btn dev-btn" bindtap="onSetDeveloper" disabled="{{loading}}">
+        <text class="btn-icon">D</text>
+        <text class="btn-text">设为开发者</text>
+        <text class="btn-desc">全部权限 · 测试调试</text>
+      </button>
+    </view>
+    
+    <text class="setup-hint" wx:if="{{loading}}">正在设置中...</text>
+  </view>
+  
+  <view class="setup-card" wx:if="{{setupComplete}}">
+    <view class="setup-icon success">✓</view>
+    <text class="setup-title">设置成功</text>
+    <text class="setup-desc">
+      {{setupType === 'admin' ? '已设置为管理员' : '已设置为开发者'}}
+    </text>
+    <button class="btn-primary" bindtap="goHome">返回首页</button>
+  </view>
+</view>

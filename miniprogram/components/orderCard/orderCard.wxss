@@ -1,0 +1,67 @@
+.order-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.order-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+
+.order-no {
+  font-size: 24rpx;
+  color: #8E8E93;
+}
+
+.status-tag {
+  padding: 6rpx 16rpx;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.order-body {
+  margin-bottom: 20rpx;
+}
+
+.info-row {
+  display: flex;
+  margin-bottom: 10rpx;
+  font-size: 28rpx;
+  color: #1A1A2E;
+}
+
+.info-row .label {
+  color: #8E8E93;
+  flex-shrink: 0;
+  width: 80rpx;
+}
+
+.fault-text {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 400rpx;
+}
+
+.order-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1rpx solid #F0F1F3;
+  padding-top: 20rpx;
+}
+
+.time {
+  font-size: 24rpx;
+  color: #C7C7CC;
+}
+
+.arrow {
+  font-size: 36rpx;
+  color: #C7C7CC;
+}

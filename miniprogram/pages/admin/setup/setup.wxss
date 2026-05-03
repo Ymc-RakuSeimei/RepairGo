@@ -1,0 +1,125 @@
+.setup-page {
+  min-height: 100vh;
+  background: #F7F8FA;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+}
+
+.setup-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 60rpx 40rpx;
+  text-align: center;
+  width: 100%;
+}
+
+.setup-icon {
+  width: 120rpx;
+  height: 120rpx;
+  border-radius: 50%;
+  background: #2E6CE6;
+  color: #FFFFFF;
+  font-size: 56rpx;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 32rpx;
+}
+
+.setup-icon.success {
+  background: #34C759;
+  font-size: 48rpx;
+}
+
+.setup-title {
+  display: block;
+  font-size: 36rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin-bottom: 16rpx;
+}
+
+.setup-desc {
+  display: block;
+  font-size: 28rpx;
+  color: #8E8E93;
+  margin-bottom: 48rpx;
+}
+
+.setup-options {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+}
+
+.setup-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 32rpx;
+  border-radius: 16rpx;
+  background: #F7F8FA;
+  border: 2rpx solid #E5E5EA;
+  margin: 0;
+  line-height: 1.4;
+}
+
+.setup-btn::after {
+  border: none;
+}
+
+.admin-btn {
+  border-color: #FF9500;
+}
+
+.dev-btn {
+  border-color: #AF52DE;
+}
+
+.btn-icon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  margin-bottom: 12rpx;
+}
+
+.admin-btn .btn-icon {
+  background: #FF9500;
+}
+
+.dev-btn .btn-icon {
+  background: #AF52DE;
+}
+
+.btn-text {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin-bottom: 4rpx;
+}
+
+.btn-desc {
+  font-size: 24rpx;
+  color: #8E8E93;
+}
+
+.setup-hint {
+  display: block;
+  font-size: 26rpx;
+  color: #8E8E93;
+  margin-top: 24rpx;
+}
+
+.btn-primary {
+  width: 100%;
+  margin-top: 32rpx;
+}
