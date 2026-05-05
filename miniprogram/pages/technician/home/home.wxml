@@ -1,22 +1,18 @@
 <view class="tech-home">
-  <!-- Header -->
   <view class="page-header">
     <text class="page-title">维修中心</text>
   </view>
-
   <!-- 未注册提示 -->
   <view class="notice-card" wx:if="{{!isRegistered && techInfo === null}}">
     <text class="notice-title">欢迎加入维修团队</text>
     <text class="notice-desc">请先完成注册申请，等待管理员审核</text>
     <button class="btn-primary" bindtap="goRegister">立即注册</button>
   </view>
-
   <!-- 审核中 -->
   <view class="notice-card" wx:if="{{techInfo && techInfo.status === 'pending'}}">
     <text class="notice-title">审核中</text>
     <text class="notice-desc">您的注册申请正在审核，请耐心等待</text>
   </view>
-
   <!-- 已认证 -->
   <block wx:if="{{isRegistered}}">
     <!-- Stats -->
@@ -36,54 +32,46 @@
         <text class="stat-label">收入(元)</text>
       </view>
     </view>
-
     <!-- 待接单 -->
     <view class="section-header">
       <text class="section-title">待接订单</text>
+      <text class="section-count" wx:if="{{pendingOrders.length > 0}}">
+        {{pendingOrders.length}}单
+      </text>
     </view>
     <view class="order-list" wx:if="{{pendingOrders.length > 0}}">
-      <view class="order-item" wx:for="{{pendingOrders}}" wx:key="_id">
-        <view class="oi-header">
-          <text class="oi-no">{{item.orderNo}}</text>
+      <view class="pending-card" wx:for="{{pendingOrders}}" wx:key="_id" data-id="{{item._id}}" bindtap="goOrderDetail">
+        <view class="pending-accent"></view>
+        <view class="pending-body">
+          <view class="pending-top">
+            <view class="pending-appliance-tag">
+              <text>{{item.applianceType}}</text>
+            </view>
+            <text class="pending-time">{{item.createdAt}}</text>
+          </view>
+          <text class="pending-no">{{item.orderNo}}</text>
+          <text class="pending-fault" wx:if="{{item.faultDescription}}">
+            {{item.faultDescription}}
+          </text>
+          <view class="pending-address-row">
+            <text class="pending-addr-icon">📍</text>
+            <text class="pending-addr-text">{{item.userAddress}}</text>
+          </view>
+          <view class="pending-bottom">
+            <view class="pending-brand" wx:if="{{item.applianceBrand}}">
+              <text>{{item.applianceBrand}}</text>
+            </view>
+            <button class="accept-btn" data-id="{{item._id}}" catchtap="onAcceptOrder">接单</button>
+          </view>
         </view>
-        <view class="oi-row">
-          <text class="oi-label">电器</text>
-          <text class="oi-value">{{item.applianceType}} {{item.applianceBrand}}</text>
-        </view>
-        <view class="oi-row">
-          <text class="oi-label">地址</text>
-          <text class="oi-value">{{item.userAddress}}</text>
-        </view>
-        <button class="btn-primary accept-btn" data-id="{{item._id}}" bindtap="onAcceptOrder">接单</button>
       </view>
     </view>
     <view class="empty-state" wx:if="{{!loading && pendingOrders.length === 0}}">
+      <text class="empty-icon">📋</text>
       <text class="empty-text">暂无待接订单</text>
-    </view>
-
-    <!-- Menu -->
-    <view class="menu-grid">
-      <view class="menu-item" bindtap="goOrderList">
-        <text class="menu-label">我的订单</text>
-        <text class="menu-sub">查看工单</text>
-      </view>
-      <view class="menu-item" bindtap="goIncome">
-        <text class="menu-label">收入明细</text>
-        <text class="menu-sub">查看账单</text>
-      </view>
-      <view class="menu-item" bindtap="goProfile">
-        <text class="menu-label">个人信息</text>
-        <text class="menu-sub">管理资料</text>
-      </view>
-      <view class="menu-item" bindtap="goUserHome">
-        <text class="menu-label">用户端</text>
-        <text class="menu-sub">提交订单</text>
-      </view>
+      <text class="empty-hint">新订单将在此处显示</text>
     </view>
   </block>
-
-  <!-- Switch role -->
-  <view class="switch-role" bindtap="goBack">
-    <text class="switch-text">切换角色</text>
-  </view>
+  <view style="height: 120rpx;"></view>
+  <role-tabbar role="technician" current="home" />
 </view>

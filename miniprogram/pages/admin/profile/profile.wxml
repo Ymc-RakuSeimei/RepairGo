@@ -1,0 +1,64 @@
+<view class="profile-page">
+  <view class="page-header">
+    <text class="page-title">管理设置</text>
+  </view>
+
+  <!-- Admin info card -->
+  <view class="card user-card">
+    <view class="avatar-circle" style="background: #FF9500;">
+      <text class="avatar-text">管</text>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo.nickName || '管理员'}}</text>
+      <text class="user-role">管理人员</text>
+    </view>
+  </view>
+
+  <!-- Menu -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goReviewApplications">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#AF52DE"></view>
+        <view class="menu-text">
+          <text class="menu-label">审批管理申请</text>
+          <text class="menu-sub">审核管理员申请</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Role switch section -->
+  <view class="menu-section">
+    <view class="menu-item" wx:if="{{hasUserRole}}" bindtap="switchToUser">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#2E6CE6"></view>
+        <view class="menu-text">
+          <text class="menu-label">切换为普通用户</text>
+          <text class="menu-sub">切换至用户视角</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" wx:if="{{isDeveloper}}" bindtap="goRoleSwitch">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#AF52DE"></view>
+        <view class="menu-text">
+          <text class="menu-label">开发者切换角色</text>
+          <text class="menu-sub">自由切换至其他角色</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Logout -->
+  <view class="logout-wrap">
+    <button class="btn-outline logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="profile" />
+</view>

@@ -1,9 +1,8 @@
-const { callCloud, checkRoleAsync } = require('../../../utils/util');
+const { callCloud, checkRoleAsync, setCurrentRole, ROLE_MAP } = require('../../../utils/util');
 
 Page({
   data: {
     profile: null,
-    reviews: [],
     loading: false,
   },
 
@@ -16,24 +15,25 @@ Page({
 
   async loadProfile() {
     this.setData({ loading: true });
-    const [profileRes, reviewsRes] = await Promise.all([
-      callCloud('technician/getProfile'),
-      callCloud('technician/getReviews', { technicianId: '' }),
-    ]);
-    
+    const profileRes = await callCloud('technician/getProfile');
+
     if (profileRes && profileRes.code === 0) {
       this.setData({ profile: profileRes.data });
-      
-      if (profileRes.data) {
-        const reviewsResult = await callCloud('technician/getReviews', {
-          technicianId: profileRes.data._id,
-        });
-        if (reviewsResult && reviewsResult.code === 0) {
-          this.setData({ reviews: reviewsResult.data });
-        }
-      }
     }
     this.setData({ loading: false });
+  },
+
+  switchToUser() {
+    wx.showModal({
+      title: '切换角色',
+      content: '确定切换至普通用户视角吗？',
+      success: (res) => {
+        if (res.confirm) {
+          setCurrentRole('user');
+          wx.redirectTo({ url: ROLE_MAP.user.home });
+        }
+      }
+    });
   },
 
   goRegister() {

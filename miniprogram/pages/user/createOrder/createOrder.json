@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "提交维修订单"
+  "navigationBarTitleText": "提交维修订单",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
 }

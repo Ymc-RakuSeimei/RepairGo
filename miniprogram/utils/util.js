@@ -3,9 +3,9 @@ const callCloud = async (name, data = {}) => {
   wx.showLoading({ title: '加载中...', mask: true });
   try {
     const funcName = name.replace(/\//g, '_');
-    const res = await wx.cloud.callFunction({ 
-      name: 'api', 
-      data: { action: funcName, ...data } 
+    const res = await wx.cloud.callFunction({
+      name: 'api',
+      data: { action: funcName, ...data }
     });
     wx.hideLoading();
     if (res.result && res.result.code === -1) {
@@ -71,7 +71,19 @@ const ROLE_MAP = {
   user: { text: '普通用户', home: '/pages/user/home/home' },
   technician: { text: '维修师傅', home: '/pages/technician/home/home' },
   admin: { text: '管理人员', home: '/pages/admin/home/home' },
-  developer: { text: '开发者', home: '/pages/developer/home/home' },
+  developer: { text: '开发者', home: '/pages/developer/roleSwitch/roleSwitch' },
+};
+
+// 角色优先级：开发者 > 管理员 > 维修工人 > 普通用户
+const ROLE_PRIORITY = ['developer', 'admin', 'technician', 'user'];
+
+// 根据角色数组确定最高优先级角色（登录后自动跳转用）
+const getEntryRole = (roles) => {
+  if (!Array.isArray(roles)) return 'user';
+  for (const role of ROLE_PRIORITY) {
+    if (roles.includes(role)) return role;
+  }
+  return 'user';
 };
 
 // 角色中文名
@@ -138,6 +150,16 @@ const setCurrentRole = (role) => {
   getApp().globalData.currentRole = role;
 };
 
+// 设置实际角色（数据库中的最高角色）
+const setActualRole = (role) => {
+  getApp().globalData.actualRole = role;
+};
+
+// 获取实际角色
+const getActualRole = () => {
+  return getApp().globalData.actualRole || 'user';
+};
+
 // 获取当前角色
 const getCurrentRole = () => {
   return getApp().globalData.currentRole || wx.getStorageSync('currentRole') || 'user';
@@ -150,12 +172,16 @@ module.exports = {
   ORDER_STATUS,
   APPLIANCE_TYPES,
   ROLE_MAP,
+  ROLE_PRIORITY,
   ROLE_TEXT,
   hasPermission,
   getUserRoles,
   getUserPendingRoles,
   setCurrentRole,
   getCurrentRole,
+  setActualRole,
+  getActualRole,
+  getEntryRole,
   verifyRole,
   checkRoleAsync,
 };

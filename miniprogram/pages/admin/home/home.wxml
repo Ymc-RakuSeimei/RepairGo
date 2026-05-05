@@ -55,39 +55,9 @@
       </view>
       <text class="menu-arrow">›</text>
     </view>
-
-    <!-- Developer only: review admin applications -->
-    <view class="menu-item" wx:if="{{isDeveloper}}" bindtap="goReviewApplications">
-      <view class="menu-left">
-        <view class="menu-dot" style="background:#AF52DE"></view>
-        <view class="menu-text">
-          <text class="menu-label">审批管理申请</text>
-          <text class="menu-sub">审核管理员申请</text>
-        </view>
-      </view>
-      <text class="menu-arrow">›</text>
-    </view>
-
-    <view class="menu-item" bindtap="goUserHome">
-      <view class="menu-left">
-        <view class="menu-dot" style="background:#5856D6"></view>
-        <view class="menu-text">
-          <text class="menu-label">用户端</text>
-          <text class="menu-sub">提交订单</text>
-        </view>
-      </view>
-      <text class="menu-arrow">›</text>
-    </view>
-
-    <view class="menu-item" bindtap="goBack">
-      <view class="menu-left">
-        <view class="menu-dot" style="background:#8E8E93"></view>
-        <view class="menu-text">
-          <text class="menu-label">切换角色</text>
-          <text class="menu-sub">返回首页</text>
-        </view>
-      </view>
-      <text class="menu-arrow">›</text>
-    </view>
   </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="home" />
 </view>

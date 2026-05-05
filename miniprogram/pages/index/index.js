@@ -2,61 +2,42 @@ var util = require("../../utils/util");
 var callCloud = util.callCloud;
 var ROLE_MAP = util.ROLE_MAP;
 var getUserRoles = util.getUserRoles;
-var hasPermission = util.hasPermission;
+var setCurrentRole = util.setCurrentRole;
+var setActualRole = util.setActualRole;
+var getEntryRole = util.getEntryRole;
 
 Page({
   data: {
     loading: true,
-    userInfo: null,
-    showRoleSelect: false,
   },
 
   onLoad() {
-    this.loginAndCheckRole();
+    this.loginAndRedirect();
   },
 
-  async loginAndCheckRole() {
+  async loginAndRedirect() {
     try {
       const result = await callCloud('user/login', {});
       if (result && result.code === 0) {
         const user = result.data;
         const roles = getUserRoles(user);
-        this.setData({ userInfo: user, loading: false });
+        const entryRole = getEntryRole(roles);
+        getApp().globalData.userInfo = user;
 
-        // Auto-redirect based on roles (priority: developer > admin > technician)
-        if (roles.includes('developer')) {
-          wx.redirectTo({ url: ROLE_MAP.developer.home });
-          return;
-        }
-        if (roles.includes('admin')) {
-          wx.redirectTo({ url: ROLE_MAP.admin.home });
-          return;
-        }
-        if (roles.includes('technician')) {
-          wx.redirectTo({ url: ROLE_MAP.technician.home });
-          return;
-        }
-        
-        // Only user role — show role selection
-        this.setData({ showRoleSelect: true });
+        // Actual role and entry role both follow the same priority order.
+        setActualRole(entryRole);
+        setCurrentRole(entryRole);
+
+        // Redirect to entry role's home
+        wx.redirectTo({ url: ROLE_MAP[entryRole].home });
       } else {
-        this.setData({ loading: false, showRoleSelect: true });
+        this.setData({ loading: false });
+        wx.showToast({ title: '登录失败，请重试', icon: 'none' });
       }
     } catch (err) {
       console.error('Login failed:', err);
-      this.setData({ loading: false, showRoleSelect: true });
+      this.setData({ loading: false });
+      wx.showToast({ title: '网络异常，请重试', icon: 'none' });
     }
-  },
-
-  goUserHome() {
-    wx.navigateTo({ url: ROLE_MAP.user.home });
-  },
-
-  goApplyTechnician() {
-    wx.navigateTo({ url: '/pages/technician/register/register' });
-  },
-
-  goApplyAdmin() {
-    wx.navigateTo({ url: '/pages/user/applyAdmin/applyAdmin' });
   },
 });

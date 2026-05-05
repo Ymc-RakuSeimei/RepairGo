@@ -1,19 +1,46 @@
 <view class="feedback-list-page">
   <view class="tabs">
-    <view class="tab {{currentTab === item.key ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="key" data-tab="{{item.key}}" bindtap="onTabChange">{{item.text}}</view>
-  </view>
+    <view class="tab {{currentTab === item.key ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="key" data-tab="{{item.key}}" bindtap="onTabChange">{{item.text}}  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
   <view class="feedback-list" wx:if="{{feedbacks.length > 0}}">
     <view class="feedback-card card" wx:for="{{feedbacks}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDetail">
       <view class="fb-header">
         <text class="fb-title">{{item.title}}</text>
-        <view class="fb-status {{item.status}}">{{item.status === 'open' ? '待处理' : item.status === 'replied' ? '已回复' : '已关闭'}}</view>
-      </view>
+        <view class="fb-status {{item.status}}">{{item.status === 'open' ? '待处理' : item.status === 'replied' ? '已回复' : '已关闭'}}  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+        <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
       <text class="fb-content">{{item.content}}</text>
       <view class="fb-footer">
         <text class="fb-user">{{item.submitterName}} · {{item.submitterRole === 'user' ? '用户' : '师傅'}}</text>
         <text class="fb-time">{{item.createdAt}}</text>
-      </view>
-    </view>
-  </view>
-  <view class="empty-state" wx:if="{{!loading && feedbacks.length === 0}}"><text class="empty-text">暂无反馈</text></view>
+        <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+      <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+  <view class="empty-state" wx:if="{{!loading && feedbacks.length === 0}}"><text class="empty-text">暂无反馈</text>  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
+</view>
+  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="admin" current="feedback" />
 </view>

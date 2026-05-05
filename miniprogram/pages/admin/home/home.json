@@ -1,1 +1,6 @@
-{ "navigationBarTitleText": "管理中心" }
+{
+  "navigationBarTitleText": "管理中心",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
+}

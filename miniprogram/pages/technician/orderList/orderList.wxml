@@ -4,16 +4,43 @@
       {{item.text}}
     </view>
   </view>
-
   <view class="order-list" wx:if="{{orders.length > 0}}">
-    <order-card wx:for="{{orders}}" wx:key="_id" order="{{item}}" role="technician" />
+    <view class="order-card" wx:for="{{orders}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDetail">
+      <view class="card-top">
+        <view class="card-status-dot" style="background: {{item.statusColor || '#8E8E93'}}"></view>
+        <text class="card-status-text" style="color: {{item.statusColor || '#8E8E93'}}">
+          {{item.statusText || ''}}
+        </text>
+        <text class="card-time">{{item.createdAt}}</text>
+      </view>
+      <text class="card-no">{{item.orderNo}}</text>
+      <view class="card-info">
+        <view class="card-row">
+          <text class="card-label">电器</text>
+          <text class="card-value">{{item.applianceType}} {{item.applianceBrand}}</text>
+        </view>
+        <view class="card-row">
+          <text class="card-label">故障</text>
+          <text class="card-value card-fault">{{item.faultDescription}}</text>
+        </view>
+        <view class="card-row">
+          <text class="card-label">地址</text>
+          <text class="card-value">{{item.userAddress}}</text>
+        </view>
+      </view>
+      <view class="card-footer">
+        <text class="card-detail-link">查看详情</text>
+        <text class="card-arrow">›</text>
+      </view>
+    </view>
   </view>
-
   <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
+    <text class="empty-icon">📋</text>
     <text class="empty-text">暂无订单</text>
   </view>
-
   <view class="loading-wrap" wx:if="{{loading}}">
     <text>加载中...</text>
   </view>
+  <view style="height: 120rpx;"></view>
+  <role-tabbar role="technician" current="orders" />
 </view>

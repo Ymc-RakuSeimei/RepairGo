@@ -12,6 +12,7 @@ App({
 
   globalData: {
     userInfo: null,
-    currentRole: '', // 'user' | 'technician' | 'admin'
+    currentRole: '',   // 当前扮演的角色: 'user' | 'technician' | 'admin'
+    actualRole: '',    // 数据库中的真实最高角色
   },
 });

@@ -1,0 +1,110 @@
+<view class="profile-page">
+  <view class="page-header">
+    <text class="page-title">我的</text>
+  </view>
+
+  <!-- User info card -->
+  <view class="card user-card">
+    <view class="avatar-circle">
+      <text class="avatar-text">{{userInfo.nickName[0] || 'U'}}</text>
+    </view>
+    <view class="user-info">
+      <text class="user-name">{{userInfo.nickName || '用户'}}</text>
+      <text class="user-role">普通用户</text>
+    </view>
+  </view>
+
+  <!-- Menu -->
+  <view class="menu-section">
+    <view class="menu-item" bindtap="goMyOrders">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#2E6CE6"></view>
+        <view class="menu-text">
+          <text class="menu-label">我的订单</text>
+          <text class="menu-sub">查看全部维修订单</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" bindtap="goFeedback">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#FF9500"></view>
+        <view class="menu-text">
+          <text class="menu-label">意见反馈</text>
+          <text class="menu-sub">提交问题与建议</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Apply section -->
+  <view class="menu-section" wx:if="{{!hasTechnicianRole}}">
+    <view class="menu-item" wx:if="{{!techPending}}" bindtap="goApplyTechnician">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#34C759"></view>
+        <view class="menu-text">
+          <text class="menu-label">申请成为维修工</text>
+          <text class="menu-sub">注册后可接单维修赚取收入</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item pending" wx:if="{{techPending}}">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#8E8E93"></view>
+        <view class="menu-text">
+          <text class="menu-label">维修工申请审核中</text>
+          <text class="menu-sub">请耐心等待管理员审核</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Role switch section -->
+  <view class="menu-section" wx:if="{{hasTechnicianRole || hasAdminRole || isDeveloper}}">
+    <view class="menu-item" wx:if="{{hasTechnicianRole}}" bindtap="switchToTechnician">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#34C759"></view>
+        <view class="menu-text">
+          <text class="menu-label">切换为维修工</text>
+          <text class="menu-sub">接单维修 · 查看收入</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" wx:if="{{hasAdminRole}}" bindtap="switchToAdmin">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#FF9500"></view>
+        <view class="menu-text">
+          <text class="menu-label">切换为管理员</text>
+          <text class="menu-sub">派单调度 · 师傅管理</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+
+    <view class="menu-item" wx:if="{{isDeveloper}}" bindtap="goRoleSwitch">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#AF52DE"></view>
+        <view class="menu-text">
+          <text class="menu-label">开发者切换角色</text>
+          <text class="menu-sub">自由切换至其他角色</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Logout -->
+  <view class="logout-wrap">
+    <button class="btn-outline logout-btn" bindtap="onLogout">退出登录</button>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="profile" />
+</view>

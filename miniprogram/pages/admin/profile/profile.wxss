@@ -1,109 +1,64 @@
-.user-home {
+.profile-page {
   min-height: 100vh;
   background: #F7F8FA;
   padding: 0 32rpx;
-  padding-bottom: 80rpx;
 }
 
 .page-header {
-  padding: 120rpx 0 48rpx;
+  padding: 120rpx 0 40rpx;
 }
 
 .page-title {
-  display: block;
   font-size: 48rpx;
   font-weight: 700;
   color: #1A1A2E;
-  margin-bottom: 8rpx;
 }
 
-.page-sub {
-  display: block;
-  font-size: 28rpx;
-  color: #8E8E93;
-}
-
-.primary-card {
+.user-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  background: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 36rpx 32rpx;
-  margin-bottom: 24rpx;
+  padding: 36rpx 28rpx;
 }
 
-.primary-left {
-  display: flex;
-  align-items: center;
-}
-
-.primary-icon {
-  width: 72rpx;
-  height: 72rpx;
+.avatar-circle {
+  width: 100rpx;
+  height: 100rpx;
   border-radius: 50%;
-  background: #2E6CE6;
-  color: #FFFFFF;
-  font-size: 40rpx;
-  font-weight: 300;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-right: 24rpx;
+  margin-right: 28rpx;
 }
 
-.primary-title {
+.avatar-text {
+  font-size: 40rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+}
+
+.user-info {
+  flex: 1;
+}
+
+.user-name {
   display: block;
-  font-size: 32rpx;
+  font-size: 34rpx;
   font-weight: 600;
   color: #1A1A2E;
   margin-bottom: 6rpx;
 }
 
-.primary-desc {
+.user-role {
   display: block;
   font-size: 24rpx;
   color: #8E8E93;
 }
 
-.primary-arrow {
-  font-size: 40rpx;
-  color: #C7C7CC;
-}
-
-.menu-grid {
-  display: flex;
-  gap: 20rpx;
-  margin-bottom: 24rpx;
-}
-
-.menu-item {
-  flex: 1;
-  background: #FFFFFF;
-  border-radius: 16rpx;
-  padding: 36rpx 28rpx;
-}
-
-.menu-label {
-  display: block;
-  font-size: 30rpx;
-  font-weight: 600;
-  color: #1A1A2E;
-  margin-bottom: 8rpx;
-}
-
-.menu-sub {
-  display: block;
-  font-size: 22rpx;
-  color: #8E8E93;
-}
-
-/* Role switch section */
 .menu-section {
   background: #FFFFFF;
   border-radius: 16rpx;
   overflow: hidden;
-  margin-bottom: 24rpx;
+  margin-bottom: 20rpx;
 }
 
 .menu-item {
@@ -131,10 +86,6 @@
   flex-shrink: 0;
 }
 
-.menu-text {
-  flex: 1;
-}
-
 .menu-label {
   display: block;
   font-size: 30rpx;
@@ -152,4 +103,12 @@
 .menu-arrow {
   font-size: 36rpx;
   color: #C7C7CC;
+}
+
+.logout-wrap {
+  padding: 40rpx 0;
+}
+
+.logout-btn {
+  width: 100%;
 }

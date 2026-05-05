@@ -26,7 +26,15 @@ Page({
     const status = currentTab === 'all' ? '' : currentTab;
     const result = await callCloud('technician/getMyOrders', { status });
     if (result && result.code === 0) {
-      this.setData({ orders: result.data });
+      const orders = result.data.map(order => {
+        const statusInfo = ORDER_STATUS[order.status] || {};
+        return {
+          ...order,
+          statusText: statusInfo.text || order.status,
+          statusColor: statusInfo.color || '#8E8E93',
+        };
+      });
+      this.setData({ orders });
     }
     this.setData({ loading: false });
   },
