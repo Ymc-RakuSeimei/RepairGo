@@ -1,1 +1,6 @@
-{ "navigationBarTitleText": "反馈处理" }
+{
+  "navigationBarTitleText": "反馈处理",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
+}

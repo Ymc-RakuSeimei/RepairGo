@@ -7,7 +7,7 @@ Page({
   },
 
   async onShow() {
-    const user = await checkRoleAsync('developer');
+    const user = await checkRoleAsync('admin');
     if (user) {
       this.loadApplications();
     }

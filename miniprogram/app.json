@@ -6,7 +6,7 @@
     "pages/user/orderList/orderList",
     "pages/user/orderDetail/orderDetail",
     "pages/user/feedback/feedback",
-    "pages/user/applyAdmin/applyAdmin",
+    "pages/user/profile/profile",
     "pages/technician/home/home",
     "pages/technician/orderList/orderList",
     "pages/technician/orderDetail/orderDetail",
@@ -20,7 +20,8 @@
     "pages/admin/technicianDetail/technicianDetail",
     "pages/admin/feedbackList/feedbackList",
     "pages/admin/feedbackDetail/feedbackDetail",
-    "pages/developer/home/home",
+    "pages/admin/profile/profile",
+    "pages/developer/roleSwitch/roleSwitch",
     "pages/developer/reviewApplications/reviewApplications"
   ],
   "window": {

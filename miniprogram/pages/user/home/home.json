@@ -1,3 +1,6 @@
 {
-  "navigationBarTitleText": "用户中心"
+  "navigationBarTitleText": "维修服务",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
 }

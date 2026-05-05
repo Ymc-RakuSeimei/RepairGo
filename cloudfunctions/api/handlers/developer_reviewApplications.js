@@ -8,7 +8,7 @@ exports.main = async (event, context) => {
 
   try {
     // Only developer can review admin applications
-    await requireRole('developer');
+    await requireRole('admin');
 
     // List all pending admin applications
     if (action === 'list') {

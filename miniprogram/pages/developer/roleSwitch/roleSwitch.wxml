@@ -1,0 +1,23 @@
+<view class="switch-page">
+  <view class="page-header">
+    <text class="page-title">切换角色</text>
+    <text class="page-sub">开发者模式 · 可自由切换至任意角色</text>
+  </view>
+
+  <view class="role-card {{currentRole === item.key ? 'active' : ''}}"
+    wx:for="{{roles}}"
+    wx:key="key"
+    data-role="{{item.key}}"
+    bindtap="onSwitchRole"
+  >
+    <view class="role-dot" style="background: {{item.color}}"></view>
+    <view class="role-body">
+      <text class="role-title">{{item.text}}</text>
+      <text class="role-desc">{{item.desc}}</text>
+    </view>
+    <view class="role-badge" wx:if="{{currentRole === item.key}}">
+      <text class="badge-text">当前</text>
+    </view>
+    <text class="role-arrow" wx:else>›</text>
+  </view>
+</view>

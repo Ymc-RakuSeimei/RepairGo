@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, getUserRoles, ORDER_STATUS } = require('../../../utils/util');
+const { callCloud, checkRoleAsync } = require('../../../utils/util');
 
 Page({
   data: {
@@ -7,14 +7,12 @@ Page({
     isRegistered: false,
     techInfo: null,
     userInfo: null,
-    roles: [],
   },
 
   async onShow() {
     const user = await checkRoleAsync('technician');
     if (user) {
-      const roles = getUserRoles(user);
-      this.setData({ userInfo: user, roles });
+      this.setData({ userInfo: user });
       this.checkRegistration();
     }
   },
@@ -52,8 +50,9 @@ Page({
     }
   },
 
-  goUserHome() {
-    wx.navigateTo({ url: '/pages/user/home/home' });
+  goOrderDetail(e) {
+    const orderId = e.currentTarget.dataset.id;
+    wx.navigateTo({ url: `/pages/technician/orderDetail/orderDetail?id=${orderId}` });
   },
 
   goOrderList() {
@@ -70,9 +69,5 @@ Page({
 
   goRegister() {
     wx.navigateTo({ url: '/pages/technician/register/register' });
-  },
-
-  goBack() {
-    wx.navigateBack();
   },
 });

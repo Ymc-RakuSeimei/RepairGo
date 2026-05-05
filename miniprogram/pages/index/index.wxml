@@ -1,5 +1,4 @@
 <view class="index-page">
-  <!-- Header -->
   <view class="header">
     <view class="logo-wrap">
       <view class="logo-circle">
@@ -7,47 +6,10 @@
       </view>
     </view>
     <text class="title">电器维修</text>
-    <text class="subtitle">欢迎使用</text>
+    <text class="subtitle">正在登录...</text>
   </view>
 
-  <!-- Loading -->
   <view class="loading-wrap" wx:if="{{loading}}">
     <text class="loading-text">正在登录...</text>
-  </view>
-
-  <!-- Role selection for users with only 'user' role -->
-  <view class="role-list" wx:if="{{showRoleSelect && !loading}}">
-    <view class="role-card" bindtap="goUserHome">
-      <view class="card-dot" style="background: #2E6CE6"></view>
-      <view class="card-body">
-        <text class="card-title">用户</text>
-        <text class="card-desc">提交订单 · 追踪进度</text>
-      </view>
-      <view class="card-arrow">
-        <text class="arrow-text">›</text>
-      </view>
-    </view>
-
-    <view class="role-card" bindtap="goApplyTechnician">
-      <view class="card-dot" style="background: #34C759"></view>
-      <view class="card-body">
-        <text class="card-title">申请成为维修工</text>
-        <text class="card-desc">注册后可接单维修</text>
-      </view>
-      <view class="card-arrow">
-        <text class="arrow-text">›</text>
-      </view>
-    </view>
-
-    <view class="role-card" bindtap="goApplyAdmin">
-      <view class="card-dot" style="background: #FF9500"></view>
-      <view class="card-body">
-        <text class="card-title">申请成为管理员</text>
-        <text class="card-desc">需开发者审核通过</text>
-      </view>
-      <view class="card-arrow">
-        <text class="arrow-text">›</text>
-      </view>
-    </view>
   </view>
 </view>

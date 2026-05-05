@@ -1,5 +1,4 @@
 <view class="user-home">
-  <!-- Header -->
   <view class="page-header">
     <text class="page-title">维修服务</text>
     <text class="page-sub">选择您需要的服务</text>
@@ -29,72 +28,7 @@
     </view>
   </view>
 
-  <!-- Role entries: show if user has the role -->
-  <view class="section-divider" wx:if="{{hasTechnicianRole || hasAdminRole}}">
-    <text class="divider-text">我的角色</text>
-  </view>
+  <view style="height: 120rpx;"></view>
 
-  <view class="role-entry-card" wx:if="{{hasTechnicianRole}}" bindtap="goTechnicianHome">
-    <view class="role-dot" style="background: #34C759"></view>
-    <view class="role-info">
-      <text class="role-title">进入维修工端</text>
-      <text class="role-desc">接单维修 · 查看收入</text>
-    </view>
-    <text class="role-arrow">›</text>
-  </view>
-
-  <view class="role-entry-card" wx:if="{{hasAdminRole}}" bindtap="goAdminHome">
-    <view class="role-dot" style="background: #FF9500"></view>
-    <view class="role-info">
-      <text class="role-title">进入管理端</text>
-      <text class="role-desc">派单调度 · 师傅管理</text>
-    </view>
-    <text class="role-arrow">›</text>
-  </view>
-
-  <!-- Apply section: show if user doesn't have the role -->
-  <view class="section-divider" wx:if="{{!hasTechnicianRole || !hasAdminRole}}">
-    <text class="divider-text">角色申请</text>
-  </view>
-
-  <!-- Technician application -->
-  <view class="apply-card" wx:if="{{!hasTechnicianRole && !techPending}}" bindtap="goApplyTechnician">
-    <view class="apply-dot" style="background: #34C759"></view>
-    <view class="apply-info">
-      <text class="apply-title">申请成为维修工</text>
-      <text class="apply-desc">注册后可接单维修赚取收入</text>
-    </view>
-    <text class="apply-arrow">›</text>
-  </view>
-
-  <view class="apply-card pending" wx:if="{{techPending}}">
-    <view class="apply-dot" style="background: #8E8E93"></view>
-    <view class="apply-info">
-      <text class="apply-title">维修工申请审核中</text>
-      <text class="apply-desc">请耐心等待管理员审核</text>
-    </view>
-  </view>
-
-  <!-- Admin application -->
-  <view class="apply-card" wx:if="{{!hasAdminRole && !adminPending}}" bindtap="goApplyAdmin">
-    <view class="apply-dot" style="background: #FF9500"></view>
-    <view class="apply-info">
-      <text class="apply-title">申请成为管理员</text>
-      <text class="apply-desc">需开发者审核通过</text>
-    </view>
-    <text class="apply-arrow">›</text>
-  </view>
-
-  <view class="apply-card pending" wx:if="{{adminPending}}">
-    <view class="apply-dot" style="background: #8E8E93"></view>
-    <view class="apply-info">
-      <text class="apply-title">管理员申请审核中</text>
-      <text class="apply-desc">请耐心等待开发者审核</text>
-    </view>
-  </view>
-
-  <!-- Switch role -->
-  <view class="switch-role" bindtap="goBack">
-    <text class="switch-text">切换角色</text>
-  </view>
+  <role-tabbar role="user" current="home" />
 </view>

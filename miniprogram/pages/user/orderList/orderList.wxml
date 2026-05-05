@@ -8,8 +8,14 @@
       bindtap="onTabChange"
     >
       {{item.text}}
-    </view>
-  </view>
+      <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
+</view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
+</view>
 
   <view class="order-list" wx:if="{{orders.length > 0}}">
     <order-card
@@ -18,13 +24,25 @@
       order="{{item}}"
       role="user"
     />
-  </view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
+</view>
 
   <view class="empty-state" wx:if="{{!loading && orders.length === 0}}">
     <text class="empty-text">暂无订单</text>
-  </view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
+</view>
 
   <view class="loading-wrap" wx:if="{{loading}}">
     <text>加载中...</text>
-  </view>
+    <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
+</view>
+  <view style="height: 120rpx;"></view>
+
+  <role-tabbar role="user" current="orders" />
 </view>

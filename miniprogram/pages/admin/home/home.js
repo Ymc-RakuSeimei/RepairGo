@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, getUserRoles } = require("../../../utils/util");
+const { callCloud, checkRoleAsync } = require("../../../utils/util");
 
 Page({
   data: {
@@ -10,15 +10,12 @@ Page({
     },
     loading: false,
     userInfo: null,
-    roles: [],
-    isDeveloper: false,
   },
 
   async onShow() {
     const user = await checkRoleAsync('admin');
     if (user) {
-      const roles = getUserRoles(user);
-      this.setData({ userInfo: user, roles, isDeveloper: roles.includes('developer') });
+      this.setData({ userInfo: user });
       this.loadStats();
     }
   },
@@ -32,10 +29,7 @@ Page({
     this.setData({ loading: false });
   },
 
-  goUserHome() { wx.navigateTo({ url: "/pages/user/home/home" }); },
   goOrderList() { wx.navigateTo({ url: "/pages/admin/orderList/orderList" }); },
   goTechnicians() { wx.navigateTo({ url: "/pages/admin/technicians/technicians" }); },
   goFeedbackList() { wx.navigateTo({ url: "/pages/admin/feedbackList/feedbackList" }); },
-  goReviewApplications() { wx.navigateTo({ url: "/pages/developer/reviewApplications/reviewApplications" }); },
-  goBack() { wx.navigateBack(); },
 });

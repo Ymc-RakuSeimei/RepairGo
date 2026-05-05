@@ -1,1 +1,6 @@
-{ "navigationBarTitleText": "师傅管理" }
+{
+  "navigationBarTitleText": "师傅管理",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
+}
