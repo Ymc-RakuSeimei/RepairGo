@@ -8,11 +8,11 @@
       bindtap="onTabChange"
     >
       {{item.text}}
-      <view style="height: 120rpx;"></view>
+      <view style="height: 10rpx;"></view>
 
   <role-tabbar role="user" current="orders" />
 </view>
-    <view style="height: 120rpx;"></view>
+    <view style="height: 10rpx;"></view>
 
   <role-tabbar role="user" current="orders" />
 </view>

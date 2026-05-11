@@ -42,6 +42,7 @@ exports.main = async (event, context) => {
       avatarUrl: event.avatarUrl || '',
       phone: '',
       address: '',
+      gender: 0,
       createdAt: db.serverDate(),
       updatedAt: db.serverDate(),
     };

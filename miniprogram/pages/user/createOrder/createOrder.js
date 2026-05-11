@@ -13,6 +13,36 @@ Page({
     preferredTime: '',
     images: [],
     submitting: false,
+    selectedAddress: null,
+  },
+
+  onShow() {
+    this.loadDefaultAddress();
+  },
+
+  async loadDefaultAddress() {
+    const result = await callCloud('user/getAddresses');
+    if (result && result.code === 0 && result.data.length > 0) {
+      const defaultAddr = result.data.find(a => a.isDefault) || result.data[0];
+      this.applyAddress(defaultAddr);
+    }
+  },
+
+  applyAddress(addr) {
+    this.setData({
+      selectedAddress: addr,
+      userName: addr.name || this.data.userName,
+      userPhone: addr.phone || this.data.userPhone,
+      userAddress: addr.fullAddress || this.data.userAddress,
+    });
+  },
+
+  onAddressSelected(address) {
+    this.applyAddress(address);
+  },
+
+  goAddressList() {
+    wx.navigateTo({ url: '/pages/user/addressList/addressList?fromOrder=1' });
   },
 
   onTypeChange(e) {
@@ -62,7 +92,6 @@ Page({
     this.setData({ submitting: true });
 
     try {
-      // 上传图片到云存储
       const imageFileIDs = [];
       for (const img of images) {
         const ext = img.split('.').pop();

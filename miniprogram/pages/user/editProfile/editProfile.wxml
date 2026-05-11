@@ -1,0 +1,44 @@
+<view class="edit-profile-page">
+  <view class="page-header">
+    <text class="page-title">编辑资料</text>
+  </view>
+
+  <!-- Avatar -->
+  <view class="card avatar-section" bindtap="onChooseAvatar">
+    <text class="form-label">头像</text>
+    <view class="avatar-right">
+      <view class="avatar-circle" wx:if="{{!avatarUrl}}">
+        <text class="avatar-text">{{nickName[0] || 'U'}}</text>
+      </view>
+      <image class="avatar-image" wx:if="{{avatarUrl}}" src="{{avatarUrl}}" mode="aspectFill" />
+      <text class="avatar-hint" wx:if="{{uploading}}">上传中...</text>
+      <text class="menu-arrow">›</text>
+    </view>
+  </view>
+
+  <!-- Nickname -->
+  <view class="card">
+    <view class="form-item">
+      <text class="form-label">昵称</text>
+      <input class="form-input" value="{{nickName}}" placeholder="请输入昵称" maxlength="20" bindinput="onNicknameInput" />
+    </view>
+
+    <!-- Gender -->
+    <view class="form-item">
+      <text class="form-label">性别</text>
+      <picker mode="selector" range="{{genderOptions}}" value="{{genderIndex}}" bindchange="onGenderChange">
+        <view class="picker-value">
+          <text>{{genderOptions[genderIndex]}}</text>
+          <text class="menu-arrow">›</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- Save button -->
+  <view class="save-wrap">
+    <button class="btn-primary save-btn" bindtap="onSave" disabled="{{saving || uploading}}">
+      {{saving ? '保存中...' : '保存'}}
+    </button>
+  </view>
+</view>
