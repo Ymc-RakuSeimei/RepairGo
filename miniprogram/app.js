@@ -15,4 +15,10 @@ App({
     currentRole: '',   // 当前扮演的角色: 'user' | 'technician' | 'admin'
     actualRole: '',    // 数据库中的真实最高角色
   },
+
+  updateUserInfo(partialData) {
+    if (this.globalData.userInfo) {
+      Object.assign(this.globalData.userInfo, partialData);
+    }
+  },
 });

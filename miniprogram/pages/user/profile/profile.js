@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, getUserRoles, getUserPendingRoles, getActualRole, setCurrentRole, ROLE_MAP } = require('../../../utils/util');
+const { callCloud, checkRoleAsync, getUserRoles, getUserPendingRoles, getActualRole, setCurrentRole, ROLE_MAP, GENDER_MAP } = require('../../../utils/util');
 
 Page({
   data: {
@@ -9,6 +9,7 @@ Page({
     techPending: false,
     hasTechnicianRole: false,
     hasAdminRole: false,
+    stats: null,
   },
 
   async onShow() {
@@ -26,7 +27,23 @@ Page({
         hasTechnicianRole: roles.includes('technician'),
         hasAdminRole: roles.includes('admin'),
       });
+      this.loadStats();
     }
+  },
+
+  async loadStats() {
+    const result = await callCloud('user/getStats');
+    if (result && result.code === 0) {
+      this.setData({ stats: result.data });
+    }
+  },
+
+  goEditProfile() {
+    wx.navigateTo({ url: '/pages/user/editProfile/editProfile' });
+  },
+
+  goAddressList() {
+    wx.navigateTo({ url: '/pages/user/addressList/addressList' });
   },
 
   goMyOrders() {
