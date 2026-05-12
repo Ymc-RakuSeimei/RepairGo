@@ -1,8 +1,9 @@
 <view class="profile-page" wx:if="{{profile}}">
   <view class="card">
     <view class="profile-header">
-      <view class="avatar-wrap">
-        <text class="avatar-text">{{profile.realName[0] || '?'}}</text>
+      <view class="avatar-wrap" bindtap="onChooseAvatar">
+        <image class="avatar-img" wx:if="{{profile.avatarUrl}}" src="{{profile.avatarUrl}}" mode="aspectFill" />
+        <text class="avatar-text" wx:if="{{!profile.avatarUrl}}">{{profile.realName[0] || '?'}}</text>
       </view>
       <view class="profile-info">
         <text class="name">{{profile.realName}}</text>

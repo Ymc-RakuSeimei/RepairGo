@@ -9,6 +9,9 @@ var getEntryRole = util.getEntryRole;
 Page({
   data: {
     loading: true,
+    showPhoneBind: false,
+    user: null,
+    entryRole: '',
   },
 
   onLoad() {
@@ -24,12 +27,20 @@ Page({
         const entryRole = getEntryRole(roles);
         getApp().globalData.userInfo = user;
 
-        // Actual role and entry role both follow the same priority order.
         setActualRole(entryRole);
         setCurrentRole(entryRole);
 
-        // Redirect to entry role's home
-        wx.redirectTo({ url: ROLE_MAP[entryRole].home });
+        // Check if phone is bound
+        if (!user.phone) {
+          this.setData({
+            loading: false,
+            showPhoneBind: true,
+            user,
+            entryRole,
+          });
+        } else {
+          wx.redirectTo({ url: ROLE_MAP[entryRole].home });
+        }
       } else {
         this.setData({ loading: false });
         wx.showToast({ title: '登录失败，请重试', icon: 'none' });
@@ -39,5 +50,27 @@ Page({
       this.setData({ loading: false });
       wx.showToast({ title: '网络异常，请重试', icon: 'none' });
     }
+  },
+
+  async onGetPhoneNumber(e) {
+    if (!e.detail.code) {
+      wx.showToast({ title: '获取手机号失败', icon: 'none' });
+      return;
+    }
+
+    const result = await callCloud('user/bindPhone', { code: e.detail.code });
+    if (result && result.code === 0) {
+      const userInfo = getApp().globalData.userInfo;
+      if (userInfo) {
+        userInfo.phone = result.data.phone;
+      }
+      wx.redirectTo({ url: ROLE_MAP[this.data.entryRole].home });
+    } else {
+      wx.showToast({ title: '手机号绑定失败，请重试', icon: 'none' });
+    }
+  },
+
+  onSkipPhone() {
+    wx.redirectTo({ url: ROLE_MAP[this.data.entryRole].home });
   },
 });

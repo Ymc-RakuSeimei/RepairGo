@@ -36,6 +36,7 @@ Page({
         hasAdminRole: roles.includes('admin'),
         genderText: getGenderLabel(user.gender),
       });
+      this.loadStats();
     }
   },
 
