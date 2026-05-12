@@ -94,6 +94,34 @@ const ROLE_TEXT = {
   developer: '开发者',
 };
 
+const GENDER_OPTIONS = [
+  { value: 'unknown', label: '保密' },
+  { value: 'male', label: '男' },
+  { value: 'female', label: '女' },
+];
+
+const isValidPhone = (phone) => /^1\d{10}$/.test(String(phone || '').trim());
+
+const getGenderLabel = (gender) => {
+  const target = GENDER_OPTIONS.find((item) => item.value === gender);
+  return target ? target.label : '未设置';
+};
+
+const formatFullAddress = (address) => {
+  if (!address) return '';
+  if (typeof address === 'string') return address;
+
+  const {
+    province = '',
+    city = '',
+    district = '',
+    detail = '',
+    fullAddress = '',
+  } = address;
+
+  return fullAddress || [province, city, district, detail].filter(Boolean).join(' ');
+};
+
 // 检查 roles 数组是否包含所需角色
 const hasPermission = (userRoles, requiredRole) => {
   if (!Array.isArray(userRoles)) return false;
@@ -174,6 +202,10 @@ module.exports = {
   ROLE_MAP,
   ROLE_PRIORITY,
   ROLE_TEXT,
+  GENDER_OPTIONS,
+  isValidPhone,
+  getGenderLabel,
+  formatFullAddress,
   hasPermission,
   getUserRoles,
   getUserPendingRoles,

@@ -31,6 +31,13 @@
   margin-right: 28rpx;
 }
 
+.avatar-image {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+  margin-right: 28rpx;
+}
+
 .avatar-text {
   font-size: 44rpx;
   font-weight: 700;
@@ -53,6 +60,29 @@
   display: block;
   font-size: 24rpx;
   color: #8E8E93;
+}
+
+.user-meta {
+  display: flex;
+  align-items: center;
+  margin-top: 10rpx;
+}
+
+.meta-item,
+.meta-divider,
+.user-address {
+  font-size: 22rpx;
+  color: #8E8E93;
+}
+
+.meta-divider {
+  margin: 0 10rpx;
+}
+
+.user-address {
+  display: block;
+  margin-top: 8rpx;
+  line-height: 1.5;
 }
 
 .menu-section {

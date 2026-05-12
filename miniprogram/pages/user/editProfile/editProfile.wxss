@@ -1,0 +1,100 @@
+.edit-profile-page {
+  min-height: 100vh;
+  padding: 24rpx;
+  background: #F7F8FA;
+}
+
+.profile-card {
+  padding: 32rpx 28rpx;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+  margin-bottom: 28rpx;
+}
+
+.avatar-row,
+.form-item,
+.gender-group {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #F0F1F3;
+}
+
+.gender-group {
+  border-bottom: none;
+}
+
+.field-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 18rpx;
+}
+
+.avatar-content {
+  display: flex;
+  align-items: center;
+}
+
+.avatar-image,
+.avatar-placeholder {
+  width: 112rpx;
+  height: 112rpx;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.avatar-placeholder {
+  background: #2E6CE6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatar-text {
+  color: #FFFFFF;
+  font-size: 44rpx;
+  font-weight: 700;
+}
+
+.avatar-btn {
+  margin-left: 24rpx;
+  background: #EDF3FF;
+  color: #2E6CE6;
+  font-size: 26rpx;
+  border-radius: 999rpx;
+  line-height: 64rpx;
+  height: 64rpx;
+  padding: 0 28rpx;
+}
+
+.form-input {
+  font-size: 30rpx;
+  color: #1A1A2E;
+}
+
+.gender-options {
+  display: flex;
+  gap: 20rpx;
+}
+
+.gender-option {
+  min-width: 120rpx;
+  text-align: center;
+  padding: 18rpx 0;
+  border-radius: 999rpx;
+  font-size: 28rpx;
+  color: #666;
+  background: #F1F2F5;
+}
+
+.gender-option.active {
+  background: #2E6CE6;
+  color: #FFFFFF;
+}
+
+.save-btn {
+  margin-top: 32rpx;
+}

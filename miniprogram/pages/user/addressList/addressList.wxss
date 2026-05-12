@@ -1,0 +1,120 @@
+.address-list-page {
+  min-height: 100vh;
+  padding: 24rpx;
+  padding-bottom: 140rpx;
+  background: #F7F8FA;
+}
+
+.page-tip {
+  margin-bottom: 20rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  background: #EDF3FF;
+  color: #2E6CE6;
+  font-size: 26rpx;
+}
+
+.address-card {
+  padding: 28rpx;
+  margin-bottom: 20rpx;
+}
+
+.address-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20rpx;
+}
+
+.address-user {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14rpx;
+}
+
+.name {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.phone {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.tag-row {
+  display: flex;
+  gap: 12rpx;
+  flex-shrink: 0;
+}
+
+.tag,
+.default-tag {
+  padding: 6rpx 16rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+}
+
+.tag {
+  background: #F3F4F7;
+  color: #666;
+}
+
+.default-tag {
+  background: #FFF1D6;
+  color: #D27B00;
+}
+
+.address-text {
+  display: block;
+  margin-top: 20rpx;
+  font-size: 28rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.action-row {
+  display: flex;
+  justify-content: flex-end;
+  gap: 28rpx;
+  margin-top: 24rpx;
+}
+
+.action-text {
+  font-size: 26rpx;
+  color: #2E6CE6;
+}
+
+.action-text.disabled {
+  color: #999;
+}
+
+.action-text.danger {
+  color: #E74C3C;
+}
+
+.empty-wrap {
+  margin-top: 180rpx;
+  text-align: center;
+}
+
+.empty-title {
+  display: block;
+  font-size: 32rpx;
+  color: #1A1A2E;
+  margin-bottom: 12rpx;
+}
+
+.empty-sub {
+  display: block;
+  font-size: 26rpx;
+  color: #8E8E93;
+}
+
+.add-btn {
+  position: fixed;
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 24rpx;
+}

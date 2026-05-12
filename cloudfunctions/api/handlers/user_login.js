@@ -14,19 +14,51 @@ exports.main = async (event, context) => {
       
       // Migrate: ensure roles array exists
       let needsUpdate = false;
+      const updateData = {};
       if (!Array.isArray(user.roles)) {
         user.roles = [user.role || 'user'];
         needsUpdate = true;
+        updateData.roles = user.roles;
       }
       if (!Array.isArray(user.pendingRoles)) {
         user.pendingRoles = [];
         needsUpdate = true;
+        updateData.pendingRoles = user.pendingRoles;
+      }
+      if (typeof user.gender !== 'string') {
+        user.gender = '';
+        needsUpdate = true;
+        updateData.gender = user.gender;
+      }
+      if (typeof user.defaultAddressId !== 'string') {
+        user.defaultAddressId = '';
+        needsUpdate = true;
+        updateData.defaultAddressId = user.defaultAddressId;
+      }
+      if (typeof user.phone !== 'string') {
+        user.phone = '';
+        needsUpdate = true;
+        updateData.phone = user.phone;
+      }
+      if (typeof user.address !== 'string') {
+        user.address = '';
+        needsUpdate = true;
+        updateData.address = user.address;
+      }
+      if (typeof user.avatarUrl !== 'string') {
+        user.avatarUrl = '';
+        needsUpdate = true;
+        updateData.avatarUrl = user.avatarUrl;
+      }
+      if (typeof user.nickName !== 'string') {
+        user.nickName = '';
+        needsUpdate = true;
+        updateData.nickName = user.nickName;
       }
       
       if (needsUpdate) {
-        await db.collection('users').doc(user._id).update({
-          data: { roles: user.roles, pendingRoles: user.pendingRoles, updatedAt: db.serverDate() },
-        });
+        updateData.updatedAt = db.serverDate();
+        await db.collection('users').doc(user._id).update({ data: updateData });
       }
       
       return { code: 0, data: user };
@@ -42,6 +74,8 @@ exports.main = async (event, context) => {
       avatarUrl: event.avatarUrl || '',
       phone: '',
       address: '',
+      gender: '',
+      defaultAddressId: '',
       createdAt: db.serverDate(),
       updatedAt: db.serverDate(),
     };

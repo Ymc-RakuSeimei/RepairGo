@@ -1,0 +1,53 @@
+.address-form-page {
+  min-height: 100vh;
+  padding: 24rpx;
+  background: #F7F8FA;
+}
+
+.form-card {
+  padding: 12rpx 28rpx;
+}
+
+.form-item,
+.switch-row {
+  padding: 28rpx 0;
+  border-bottom: 1rpx solid #F0F1F3;
+}
+
+.textarea-item {
+  align-items: flex-start;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: none;
+}
+
+.form-label {
+  display: block;
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 16rpx;
+}
+
+.form-input,
+.picker-value,
+.form-textarea {
+  font-size: 30rpx;
+  color: #1A1A2E;
+}
+
+.picker-value.placeholder {
+  color: #B8BBC4;
+}
+
+.form-textarea {
+  width: 100%;
+  min-height: 160rpx;
+}
+
+.save-btn {
+  margin-top: 32rpx;
+}

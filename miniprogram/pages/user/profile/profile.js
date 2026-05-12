@@ -1,4 +1,12 @@
-const { callCloud, checkRoleAsync, getUserRoles, getUserPendingRoles, getActualRole, setCurrentRole, ROLE_MAP } = require('../../../utils/util');
+const {
+  checkRoleAsync,
+  getUserRoles,
+  getUserPendingRoles,
+  getActualRole,
+  setCurrentRole,
+  ROLE_MAP,
+  getGenderLabel,
+} = require('../../../utils/util');
 
 Page({
   data: {
@@ -9,6 +17,7 @@ Page({
     techPending: false,
     hasTechnicianRole: false,
     hasAdminRole: false,
+    genderText: '未设置',
   },
 
   async onShow() {
@@ -25,8 +34,17 @@ Page({
         techPending: pendingRoles.includes('technician'),
         hasTechnicianRole: roles.includes('technician'),
         hasAdminRole: roles.includes('admin'),
+        genderText: getGenderLabel(user.gender),
       });
     }
+  },
+
+  goEditProfile() {
+    wx.navigateTo({ url: '/pages/user/editProfile/editProfile' });
+  },
+
+  goAddressList() {
+    wx.navigateTo({ url: '/pages/user/addressList/addressList' });
   },
 
   goMyOrders() {
