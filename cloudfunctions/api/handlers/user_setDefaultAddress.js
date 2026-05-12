@@ -2,36 +2,38 @@ const cloud = require('wx-server-sdk');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
 
+const {
+  COLLECTION_NAME,
+  clearDefaultFlagForUser,
+  ensureDefaultAddress,
+} = require('../helpers/userAddress');
+
 exports.main = async (event, context) => {
   const wxContext = cloud.getWXContext();
   const openid = wxContext.OPENID;
+  const addressId = String(event.addressId || '').trim();
+
+  if (!addressId) {
+    return { code: -1, message: '缺少地址ID' };
+  }
 
   try {
-    const { addressId } = event;
-
-    if (!addressId) {
-      return { code: -1, message: '缺少地址ID' };
+    const addressRes = await db.collection(COLLECTION_NAME).doc(addressId).get();
+    const address = addressRes.data;
+    if (!address || address._openid !== openid) {
+      return { code: -1, message: '地址不存在' };
     }
 
-    const addrRes = await db.collection('addresses').doc(addressId).get();
-    if (addrRes.data._openid !== openid) {
-      return { code: -1, message: '无权操作此地址' };
-    }
-
-    const defaults = await db.collection('addresses')
-      .where({ _openid: openid, isDefault: true })
-      .get();
-    for (const addr of defaults.data) {
-      await db.collection('addresses').doc(addr._id).update({
-        data: { isDefault: false },
-      });
-    }
-
-    await db.collection('addresses').doc(addressId).update({
-      data: { isDefault: true, updatedAt: db.serverDate() },
+    await clearDefaultFlagForUser(db, openid, addressId);
+    await db.collection(COLLECTION_NAME).doc(addressId).update({
+      data: {
+        isDefault: true,
+        updatedAt: db.serverDate(),
+      },
     });
 
-    return { code: 0, message: '已设为默认地址' };
+    const addresses = await ensureDefaultAddress(db, openid);
+    return { code: 0, data: addresses };
   } catch (err) {
     console.error('setDefaultAddress error:', err);
     return { code: -1, message: '设置默认地址失败' };

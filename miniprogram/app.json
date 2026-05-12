@@ -9,7 +9,7 @@
     "pages/user/profile/profile",
     "pages/user/editProfile/editProfile",
     "pages/user/addressList/addressList",
-    "pages/user/addressEdit/addressEdit",
+    "pages/user/addressForm/addressForm",
     "pages/technician/home/home",
     "pages/technician/orderList/orderList",
     "pages/technician/orderDetail/orderDetail",

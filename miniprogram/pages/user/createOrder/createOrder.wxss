@@ -17,6 +17,10 @@
   border-bottom: 1rpx solid #f0f0f0;
 }
 
+.textarea-item {
+  align-items: flex-start;
+}
+
 .form-label {
   width: 160rpx;
   font-size: 28rpx;
@@ -47,6 +51,87 @@
 
 .image-section {
   padding: 24rpx 0;
+}
+
+.address-panel {
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.address-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.select-address-btn {
+  font-size: 26rpx;
+  color: #2E6CE6;
+}
+
+.selected-address-card {
+  margin: 12rpx 0 18rpx;
+  padding: 20rpx 24rpx;
+  border-radius: 16rpx;
+  background: #F7F8FA;
+}
+
+.selected-top {
+  display: flex;
+  justify-content: space-between;
+  gap: 16rpx;
+}
+
+.selected-user {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12rpx;
+}
+
+.selected-name {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.selected-phone {
+  font-size: 26rpx;
+  color: #666;
+}
+
+.selected-tags {
+  display: flex;
+  gap: 12rpx;
+}
+
+.address-tag,
+.default-tag {
+  padding: 6rpx 14rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+}
+
+.address-tag {
+  background: #F1F2F5;
+  color: #666;
+}
+
+.default-tag {
+  background: #FFF1D6;
+  color: #D27B00;
+}
+
+.selected-address {
+  display: block;
+  margin-top: 12rpx;
+  font-size: 26rpx;
+  color: #333;
+  line-height: 1.6;
+}
+
+.address-input {
+  width: 100%;
 }
 
 .image-list {

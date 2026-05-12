@@ -1,104 +1,102 @@
-const { callCloud, GENDER_MAP } = require('../../../utils/util');
+const {
+  callCloud,
+  GENDER_OPTIONS,
+  isValidPhone,
+} = require('../../../utils/util');
 
 Page({
   data: {
-    nickName: '',
     avatarUrl: '',
-    gender: 0,
-    genderOptions: ['未设置', '男', '女'],
-    genderIndex: 0,
-    uploading: false,
+    nickName: '',
+    phone: '',
+    gender: 'unknown',
+    genderOptions: GENDER_OPTIONS,
     saving: false,
+    uploading: false,
   },
 
   onShow() {
-    const user = getApp().globalData.userInfo;
-    if (user) {
-      const gender = user.gender || 0;
-      this.setData({
-        nickName: user.nickName || '',
-        avatarUrl: user.avatarUrl || '',
-        gender,
-        genderIndex: gender,
-      });
-    }
+    this.loadProfile();
   },
 
-  onNicknameInput(e) {
-    this.setData({ nickName: e.detail.value });
-  },
+  async loadProfile() {
+    const result = await callCloud('user/login', {});
+    if (!result || result.code !== 0) return;
 
-  onGenderChange(e) {
-    const index = Number(e.detail.value);
+    const user = result.data || {};
     this.setData({
-      genderIndex: index,
-      gender: index,
+      avatarUrl: user.avatarUrl || '',
+      nickName: user.nickName || '',
+      phone: user.phone || '',
+      gender: user.gender || 'unknown',
     });
   },
 
-  async onChooseAvatar() {
-    try {
-      const res = await wx.chooseMedia({
-        count: 1,
-        mediaType: ['image'],
-        sizeType: ['compressed'],
-        sourceType: ['album', 'camera'],
-      });
+  onInputChange(e) {
+    const field = e.currentTarget.dataset.field;
+    this.setData({ [field]: e.detail.value });
+  },
 
-      if (!res || !res.tempFiles || res.tempFiles.length === 0) return;
+  onGenderChange(e) {
+    this.setData({ gender: e.currentTarget.dataset.value });
+  },
 
-      const tempFilePath = res.tempFiles[0].tempFilePath;
-      this.setData({ uploading: true });
+  chooseAvatar() {
+    wx.chooseMedia({
+      count: 1,
+      mediaType: ['image'],
+      success: async (res) => {
+        const file = res.tempFiles && res.tempFiles[0];
+        if (!file || !file.tempFilePath) return;
 
-      const userInfo = getApp().globalData.userInfo;
-      const openid = userInfo._openid || '';
-      const ext = tempFilePath.split('.').pop() || 'jpg';
-      const cloudPath = `avatars/${openid}/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
-
-      const uploadRes = await wx.cloud.uploadFile({
-        cloudPath,
-        filePath: tempFilePath,
-      });
-
-      this.setData({
-        avatarUrl: uploadRes.fileID,
-        uploading: false,
-      });
-    } catch (err) {
-      console.error('Avatar upload failed:', err);
-      this.setData({ uploading: false });
-      wx.showToast({ title: '头像上传失败', icon: 'none' });
-    }
+        this.setData({ uploading: true });
+        wx.showLoading({ title: '上传头像中...', mask: true });
+        try {
+          const ext = file.tempFilePath.split('.').pop() || 'png';
+          const cloudPath = `avatars/${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+          const uploadRes = await wx.cloud.uploadFile({
+            cloudPath,
+            filePath: file.tempFilePath,
+          });
+          this.setData({ avatarUrl: uploadRes.fileID });
+        } catch (err) {
+          console.error('upload avatar error:', err);
+          wx.showToast({ title: '头像上传失败', icon: 'none' });
+        } finally {
+          wx.hideLoading();
+          this.setData({ uploading: false });
+        }
+      },
+    });
   },
 
   async onSave() {
-    const { nickName, avatarUrl, gender, saving } = this.data;
-    if (saving) return;
+    const { avatarUrl, nickName, phone, gender, saving, uploading } = this.data;
+    if (saving || uploading) return;
 
-    const trimmedName = nickName.trim();
-    if (!trimmedName) {
+    if (!nickName.trim()) {
       wx.showToast({ title: '请输入昵称', icon: 'none' });
       return;
     }
-    if (trimmedName.length > 20) {
-      wx.showToast({ title: '昵称不能超过20个字', icon: 'none' });
+    if (phone && !isValidPhone(phone)) {
+      wx.showToast({ title: '请输入正确的手机号', icon: 'none' });
       return;
     }
 
     this.setData({ saving: true });
-
     const result = await callCloud('user/updateProfile', {
-      nickName: trimmedName,
       avatarUrl,
+      nickName,
+      phone,
       gender,
     });
 
-    this.setData({ saving: false });
-
     if (result && result.code === 0) {
-      getApp().updateUserInfo(result.data);
+      getApp().globalData.userInfo = result.data;
       wx.showToast({ title: '保存成功', icon: 'success' });
-      setTimeout(() => wx.navigateBack(), 1500);
+      setTimeout(() => wx.navigateBack(), 1200);
     }
+
+    this.setData({ saving: false });
   },
 });

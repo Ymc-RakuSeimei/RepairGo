@@ -3,26 +3,14 @@
     <view class="summary-item">
       <text class="summary-num">¥{{totalIncome}}</text>
       <text class="summary-label">已结算</text>
-      <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
+    </view>
     <view class="summary-item">
       <text class="summary-num pending">¥{{totalPending}}</text>
       <text class="summary-label">待结算</text>
-      <view style="height: 120rpx;"></view>
+    </view>
+  </view>
 
-  <role-tabbar role="technician" current="income" />
-</view>
-    <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
-
-  <view class="section-title">收入记录  <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
+  <view class="section-title">收入记录</view>
 
   <view class="income-list" wx:if="{{incomeList.length > 0}}">
     <view class="income-item card" wx:for="{{incomeList}}" wx:key="_id">
@@ -30,33 +18,18 @@
         <text class="income-type">{{item.type === 'repair_fee' ? '维修收入' : item.type === 'bonus' ? '奖励' : '扣款'}}</text>
         <text class="income-order">订单：{{item.orderNo}}</text>
         <text class="income-time">{{item.createdAtStr}}</text>
-        <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
+      </view>
       <view class="income-right">
         <text class="income-amount {{item.type === 'deduction' ? 'deduction' : ''}}">{{item.type === 'deduction' ? '-' : '+'}}¥{{item.amount}}</text>
         <text class="income-status {{item.status}}">{{item.status === 'settled' ? '已结算' : '待结算'}}</text>
-        <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
-      <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
-    <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="technician" current="income" />
-</view>
+      </view>
+    </view>
+  </view>
 
   <view class="empty-state" wx:if="{{!loading && incomeList.length === 0}}">
     <text class="empty-text">暂无收入记录</text>
-    <view style="height: 120rpx;"></view>
+  </view>
 
-  <role-tabbar role="technician" current="income" />
-</view>
   <view style="height: 120rpx;"></view>
-
   <role-tabbar role="technician" current="income" />
 </view>

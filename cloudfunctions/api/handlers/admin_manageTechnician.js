@@ -6,8 +6,8 @@ const { requireAdmin } = require("./auth_helper");
 exports.main = async (event, context) => {
   try {
     await requireAdmin();
-    
-    const { technicianId, action } = event;
+
+    const { technicianId, manageAction: action } = event;
 
     const techRes = await db.collection("technicians").doc(technicianId).get();
     const tech = techRes.data;
@@ -57,11 +57,11 @@ exports.main = async (event, context) => {
 async function updateUserRoles(openid, role, action) {
   const userRes = await db.collection("users").where({ _openid: openid }).get();
   if (userRes.data.length === 0) return;
-  
+
   const user = userRes.data[0];
   let roles = Array.isArray(user.roles) ? [...user.roles] : [user.role || 'user'];
   let pendingRoles = Array.isArray(user.pendingRoles) ? [...user.pendingRoles] : [];
-  
+
   if (action === 'add') {
     if (!roles.includes(role)) roles.push(role);
     pendingRoles = pendingRoles.filter(r => r !== role);
@@ -70,7 +70,7 @@ async function updateUserRoles(openid, role, action) {
   } else if (action === 'removePending') {
     pendingRoles = pendingRoles.filter(r => r !== role);
   }
-  
+
   await db.collection("users").doc(user._id).update({
     data: { roles, pendingRoles, updatedAt: db.serverDate() },
   });

@@ -1,4 +1,12 @@
-const { callCloud, checkRoleAsync, getUserRoles, getUserPendingRoles, getActualRole, setCurrentRole, ROLE_MAP, GENDER_MAP } = require('../../../utils/util');
+const {
+  checkRoleAsync,
+  getUserRoles,
+  getUserPendingRoles,
+  getActualRole,
+  setCurrentRole,
+  ROLE_MAP,
+  getGenderLabel,
+} = require('../../../utils/util');
 
 Page({
   data: {
@@ -9,7 +17,7 @@ Page({
     techPending: false,
     hasTechnicianRole: false,
     hasAdminRole: false,
-    stats: null,
+    genderText: '未设置',
   },
 
   async onShow() {
@@ -26,15 +34,9 @@ Page({
         techPending: pendingRoles.includes('technician'),
         hasTechnicianRole: roles.includes('technician'),
         hasAdminRole: roles.includes('admin'),
+        genderText: getGenderLabel(user.gender),
       });
       this.loadStats();
-    }
-  },
-
-  async loadStats() {
-    const result = await callCloud('user/getStats');
-    if (result && result.code === 0) {
-      this.setData({ stats: result.data });
     }
   },
 

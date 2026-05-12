@@ -1,54 +1,36 @@
 <view class="tech-list-page">
   <view class="tabs">
-    <view class="tab {{currentTab === item.key ? 'active' : ''}}" wx:for="{{tabs}}" wx:key="key" data-tab="{{item.key}}" bindtap="onTabChange">{{item.text}}  <view style="height: 120rpx;"></view>
+    <view
+      class="tab {{currentTab === item.key ? 'active' : ''}}"
+      wx:for="{{tabs}}"
+      wx:key="key"
+      data-tab="{{item.key}}"
+      bindtap="onTabChange"
+    >
+      {{item.text}}
+    </view>
+  </view>
 
-  <role-tabbar role="admin" current="techs" />
-</view>
-    <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
   <view class="tech-list" wx:if="{{technicians.length > 0}}">
     <view class="tech-card card" wx:for="{{technicians}}" wx:key="_id" data-id="{{item._id}}" bindtap="goDetail">
       <view class="tech-left">
-        <view class="avatar">{{item.realName[0]}}  <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
+        <view class="avatar">{{item.realName[0]}}</view>
         <view class="tech-info">
           <text class="tech-name">{{item.realName}}</text>
           <text class="tech-skills">{{item.skills.join("、")}}</text>
-          <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
-        <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
+        </view>
+      </view>
       <view class="tech-right">
-        <view class="status-dot {{item.status}}">  <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
+        <view class="status-dot {{item.status}}"></view>
         <text class="status-text">{{item.status === 'approved' ? '已认证' : item.status === 'pending' ? '待审核' : '未通过'}}</text>
-        <view style="height: 120rpx;"></view>
+      </view>
+    </view>
+  </view>
 
-  <role-tabbar role="admin" current="techs" />
-</view>
-      <view style="height: 120rpx;"></view>
+  <view class="empty-state" wx:if="{{!loading && technicians.length === 0}}">
+    <text class="empty-text">暂无师傅</text>
+  </view>
 
-  <role-tabbar role="admin" current="techs" />
-</view>
-    <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
-  <view class="empty-state" wx:if="{{!loading && technicians.length === 0}}"><text class="empty-text">暂无师傅</text>  <view style="height: 120rpx;"></view>
-
-  <role-tabbar role="admin" current="techs" />
-</view>
   <view style="height: 120rpx;"></view>
-
   <role-tabbar role="admin" current="techs" />
 </view>

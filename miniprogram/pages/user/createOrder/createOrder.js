@@ -1,4 +1,8 @@
-const { APPLIANCE_TYPES, callCloud } = require('../../../utils/util');
+const {
+  APPLIANCE_TYPES,
+  callCloud,
+  formatFullAddress,
+} = require('../../../utils/util');
 
 Page({
   data: {
@@ -16,33 +20,8 @@ Page({
     selectedAddress: null,
   },
 
-  onShow() {
-    this.loadDefaultAddress();
-  },
-
-  async loadDefaultAddress() {
-    const result = await callCloud('user/getAddresses');
-    if (result && result.code === 0 && result.data.length > 0) {
-      const defaultAddr = result.data.find(a => a.isDefault) || result.data[0];
-      this.applyAddress(defaultAddr);
-    }
-  },
-
-  applyAddress(addr) {
-    this.setData({
-      selectedAddress: addr,
-      userName: addr.name || this.data.userName,
-      userPhone: addr.phone || this.data.userPhone,
-      userAddress: addr.fullAddress || this.data.userAddress,
-    });
-  },
-
-  onAddressSelected(address) {
-    this.applyAddress(address);
-  },
-
-  goAddressList() {
-    wx.navigateTo({ url: '/pages/user/addressList/addressList?fromOrder=1' });
+  onLoad() {
+    this.prefillContactInfo();
   },
 
   onTypeChange(e) {
@@ -56,6 +35,58 @@ Page({
 
   onTimeChange(e) {
     this.setData({ preferredTime: e.detail.value });
+  },
+
+  async prefillContactInfo() {
+    const loginRes = await callCloud('user/login', {});
+    if (loginRes && loginRes.code === 0) {
+      const user = loginRes.data || {};
+      const updateData = {};
+
+      if (!this.data.userName && user.nickName) updateData.userName = user.nickName;
+      if (!this.data.userPhone && user.phone) updateData.userPhone = user.phone;
+
+      if (Object.keys(updateData).length) {
+        this.setData(updateData);
+      }
+    }
+
+    const addressRes = await callCloud('user/getAddresses', {});
+    if (addressRes && addressRes.code === 0) {
+      const defaultAddress = (addressRes.data || []).find((item) => item.isDefault) || null;
+      if (defaultAddress) {
+        this.applySelectedAddress(defaultAddress, false);
+      }
+    }
+  },
+
+  applySelectedAddress(address, overwrite = true) {
+    const nextData = {
+      selectedAddress: address,
+    };
+
+    if (overwrite || !this.data.userName) {
+      nextData.userName = address.name || this.data.userName;
+    }
+    if (overwrite || !this.data.userPhone) {
+      nextData.userPhone = address.phone || this.data.userPhone;
+    }
+    if (overwrite || !this.data.userAddress) {
+      nextData.userAddress = formatFullAddress(address);
+    }
+
+    this.setData(nextData);
+  },
+
+  goSelectAddress() {
+    wx.navigateTo({
+      url: '/pages/user/addressList/addressList?mode=select',
+      success: (res) => {
+        res.eventChannel.on('addressSelected', (address) => {
+          this.applySelectedAddress(address, true);
+        });
+      },
+    });
   },
 
   chooseImage() {

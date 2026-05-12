@@ -3,15 +3,20 @@
     <text class="page-title">我的</text>
   </view>
 
-  <!-- User info card -->
-  <view class="card user-card" bindtap="goEditProfile">
-    <view class="avatar-circle">
-      <image class="avatar-image" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
-      <text class="avatar-text" wx:if="{{!userInfo.avatarUrl}}">{{userInfo.nickName[0] || 'U'}}</text>
+  <view class="card user-card" wx:if="{{userInfo}}">
+    <image wx:if="{{userInfo.avatarUrl}}" class="avatar-image" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+    <view wx:else class="avatar-circle">
+      <text class="avatar-text">{{userInfo.nickName[0] || 'U'}}</text>
     </view>
     <view class="user-info">
       <text class="user-name">{{userInfo.nickName || '用户'}}</text>
       <text class="user-role">普通用户</text>
+      <view class="user-meta">
+        <text class="meta-item">{{userInfo.phone || '未填写手机号'}}</text>
+        <text class="meta-divider">·</text>
+        <text class="meta-item">{{genderText}}</text>
+      </view>
+      <text class="user-address">{{userInfo.address || '还未设置常用地址'}}</text>
     </view>
     <text class="menu-arrow">›</text>
   </view>
@@ -29,14 +34,13 @@
     </view>
   </view>
 
-  <!-- Menu -->
   <view class="menu-section">
     <view class="menu-item" bindtap="goEditProfile">
       <view class="menu-left">
-        <view class="menu-dot" style="background:#34C759"></view>
+        <view class="menu-dot" style="background:#2E6CE6"></view>
         <view class="menu-text">
-          <text class="menu-label">个人资料</text>
-          <text class="menu-sub">编辑昵称、头像、性别</text>
+          <text class="menu-label">编辑资料</text>
+          <text class="menu-sub">完善头像、昵称、性别和手机号</text>
         </view>
       </view>
       <text class="menu-arrow">›</text>
@@ -44,10 +48,10 @@
 
     <view class="menu-item" bindtap="goAddressList">
       <view class="menu-left">
-        <view class="menu-dot" style="background:#2E6CE6"></view>
+        <view class="menu-dot" style="background:#34C759"></view>
         <view class="menu-text">
-          <text class="menu-label">收货地址</text>
-          <text class="menu-sub">管理常用收货地址</text>
+          <text class="menu-label">地址管理</text>
+          <text class="menu-sub">新增、编辑和选择常用地址</text>
         </view>
       </view>
       <text class="menu-arrow">›</text>
@@ -76,7 +80,6 @@
     </view>
   </view>
 
-  <!-- Apply section -->
   <view class="menu-section" wx:if="{{!hasTechnicianRole}}">
     <view class="menu-item" wx:if="{{!techPending}}" bindtap="goApplyTechnician">
       <view class="menu-left">
@@ -100,7 +103,6 @@
     </view>
   </view>
 
-  <!-- Role switch section -->
   <view class="menu-section" wx:if="{{hasTechnicianRole || hasAdminRole || isDeveloper}}">
     <view class="menu-item" wx:if="{{hasTechnicianRole}}" bindtap="switchToTechnician">
       <view class="menu-left">
@@ -136,7 +138,6 @@
     </view>
   </view>
 
-  <!-- Logout -->
   <view class="logout-wrap">
     <button class="btn-outline logout-btn" bindtap="onLogout">退出登录</button>
   </view>
