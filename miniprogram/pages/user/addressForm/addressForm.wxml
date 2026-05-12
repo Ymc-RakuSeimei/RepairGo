@@ -39,8 +39,8 @@
     <view class="form-item">
       <text class="form-label">所在地区</text>
       <picker mode="region" value="{{region}}" bindchange="onRegionChange">
-        <view class="picker-value {{region.length ? '' : 'placeholder'}}">
-          {{region.length ? region.join(' ') : '请选择所在地区'}}
+        <view class="picker-value {{regionText ? '' : 'placeholder'}}">
+          {{regionText || '请选择所在地区'}}
         </view>
       </picker>
     </view>

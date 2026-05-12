@@ -34,8 +34,11 @@ exports.main = async (event, context) => {
     let shouldSetDefault = payload.isDefault;
 
     if (addressId) {
-      const addressRes = await db.collection(COLLECTION_NAME).doc(addressId).get();
-      const address = addressRes.data;
+      const addressRes = await db.collection(COLLECTION_NAME).where({
+        _id: addressId,
+        _openid: openid,
+      }).get();
+      const address = addressRes.data[0];
       if (!address || address._openid !== openid) {
         return { code: -1, message: '地址不存在' };
       }
@@ -56,8 +59,8 @@ exports.main = async (event, context) => {
         },
       });
     } else {
-      const countRes = await db.collection(COLLECTION_NAME).where({ _openid: openid }).count();
-      shouldSetDefault = payload.isDefault || countRes.total === 0;
+      const existingRes = await db.collection(COLLECTION_NAME).where({ _openid: openid }).get();
+      shouldSetDefault = payload.isDefault || existingRes.data.length === 0;
 
       const addRes = await db.collection(COLLECTION_NAME).add({
         data: {
@@ -86,6 +89,7 @@ exports.main = async (event, context) => {
     return { code: 0, data: addresses };
   } catch (err) {
     console.error('saveAddress error:', err);
+    console.error('saveAddress payload:', { openid, addressId, payload });
     return { code: -1, message: '保存地址失败' };
   }
 };

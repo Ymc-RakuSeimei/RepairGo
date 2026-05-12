@@ -7,6 +7,7 @@ Page({
     phone: '',
     tag: '',
     region: [],
+    regionText: '',
     detail: '',
     isDefault: false,
     saving: false,
@@ -27,11 +28,14 @@ Page({
     const target = (result.data || []).find((item) => item._id === id);
     if (!target) return;
 
+    const region = [target.province || '', target.city || '', target.district || ''].filter(Boolean);
+
     this.setData({
       name: target.name || '',
       phone: target.phone || '',
       tag: target.tag || '',
-      region: [target.province || '', target.city || '', target.district || ''].filter(Boolean),
+      region,
+      regionText: region.join(' '),
       detail: target.detail || '',
       isDefault: !!target.isDefault,
     });
@@ -43,7 +47,11 @@ Page({
   },
 
   onRegionChange(e) {
-    this.setData({ region: e.detail.value || [] });
+    const region = e.detail.value || [];
+    this.setData({
+      region,
+      regionText: region.join(' '),
+    });
   },
 
   onDefaultChange(e) {
