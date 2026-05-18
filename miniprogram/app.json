@@ -24,8 +24,7 @@
     "pages/admin/feedbackList/feedbackList",
     "pages/admin/feedbackDetail/feedbackDetail",
     "pages/admin/profile/profile",
-    "pages/developer/roleSwitch/roleSwitch",
-    "pages/developer/reviewApplications/reviewApplications"
+    "pages/developer/roleSwitch/roleSwitch"
   ],
   "window": {
     "backgroundColor": "#F7F8FA",

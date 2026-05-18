@@ -39,13 +39,10 @@ Page({
     });
   },
 
-  goReviewApplications() {
-    wx.navigateTo({ url: '/pages/developer/reviewApplications/reviewApplications' });
-  },
-
   goRoleSwitch() {
     wx.navigateTo({ url: '/pages/developer/roleSwitch/roleSwitch' });
   },
+
 
   onLogout() {
     wx.showModal({

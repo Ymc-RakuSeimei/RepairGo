@@ -1,4 +1,4 @@
-const { callCloud } = require('../../../utils/util');
+const { callCloud, isValidPhone } = require('../../../utils/util');
 
 Page({
   data: {
@@ -29,7 +29,7 @@ Page({
   async onSubmit() {
     const { realName, phone, serviceArea, selectedSkills } = this.data;
     if (!realName.trim()) { wx.showToast({ title: '请填写姓名', icon: 'none' }); return; }
-    if (!phone.trim()) { wx.showToast({ title: '请填写电话', icon: 'none' }); return; }
+    if (!isValidPhone(phone)) { wx.showToast({ title: '请输入正确的手机号', icon: 'none' }); return; }
     if (selectedSkills.length === 0) { wx.showToast({ title: '请选择至少一项技能', icon: 'none' }); return; }
 
     this.setData({ submitting: true });

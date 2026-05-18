@@ -6,11 +6,15 @@ const { requireAdmin } = require("./auth_helper");
 exports.main = async (event, context) => {
   try {
     await requireAdmin();
-    
+
     const { technicianId } = event;
-    
+
+    if (!technicianId) {
+      return { code: -1, message: "缺少维修师傅ID" };
+    }
+
     const res = await db.collection("technicians").doc(technicianId).get();
-    
+
     return { code: 0, data: res.data };
   } catch (err) {
     console.error("getTechnicianDetail error:", err);

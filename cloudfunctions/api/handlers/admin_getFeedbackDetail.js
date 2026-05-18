@@ -6,9 +6,13 @@ const { requireAdmin } = require("./auth_helper");
 exports.main = async (event, context) => {
   try {
     await requireAdmin();
-    
+
     const { feedbackId } = event;
-    
+
+    if (!feedbackId) {
+      return { code: -1, message: "缺少反馈ID" };
+    }
+
     const res = await db.collection("feedback").doc(feedbackId).get();
     
     return { code: 0, data: res.data };

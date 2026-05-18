@@ -6,13 +6,16 @@ const { requireAdmin } = require("./auth_helper");
 exports.main = async (event, context) => {
   try {
     const { openid, user } = await requireAdmin();
-    
+
     const { feedbackId, content } = event;
-    
+
+    if (!feedbackId) {
+      return { code: -1, message: "缺少反馈ID" };
+    }
     if (!content || content.trim().length === 0) {
       return { code: -1, message: "回复内容不能为空" };
     }
-    
+
     await db.collection("feedback").doc(feedbackId).update({
       data: {
         replies: db.command.push({

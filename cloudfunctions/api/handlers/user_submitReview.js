@@ -8,6 +8,9 @@ exports.main = async (event, context) => {
   const openid = wxContext.OPENID;
   const { orderId, rating, content } = event;
 
+  if (!orderId) {
+    return { code: -1, message: '缺少订单ID' };
+  }
   if (!rating || rating < 1 || rating > 5) {
     return { code: -1, message: '请选择评分' };
   }

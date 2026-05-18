@@ -2,6 +2,7 @@ const {
   APPLIANCE_TYPES,
   callCloud,
   formatFullAddress,
+  isValidPhone,
 } = require('../../../utils/util');
 
 Page({
@@ -15,12 +16,27 @@ Page({
     userPhone: '',
     userAddress: '',
     preferredTime: '',
+    preferredDate: '',
+    currentYear: '',
+    availableDates: [],
+    datePickerMonths: [],
+    datePickerMonthKeys: [],
+    datePickerDays: [],
+    datePickerDayValues: [],
+    datePickerValue: [0, 0],
+    selectedTimeSlot: '',
+    timeSlotOptions: [],
+    timeSlotIndex: -1,
+    dateStart: '',
+    dateEnd: '',
+    noAvailablePreferredTime: false,
     images: [],
     submitting: false,
     selectedAddress: null,
   },
 
   onLoad() {
+    this.initPreferredTimeOptions();
     this.prefillContactInfo();
   },
 
@@ -33,8 +49,229 @@ Page({
     this.setData({ [field]: e.detail.value });
   },
 
+  initPreferredTimeOptions() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    const dateEnd = `${currentYear}-12-31`;
+    const availableDates = this.getAvailableDatesInCurrentYear(today, dateEnd);
+    const firstAvailableDate = availableDates.length ? availableDates[0].value : '';
+
+    if (!firstAvailableDate) {
+      this.setData({
+        currentYear,
+        availableDates: [],
+        datePickerMonths: [],
+        datePickerMonthKeys: [],
+        datePickerDays: [],
+        datePickerDayValues: [],
+        datePickerValue: [0, 0],
+        preferredDate: '',
+        selectedTimeSlot: '',
+        timeSlotOptions: [],
+        timeSlotIndex: -1,
+        preferredTime: '',
+        dateStart: this.formatDate(today),
+        dateEnd,
+        noAvailablePreferredTime: true,
+      });
+      return;
+    }
+
+    const timeSlotOptions = this.getAvailableTimeSlots(firstAvailableDate);
+    const pickerState = this.buildDatePickerState(availableDates, firstAvailableDate);
+    this.setData({
+      currentYear,
+      availableDates,
+      datePickerMonths: pickerState.datePickerMonths,
+      datePickerMonthKeys: pickerState.datePickerMonthKeys,
+      datePickerDays: pickerState.datePickerDays,
+      datePickerDayValues: pickerState.datePickerDayValues,
+      datePickerValue: pickerState.datePickerValue,
+      preferredDate: firstAvailableDate,
+      selectedTimeSlot: '',
+      timeSlotOptions,
+      timeSlotIndex: -1,
+      preferredTime: '',
+      dateStart: firstAvailableDate,
+      dateEnd,
+      noAvailablePreferredTime: false,
+    });
+  },
+
+  getAvailableDatesInCurrentYear(startDate, endDateStr) {
+    const cursor = new Date(
+      startDate.getFullYear(),
+      startDate.getMonth(),
+      startDate.getDate()
+    );
+    const endDate = this.parseDateString(endDateStr);
+    const availableDates = [];
+
+    while (cursor.getTime() <= endDate.getTime()) {
+      const dateStr = this.formatDate(cursor);
+      if (this.getAvailableTimeSlots(dateStr).length > 0) {
+        availableDates.push({
+          value: dateStr,
+          monthKey: String(cursor.getMonth() + 1).padStart(2, '0'),
+          dayKey: String(cursor.getDate()).padStart(2, '0'),
+        });
+      }
+      cursor.setDate(cursor.getDate() + 1);
+    }
+
+    return availableDates;
+  },
+
+  buildDatePickerState(availableDates, selectedDate) {
+    const targetDate = availableDates.find((item) => item.value === selectedDate) || availableDates[0];
+    if (!targetDate) {
+      return {
+        datePickerMonths: [],
+        datePickerMonthKeys: [],
+        datePickerDays: [],
+        datePickerDayValues: [],
+        datePickerValue: [0, 0],
+      };
+    }
+
+    const datePickerMonthKeys = availableDates
+      .map((item) => item.monthKey)
+      .filter((monthKey, index, list) => list.indexOf(monthKey) === index);
+
+    const datePickerMonths = datePickerMonthKeys.map((monthKey) => `${Number(monthKey)}月`);
+    const monthIndex = Math.max(datePickerMonthKeys.indexOf(targetDate.monthKey), 0);
+    const monthDates = availableDates.filter((item) => item.monthKey === targetDate.monthKey);
+    const datePickerDays = monthDates.map((item) => `${Number(item.dayKey)}日`);
+    const datePickerDayValues = monthDates.map((item) => item.value);
+    const dayIndex = Math.max(datePickerDayValues.indexOf(targetDate.value), 0);
+
+    return {
+      datePickerMonths,
+      datePickerMonthKeys,
+      datePickerDays,
+      datePickerDayValues,
+      datePickerValue: [monthIndex, dayIndex],
+    };
+  },
+
+  getBaseTimeSlots() {
+    return [
+      '09:00-10:00',
+      '10:00-11:00',
+      '11:00-12:00',
+      '14:00-15:00',
+      '15:00-16:00',
+      '16:00-17:00',
+      '17:00-18:00',
+      '18:00-19:00',
+      '19:00-20:00',
+      '20:00-21:00',
+    ];
+  },
+
+  getAvailableTimeSlots(dateStr) {
+    if (!dateStr) return [];
+
+    const selectedDate = this.parseDateString(dateStr);
+    const now = new Date();
+    const isToday = this.isSameDate(selectedDate, now);
+
+    return this.getBaseTimeSlots().filter((slot) => {
+      if (!isToday) return true;
+      const startHour = Number(slot.slice(0, 2));
+      const slotStart = new Date(
+        selectedDate.getFullYear(),
+        selectedDate.getMonth(),
+        selectedDate.getDate(),
+        startHour,
+        0,
+        0,
+        0
+      );
+      return slotStart.getTime() > now.getTime();
+    });
+  },
+
+  formatDate(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  },
+
+  parseDateString(dateStr) {
+    const parts = dateStr.split('-').map(Number);
+    return new Date(parts[0], parts[1] - 1, parts[2], 0, 0, 0, 0);
+  },
+
+  isSameDate(dateA, dateB) {
+    return dateA.getFullYear() === dateB.getFullYear()
+      && dateA.getMonth() === dateB.getMonth()
+      && dateA.getDate() === dateB.getDate();
+  },
+
+  onDateChange(e) {
+    const selectedIndexes = e.detail.value || [0, 0];
+    const monthIndex = selectedIndexes[0] || 0;
+    const dayIndex = selectedIndexes[1] || 0;
+    const preferredDate = this.data.datePickerDayValues[dayIndex] || '';
+    if (!preferredDate) return;
+
+    const pickerState = this.buildDatePickerState(this.data.availableDates, preferredDate);
+    const timeSlotOptions = this.getAvailableTimeSlots(preferredDate);
+    const selectedTimeSlot = timeSlotOptions.includes(this.data.selectedTimeSlot)
+      ? this.data.selectedTimeSlot
+      : '';
+    const timeSlotIndex = selectedTimeSlot ? timeSlotOptions.indexOf(selectedTimeSlot) : -1;
+
+    this.setData({
+      datePickerMonths: pickerState.datePickerMonths,
+      datePickerMonthKeys: pickerState.datePickerMonthKeys,
+      datePickerDays: pickerState.datePickerDays,
+      datePickerDayValues: pickerState.datePickerDayValues,
+      datePickerValue: [monthIndex, dayIndex],
+      preferredDate,
+      timeSlotOptions,
+      selectedTimeSlot,
+      timeSlotIndex,
+      preferredTime: selectedTimeSlot ? `${preferredDate} ${selectedTimeSlot}` : '',
+    });
+
+    if (!timeSlotOptions.length) {
+      wx.showToast({
+        title: '该日期已无可选时段，请改选其他日期',
+        icon: 'none',
+      });
+    }
+  },
+
+  onDateColumnChange(e) {
+    const { column, value } = e.detail;
+    const datePickerValue = this.data.datePickerValue.slice();
+    datePickerValue[column] = value;
+
+    if (column === 0) {
+      const monthKey = this.data.datePickerMonthKeys[value];
+      const monthDates = this.data.availableDates.filter((item) => item.monthKey === monthKey);
+      this.setData({
+        datePickerDays: monthDates.map((item) => `${Number(item.dayKey)}日`),
+        datePickerDayValues: monthDates.map((item) => item.value),
+        datePickerValue: [value, 0],
+      });
+      return;
+    }
+
+    this.setData({ datePickerValue });
+  },
+
   onTimeChange(e) {
-    this.setData({ preferredTime: e.detail.value });
+    const timeSlotIndex = Number(e.detail.value);
+    const selectedTimeSlot = this.data.timeSlotOptions[timeSlotIndex] || '';
+    this.setData({
+      timeSlotIndex,
+      selectedTimeSlot,
+      preferredTime: selectedTimeSlot ? `${this.data.preferredDate} ${selectedTimeSlot}` : '',
+    });
   },
 
   async prefillContactInfo() {
@@ -112,13 +349,42 @@ Page({
   },
 
   async onSubmit() {
-    const { typeIndex, applianceTypes, brand, faultDesc, userName, userPhone, userAddress, preferredTime, images } = this.data;
+    const {
+      typeIndex,
+      applianceTypes,
+      brand,
+      faultDesc,
+      userName,
+      userPhone,
+      userAddress,
+      preferredDate,
+      selectedTimeSlot,
+      images,
+      noAvailablePreferredTime,
+    } = this.data;
 
     if (typeIndex < 0) { wx.showToast({ title: '请选择电器类型', icon: 'none' }); return; }
     if (!userName.trim()) { wx.showToast({ title: '请填写姓名', icon: 'none' }); return; }
-    if (!userPhone.trim()) { wx.showToast({ title: '请填写电话', icon: 'none' }); return; }
+    if (!isValidPhone(userPhone)) { wx.showToast({ title: '请输入正确的手机号', icon: 'none' }); return; }
     if (!userAddress.trim()) { wx.showToast({ title: '请填写地址', icon: 'none' }); return; }
     if (!faultDesc.trim()) { wx.showToast({ title: '请描述故障', icon: 'none' }); return; }
+    if (noAvailablePreferredTime) { wx.showToast({ title: '当前年度已无可预约时段', icon: 'none' }); return; }
+    if (!preferredDate) { wx.showToast({ title: '请选择预约日期', icon: 'none' }); return; }
+    if (!selectedTimeSlot) { wx.showToast({ title: '请选择预约时间段', icon: 'none' }); return; }
+
+    const latestTimeSlotOptions = this.getAvailableTimeSlots(preferredDate);
+    if (!latestTimeSlotOptions.includes(selectedTimeSlot)) {
+      wx.showToast({ title: '所选时段已过期，请重新选择', icon: 'none' });
+      this.setData({
+        timeSlotOptions: latestTimeSlotOptions,
+        selectedTimeSlot: '',
+        timeSlotIndex: -1,
+        preferredTime: '',
+      });
+      return;
+    }
+
+    const preferredTime = `${preferredDate} ${selectedTimeSlot}`;
 
     this.setData({ submitting: true });
 

@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, ORDER_STATUS } = require('../../../utils/util');
+const { callCloud, checkRoleAsync, ORDER_STATUS, formatPreferredTime } = require('../../../utils/util');
 
 Page({
   data: {
@@ -20,7 +20,12 @@ Page({
     this.setData({ loading: true });
     const result = await callCloud('common/getOrderDetail', { orderId });
     if (result && result.code === 0) {
-      this.setData({ order: result.data });
+      this.setData({
+        order: {
+          ...result.data,
+          preferredTimeText: formatPreferredTime(result.data.preferredTime),
+        },
+      });
     }
     this.setData({ loading: false });
   },

@@ -1,4 +1,4 @@
-const { ORDER_STATUS, formatDate } = require('../../utils/util');
+const { ORDER_STATUS, formatDate, formatPreferredTime } = require('../../utils/util');
 
 Component({
   properties: {
@@ -8,11 +8,16 @@ Component({
 
   data: {
     statusInfo: {},
+    preferredTimeText: '',
   },
 
   observers: {
-    'order.status'(status) {
-      this.setData({ statusInfo: ORDER_STATUS[status] || {} });
+    order(order) {
+      const nextOrder = order || {};
+      this.setData({
+        statusInfo: ORDER_STATUS[nextOrder.status] || {},
+        preferredTimeText: formatPreferredTime(nextOrder.preferredTime),
+      });
     },
   },
 

@@ -66,13 +66,38 @@
       <input class="form-input address-input" placeholder="请输入维修地址" value="{{userAddress}}" data-field="userAddress" bindinput="onInputChange" />
     </view>
 
-    <view class="form-item">
+    <view class="form-item time-item">
       <text class="form-label">期望时间</text>
-      <picker mode="date" value="{{preferredTime}}" bindchange="onTimeChange">
-        <view class="picker-value {{preferredTime ? '' : 'placeholder'}}">
-          {{preferredTime || '请选择期望上门时间'}}
-        </view>
-      </picker>
+      <view class="time-picker-group">
+        <picker
+          mode="multiSelector"
+          range="{{[datePickerMonths, datePickerDays]}}"
+          value="{{datePickerValue}}"
+          bindchange="onDateChange"
+          bindcolumnchange="onDateColumnChange"
+          disabled="{{noAvailablePreferredTime}}"
+        >
+          <view class="picker-value {{preferredDate ? '' : 'placeholder'}}">
+            {{preferredDate || '请选择预约日期'}}
+          </view>
+        </picker>
+
+        <picker
+          mode="selector"
+          range="{{timeSlotOptions}}"
+          value="{{timeSlotIndex}}"
+          bindchange="onTimeChange"
+          disabled="{{noAvailablePreferredTime || !timeSlotOptions.length}}"
+        >
+          <view class="picker-value {{selectedTimeSlot ? '' : 'placeholder'}}">
+            {{selectedTimeSlot || (preferredDate ? '请选择时间段' : '请先选择日期')}}
+          </view>
+        </picker>
+        
+        <text class="time-tip warning" wx:if="{{noAvailablePreferredTime}}">
+          当前年度已无可预约时段
+        </text>
+      </view>
     </view>
   </view>
 

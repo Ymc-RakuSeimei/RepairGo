@@ -53,6 +53,22 @@ const formatDate = (date, fmt = 'YYYY-MM-DD HH:mm') => {
   return result;
 };
 
+const formatPreferredTime = (preferredTime) => {
+  const value = String(preferredTime || '').trim();
+  if (!value) return '';
+
+  const match = value.match(/^(\d{4})-(\d{2})-(\d{2}) (\d{2}):00-(\d{2}):00$/);
+  if (!match) return value;
+
+  const year = match[1];
+  const month = Number(match[2]);
+  const day = Number(match[3]);
+  const startHour = Number(match[4]);
+  const endHour = Number(match[5]);
+
+  return `${year}年${month}月${day}日 ${startHour}:00-${endHour}:00`;
+};
+
 // 订单状态映射
 const ORDER_STATUS = {
   pending: { text: '待接单', color: '#f39c12' },
@@ -210,6 +226,7 @@ module.exports = {
   callCloud,
   generateOrderNo,
   formatDate,
+  formatPreferredTime,
   ORDER_STATUS,
   APPLIANCE_TYPES,
   GENDER_MAP,

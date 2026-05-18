@@ -1,6 +1,6 @@
 <view class="profile-page">
   <view class="page-header">
-    <text class="page-title">我的</text>
+
   </view>
 
   <view class="card user-card" wx:if="{{userInfo}}">
@@ -141,8 +141,6 @@
   <view class="logout-wrap">
     <button class="btn-outline logout-btn" bindtap="onLogout">退出登录</button>
   </view>
-
-  <view style="height: 120rpx;"></view>
 
   <role-tabbar role="user" current="profile" />
 </view>

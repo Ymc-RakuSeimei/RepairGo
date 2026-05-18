@@ -16,20 +16,6 @@
     <text class="menu-arrow">›</text>
   </view>
 
-  <!-- Menu -->
-  <view class="menu-section">
-    <view class="menu-item" bindtap="goReviewApplications">
-      <view class="menu-left">
-        <view class="menu-dot" style="background:#AF52DE"></view>
-        <view class="menu-text">
-          <text class="menu-label">审批管理申请</text>
-          <text class="menu-sub">审核管理员申请</text>
-        </view>
-      </view>
-      <text class="menu-arrow">›</text>
-    </view>
-  </view>
-
   <!-- Role switch section -->
   <view class="menu-section">
     <view class="menu-item" wx:if="{{hasUserRole}}" bindtap="switchToUser">

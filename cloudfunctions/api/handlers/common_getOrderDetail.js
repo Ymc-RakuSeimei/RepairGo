@@ -1,28 +1,34 @@
 const cloud = require('wx-server-sdk');
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
-const { getCurrentUser, requireAdmin } = require("./auth_helper");
+const { getCurrentUser, hasPermission } = require("./auth_helper");
 
 exports.main = async (event, context) => {
   const { orderId } = event;
-  
+
+  if (!orderId) {
+    return { code: -1, message: '缺少订单ID' };
+  }
+
   try {
-    const { openid, role } = await getCurrentUser();
-    
+    const { openid, user } = await getCurrentUser();
+
     const res = await db.collection('orders').doc(orderId).get();
     const order = res.data;
-    
-    // Authorization check: users can only see their own orders, technicians only assigned orders
-    if (role === 'user' && order._openid !== openid) {
-      return { code: -1, message: '无权查看此订单' };
+
+    // 用户只能查看自己的订单
+    if (!hasPermission(user.roles, 'admin') && order._openid !== openid) {
+      // 如果不是管理员，检查是否是分配给该维修师傅的订单
+      if (hasPermission(user.roles, 'technician')) {
+        const techRes = await db.collection('technicians').where({ _openid: openid }).get();
+        if (techRes.data.length === 0 || techRes.data[0]._id !== order.technicianId) {
+          return { code: -1, message: '无权查看此订单' };
+        }
+      } else {
+        return { code: -1, message: '无权查看此订单' };
+      }
     }
-    
-    if (role === 'technician' && order.technicianId !== openid) {
-      return { code: -1, message: '无权查看此订单' };
-    }
-    
-    // Admin can view all orders
-    
+
     return { code: 0, data: order };
   } catch (err) {
     console.error('getOrderDetail error:', err);

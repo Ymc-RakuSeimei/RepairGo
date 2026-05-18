@@ -70,7 +70,7 @@ Page({
       wx.showToast({ title: '请输入正确的手机号', icon: 'none' });
       return;
     }
-    if (!Array.isArray(region) || region.length !== 3) {
+    if (!Array.isArray(region) || region.length < 3 || !region[0] || !region[1] || !region[2]) {
       wx.showToast({ title: '请选择所在地区', icon: 'none' });
       return;
     }

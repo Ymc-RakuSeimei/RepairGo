@@ -6,7 +6,7 @@
 }
 
 .page-header {
-  padding: 120rpx 0 48rpx;
+  padding: 80rpx 0 48rpx;
 }
 
 .page-title {

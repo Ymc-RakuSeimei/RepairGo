@@ -5,7 +5,11 @@ const { requireTechnician, getCurrentUser } = require("./auth_helper");
 
 exports.main = async (event, context) => {
   const { technicianId } = event;
-  
+
+  if (!technicianId) {
+    return { code: -1, message: "缺少维修师傅ID" };
+  }
+
   try {
     await requireTechnician();
     

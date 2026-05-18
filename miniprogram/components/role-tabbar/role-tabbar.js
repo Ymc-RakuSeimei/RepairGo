@@ -25,7 +25,6 @@ Component({
       const map = {
         user: [
           { key: 'home', icon: '⌂', label: '首页', url: '/pages/user/home/home' },
-          { key: 'create', icon: '+', label: '下单', url: '/pages/user/createOrder/createOrder' },
           { key: 'orders', icon: '☰', label: '订单', url: '/pages/user/orderList/orderList' },
           { key: 'profile', icon: '☺', label: '我的', url: '/pages/user/profile/profile' },
         ],
@@ -38,7 +37,7 @@ Component({
         admin: [
           { key: 'home', icon: '⌂', label: '首页', url: '/pages/admin/home/home' },
           { key: 'orders', icon: '☰', label: '工单', url: '/pages/admin/orderList/orderList' },
-          { key: 'techs', icon: '⚙', label: '技师', url: '/pages/admin/technicians/technicians' },
+          { key: 'techs', icon: '⚙', label: '维修师傅', url: '/pages/admin/technicians/technicians' },
           { key: 'feedback', icon: '✎', label: '反馈', url: '/pages/admin/feedbackList/feedbackList' },
           { key: 'profile', icon: '☺', label: '我的', url: '/pages/admin/profile/profile' },
         ],
