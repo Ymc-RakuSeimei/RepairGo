@@ -54,3 +54,38 @@
   font-size: 28rpx;
   color: #8E8E93;
 }
+
+.login-card {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-actions {
+  padding: 0 20rpx;
+}
+
+.phone-btn {
+  width: 100%;
+  height: 96rpx;
+  line-height: 96rpx;
+  font-size: 34rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+  background: #2E6CE6;
+  border-radius: 16rpx;
+  border: none;
+}
+
+.phone-btn::after {
+  border: none;
+}
+
+.skip-link {
+  display: block;
+  text-align: center;
+  margin-top: 32rpx;
+  font-size: 28rpx;
+  color: #8E8E93;
+}

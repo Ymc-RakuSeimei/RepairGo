@@ -22,6 +22,10 @@ Page({
     }
   },
 
+  goEditProfile() {
+    wx.navigateTo({ url: '/pages/user/editProfile/editProfile' });
+  },
+
   switchToUser() {
     wx.showModal({
       title: '切换角色',
