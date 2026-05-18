@@ -80,8 +80,7 @@
 .section-count {
   font-size: 24rpx;
   color: #8E8E93;
-  background: #F0F1F3;
-  padding: 4rpx 16rpx;
+  padding: 5rpx 16rpx;
   border-radius: 20rpx;
 }
 

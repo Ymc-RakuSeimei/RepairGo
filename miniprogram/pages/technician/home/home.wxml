@@ -36,7 +36,7 @@
     <view class="section-header">
       <text class="section-title">待接订单</text>
       <text class="section-count" wx:if="{{pendingOrders.length > 0}}">
-        {{pendingOrders.length}}单
+        共 {{pendingOrders.length}} 单
       </text>
     </view>
     <view class="order-list" wx:if="{{pendingOrders.length > 0}}">

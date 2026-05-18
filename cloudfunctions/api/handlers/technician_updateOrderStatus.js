@@ -6,9 +6,13 @@ const { requireTechnician, getTechnicianRecord, validatePrice } = require("./aut
 exports.main = async (event, context) => {
   const { orderId, orderAction, repairNotes, price } = event;
 
+  if (!orderId || !orderAction) {
+    return { code: -1, message: "缺少订单ID或操作类型" };
+  }
+
   try {
     await requireTechnician();
-    
+
     const orderRes = await db.collection("orders").doc(orderId).get();
     const order = orderRes.data;
 
@@ -27,9 +31,11 @@ exports.main = async (event, context) => {
 
     if (orderAction === "complete" && order.status === "in_progress") {
       // Validate price before completing
-      const finalPrice = price || 0;
-      validatePrice(finalPrice, 0, 10000);
-      
+      const finalPrice = parseFloat(price) || 0;
+      if (!validatePrice(finalPrice, 0, 10000)) {
+        return { code: -1, message: "价格必须在 0 到 10000 之间" };
+      }
+
       await db.collection("orders").doc(orderId).update({
         data: {
           status: "completed",

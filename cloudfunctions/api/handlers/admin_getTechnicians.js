@@ -14,11 +14,9 @@ exports.main = async (event, context) => {
     if (status) {
       query = query.where({ status });
     }
-    
-    const [countRes, listRes] = await Promise.all([
-      query.count(),
-      query.skip(skip).limit(pageSize).get(),
-    ]);
+
+    const countRes = await query.count();
+    const listRes = await query.skip(skip).limit(pageSize).get();
     
     return {
       code: 0,

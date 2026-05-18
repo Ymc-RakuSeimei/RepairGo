@@ -6,7 +6,6 @@
       </view>
     </view>
     <text class="title">电器维修</text>
-    <text class="subtitle">正在登录...</text>
   </view>
 
   <view class="loading-wrap" wx:if="{{loading}}">

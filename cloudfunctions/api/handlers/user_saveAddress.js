@@ -22,7 +22,7 @@ exports.main = async (event, context) => {
   if (!payload.phone || !isValidPhone(payload.phone)) {
     return { code: -1, message: '请输入正确的手机号' };
   }
-  if (payload.region.length !== 3) {
+  if (!payload.province || !payload.city || !payload.district) {
     return { code: -1, message: '请选择所在地区' };
   }
   if (!payload.detail) {

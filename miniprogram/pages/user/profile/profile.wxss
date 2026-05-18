@@ -2,16 +2,12 @@
   min-height: 100vh;
   background: #F7F8FA;
   padding: 0 32rpx;
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
 }
 
 .page-header {
-  padding: 120rpx 0 40rpx;
-}
-
-.page-title {
-  font-size: 48rpx;
-  font-weight: 700;
-  color: #1A1A2E;
+  padding: 0rpx 0 40rpx;
 }
 
 .user-card {
@@ -141,7 +137,7 @@
 }
 
 .logout-wrap {
-  padding: 40rpx 0;
+  padding: 20rpx 0 0;
 }
 
 .logout-btn {

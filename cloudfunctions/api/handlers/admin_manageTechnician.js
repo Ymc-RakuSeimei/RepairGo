@@ -9,6 +9,10 @@ exports.main = async (event, context) => {
 
     const { technicianId, manageAction: action } = event;
 
+    if (!technicianId) {
+      return { code: -1, message: "缺少维修师傅ID" };
+    }
+
     const techRes = await db.collection("technicians").doc(technicianId).get();
     const tech = techRes.data;
     const techOpenid = tech._openid;

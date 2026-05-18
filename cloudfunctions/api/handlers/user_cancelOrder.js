@@ -7,6 +7,10 @@ exports.main = async (event, context) => {
   const openid = wxContext.OPENID;
   const { orderId } = event;
 
+  if (!orderId) {
+    return { code: -1, message: '缺少订单ID' };
+  }
+
   try {
     const orderRes = await db.collection('orders').doc(orderId).get();
     const order = orderRes.data;

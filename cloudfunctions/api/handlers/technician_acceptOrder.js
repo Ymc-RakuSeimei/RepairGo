@@ -6,9 +6,13 @@ const { requireTechnician, getTechnicianRecord } = require("./auth_helper");
 exports.main = async (event, context) => {
   const { orderId } = event;
 
+  if (!orderId) {
+    return { code: -1, message: "缺少订单ID" };
+  }
+
   try {
     await requireTechnician();
-    
+
     const tech = await getTechnicianRecord();
     
     if (tech.status !== "approved") return { code: -1, message: "账号未审核通过" };

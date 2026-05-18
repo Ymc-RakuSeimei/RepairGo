@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, ORDER_STATUS } = require('../../../utils/util');
+const { callCloud, checkRoleAsync, ORDER_STATUS, formatPreferredTime } = require('../../../utils/util');
 
 Page({
   data: {
@@ -32,6 +32,7 @@ Page({
           ...order,
           statusText: statusInfo.text || order.status,
           statusColor: statusInfo.color || '#8E8E93',
+          preferredTimeText: formatPreferredTime(order.preferredTime),
         };
       });
       this.setData({ orders });

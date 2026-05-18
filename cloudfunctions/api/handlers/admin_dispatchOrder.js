@@ -6,8 +6,12 @@ const { requireAdmin } = require("./auth_helper");
 exports.main = async (event, context) => {
   try {
     await requireAdmin();
-    
+
     const { orderId, technicianId } = event;
+
+    if (!orderId || !technicianId) {
+      return { code: -1, message: "缺少订单ID或维修师傅ID" };
+    }
 
     const orderRes = await db.collection("orders").doc(orderId).get();
     if (orderRes.data.status !== "pending") return { code: -1, message: "该订单已被处理" };

@@ -39,6 +39,10 @@
       <text class="label">地址</text>
       <text>{{order.userAddress}}</text>
     </view>
+    <view class="info-row" wx:if="{{order.preferredTimeText}}">
+      <text class="label">预约时间</text>
+      <text>{{order.preferredTimeText}}</text>
+    </view>
   </view>
 
   <view class="card" wx:if="{{order.technicianName}}">
