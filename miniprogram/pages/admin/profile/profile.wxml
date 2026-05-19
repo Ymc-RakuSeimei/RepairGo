@@ -4,14 +4,16 @@
   </view>
 
   <!-- Admin info card -->
-  <view class="card user-card">
+  <view class="card user-card" bindtap="goEditProfile">
     <view class="avatar-circle" style="background: #FF9500;">
-      <text class="avatar-text">管</text>
+      <image class="avatar-image" wx:if="{{userInfo.avatarUrl}}" src="{{userInfo.avatarUrl}}" mode="aspectFill" />
+      <text class="avatar-text" wx:if="{{!userInfo.avatarUrl}}">管</text>
     </view>
     <view class="user-info">
       <text class="user-name">{{userInfo.nickName || '管理员'}}</text>
       <text class="user-role">管理人员</text>
     </view>
+    <text class="menu-arrow">›</text>
   </view>
 
   <!-- Role switch section -->

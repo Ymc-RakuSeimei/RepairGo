@@ -389,7 +389,6 @@ Page({
     this.setData({ submitting: true });
 
     try {
-      // 上传图片到云存储
       const imageFileIDs = [];
       for (const img of images) {
         const ext = img.split('.').pop();

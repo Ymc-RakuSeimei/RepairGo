@@ -88,6 +88,9 @@ const INCOME_STATUS = {
 // 电器类型列表
 const APPLIANCE_TYPES = ['空调', '冰箱', '洗衣机', '热水器', '电视', '油烟机', '燃气灶', '微波炉', '电磁炉', '其他'];
 
+// 性别映射
+const GENDER_MAP = { 0: '未设置', 1: '男', 2: '女' };
+
 // 角色映射
 const ROLE_MAP = {
   user: { text: '普通用户', home: '/pages/user/home/home' },
@@ -111,7 +114,7 @@ const getEntryRole = (roles) => {
 // 角色中文名
 const ROLE_TEXT = {
   user: '用户',
-  technician: '维修工',
+  technician: '维修工人',
   admin: '管理员',
   developer: '开发者',
 };
@@ -215,6 +218,16 @@ const getCurrentRole = () => {
   return getApp().globalData.currentRole || wx.getStorageSync('currentRole') || 'user';
 };
 
+// 从服务器同步最新用户信息到 globalData
+const syncUserInfo = async () => {
+  const result = await callCloud('user/login', {});
+  if (result && result.code === 0) {
+    getApp().globalData.userInfo = result.data;
+    return result.data;
+  }
+  return null;
+};
+
 module.exports = {
   callCloud,
   generateOrderNo,
@@ -223,6 +236,7 @@ module.exports = {
   ORDER_STATUS,
   INCOME_STATUS,
   APPLIANCE_TYPES,
+  GENDER_MAP,
   ROLE_MAP,
   ROLE_PRIORITY,
   ROLE_TEXT,
@@ -240,4 +254,5 @@ module.exports = {
   getEntryRole,
   verifyRole,
   checkRoleAsync,
+  syncUserInfo,
 };
