@@ -2,7 +2,7 @@
   <view class="card">
     <view class="header-row">
       <text class="order-no">{{order.orderNo}}</text>
-      <status-badge status="{{order.status}}" />
+      <status-badge status="{{order.status}}" text="{{order.displayStatusText}}" />
     </view>
   </view>
 
@@ -31,16 +31,24 @@
 
   <!-- 完成维修 -->
   <view class="card" wx:if="{{canComplete}}">
-    <view class="section-title">完成维修</view>
+    <view class="section-title">结束服务</view>
     <view class="form-item">
       <text class="form-label">维修费用(元)</text>
-      <input class="form-input" type="digit" placeholder="请输入费用" value="{{price}}" data-field="price" bindinput="onPriceInput" />
+      <input class="form-input" type="digit" placeholder="请输入费用" value="{{price}}" data-field="price" bindinput="onInputChange" />
     </view>
     <view class="form-item" style="align-items: flex-start;">
       <text class="form-label">维修备注</text>
-      <textarea class="form-textarea" placeholder="描述维修情况" value="{{repairNotes}}" bindinput="onNotesInput" maxlength="200" />
+      <textarea class="form-textarea" placeholder="描述维修情况" value="{{repairNotes}}" data-field="repairNotes" bindinput="onInputChange" maxlength="200" />
     </view>
-    <button class="btn-primary" style="margin-top: 20rpx;" bindtap="onCompleteRepair">确认完成</button>
+    <button class="btn-primary" style="margin-top: 20rpx;" bindtap="onCompleteRepair" loading="{{completing}}">提交费用，等待用户付款</button>
+  </view>
+
+  <view class="card" wx:if="{{order.status === 'awaiting_payment'}}">
+    <view class="section-title">待用户付款</view>
+    <view class="info-row" wx:if="{{order.price || order.price === 0}}"><text class="label">费用</text><text>¥{{order.price}}</text></view>
+    <view class="info-row" wx:if="{{order.repairNotes}}"><text class="label">备注</text><text>{{order.repairNotes}}</text></view>
+    <view class="info-row" wx:if="{{order.serviceFinishedAt}}"><text class="label">结束时间</text><text>{{order.serviceFinishedAt}}</text></view>
+    <view class="info-row"><text class="label">状态</text><text>已提交维修结果，等待用户付款</text></view>
   </view>
 
   <!-- 已完成信息 -->
@@ -48,7 +56,9 @@
     <view class="section-title">维修信息</view>
     <view class="info-row" wx:if="{{order.price}}"><text class="label">费用</text><text>¥{{order.price}}</text></view>
     <view class="info-row" wx:if="{{order.repairNotes}}"><text class="label">备注</text><text>{{order.repairNotes}}</text></view>
+    <view class="info-row" wx:if="{{order.serviceFinishedAt}}"><text class="label">结束时间</text><text>{{order.serviceFinishedAt}}</text></view>
     <view class="info-row" wx:if="{{order.completedAt}}"><text class="label">完成时间</text><text>{{order.completedAt}}</text></view>
+    <view class="info-row" wx:if="{{order.paidAt}}"><text class="label">付款时间</text><text>{{order.paidAt}}</text></view>
   </view>
 </view>
 

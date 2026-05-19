@@ -1,3 +1,13 @@
+const iconPath = (name, active) => `/images/tabbar/${name}-${active ? 'active' : 'inactive'}.svg`;
+
+const createTab = (key, label, url, iconName) => ({
+  key,
+  label,
+  url,
+  activeIcon: iconPath(iconName, true),
+  inactiveIcon: iconPath(iconName, false),
+});
+
 Component({
   properties: {
     role: { type: String, value: 'user' },
@@ -24,22 +34,22 @@ Component({
     getTabs(role) {
       const map = {
         user: [
-          { key: 'home', icon: '⌂', label: '首页', url: '/pages/user/home/home' },
-          { key: 'orders', icon: '☰', label: '订单', url: '/pages/user/orderList/orderList' },
-          { key: 'profile', icon: '☺', label: '我的', url: '/pages/user/profile/profile' },
+          createTab('home', '首页', '/pages/user/home/home', 'home'),
+          createTab('orders', '订单', '/pages/user/orderList/orderList', 'orders'),
+          createTab('profile', '我的', '/pages/user/profile/profile', 'profile'),
         ],
         technician: [
-          { key: 'home', icon: '⌂', label: '首页', url: '/pages/technician/home/home' },
-          { key: 'orders', icon: '☰', label: '工单', url: '/pages/technician/orderList/orderList' },
-          { key: 'income', icon: '¤', label: '收入', url: '/pages/technician/income/income' },
-          { key: 'profile', icon: '☺', label: '我的', url: '/pages/technician/profile/profile' },
+          createTab('home', '首页', '/pages/technician/home/home', 'home'),
+          createTab('orders', '工单', '/pages/technician/orderList/orderList', 'orders'),
+          createTab('income', '收入', '/pages/technician/income/income', 'income'),
+          createTab('profile', '我的', '/pages/technician/profile/profile', 'profile'),
         ],
         admin: [
-          { key: 'home', icon: '⌂', label: '首页', url: '/pages/admin/home/home' },
-          { key: 'orders', icon: '☰', label: '工单', url: '/pages/admin/orderList/orderList' },
-          { key: 'techs', icon: '⚙', label: '维修师傅', url: '/pages/admin/technicians/technicians' },
-          { key: 'feedback', icon: '✎', label: '反馈', url: '/pages/admin/feedbackList/feedbackList' },
-          { key: 'profile', icon: '☺', label: '我的', url: '/pages/admin/profile/profile' },
+          createTab('home', '首页', '/pages/admin/home/home', 'home'),
+          createTab('orders', '工单', '/pages/admin/orderList/orderList', 'orders'),
+          createTab('techs', '维修师傅', '/pages/admin/technicians/technicians', 'techs'),
+          createTab('feedback', '反馈', '/pages/admin/feedbackList/feedbackList', 'feedback'),
+          createTab('profile', '我的', '/pages/admin/profile/profile', 'profile'),
         ],
       };
       return map[role] || map.user;

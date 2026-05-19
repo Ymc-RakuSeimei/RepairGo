@@ -6,7 +6,9 @@ Page({
     loading: false,
     availableTechs: [],
     selectedTechId: '',
+    selectedTechIndex: -1,
     dispatching: false,
+    canDispatch: false,
   },
 
   async onLoad(options) {
@@ -21,11 +23,13 @@ Page({
     this.setData({ loading: true });
     const result = await callCloud('common/getOrderDetail', { orderId });
     if (result && result.code === 0) {
+      const order = result.data || {};
       this.setData({
         order: {
-          ...result.data,
-          preferredTimeText: formatPreferredTime(result.data.preferredTime),
+          ...order,
+          preferredTimeText: formatPreferredTime(order.preferredTime),
         },
+        canDispatch: order.status === 'pending',
       });
     }
     this.setData({ loading: false });
@@ -38,9 +42,13 @@ Page({
     }
   },
 
-  onTechSelect(e) {
-    const techId = e.detail.value;
-    this.setData({ selectedTechId: techId });
+  onTechChange(e) {
+    const selectedTechIndex = Number(e.detail.value);
+    const current = this.data.availableTechs[selectedTechIndex] || {};
+    this.setData({
+      selectedTechIndex,
+      selectedTechId: current._id || '',
+    });
   },
 
   async onDispatch() {

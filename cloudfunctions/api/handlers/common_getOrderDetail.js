@@ -29,7 +29,20 @@ exports.main = async (event, context) => {
       }
     }
 
-    return { code: 0, data: order };
+    return {
+      code: 0,
+      data: {
+        ...order,
+        paymentStatus: order.paymentStatus || 'unpaid',
+        paymentAmount: Number(order.paymentAmount || order.price || 0),
+        paymentMethod: order.paymentMethod || '',
+        paymentOrderNo: order.paymentOrderNo || '',
+        paymentRemark: order.paymentRemark || '',
+        paidAt: order.paidAt || null,
+        serviceFinishedAt: order.serviceFinishedAt || null,
+        settlementStatus: order.settlementStatus || 'unsettled',
+      },
+    };
   } catch (err) {
     console.error('getOrderDetail error:', err);
     return { code: -1, message: '获取订单详情失败' };

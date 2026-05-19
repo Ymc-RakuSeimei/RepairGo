@@ -1,7 +1,7 @@
 <view class="income-page">
   <view class="summary card">
     <view class="summary-item">
-      <text class="summary-num">¥{{totalIncome}}</text>
+      <text class="summary-num">¥{{totalSettled}}</text>
       <text class="summary-label">已结算</text>
     </view>
     <view class="summary-item">
@@ -21,7 +21,7 @@
       </view>
       <view class="income-right">
         <text class="income-amount {{item.type === 'deduction' ? 'deduction' : ''}}">{{item.type === 'deduction' ? '-' : '+'}}¥{{item.amount}}</text>
-        <text class="income-status {{item.status}}">{{item.status === 'settled' ? '已结算' : '待结算'}}</text>
+        <text class="income-status {{item.status}}">{{item.statusText}}</text>
       </view>
     </view>
   </view>

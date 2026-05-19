@@ -7,7 +7,11 @@
     data-key="{{item.key}}"
     bindtap="onTabTap"
   >
-    <text class="tab-icon">{{item.icon}}</text>
+    <image
+      class="tab-icon"
+      src="{{current === item.key ? item.activeIcon : item.inactiveIcon}}"
+      mode="aspectFit"
+    />
     <text class="tab-label">{{item.label}}</text>
   </view>
 </view>

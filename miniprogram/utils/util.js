@@ -74,9 +74,15 @@ const ORDER_STATUS = {
   pending: { text: '待接单', color: '#f39c12' },
   accepted: { text: '已接单', color: '#3498db' },
   in_progress: { text: '维修中', color: '#9b59b6' },
+  awaiting_payment: { text: '待付款', color: '#ff9500' },
   completed: { text: '已完成', color: '#27ae60' },
   reviewed: { text: '已评价', color: '#95a5a6' },
   cancelled: { text: '已取消', color: '#e74c3c' },
+};
+
+const INCOME_STATUS = {
+  pending: { text: '待结算', color: '#f39c12' },
+  settled: { text: '已结算', color: '#27ae60' },
 };
 
 // 电器类型列表
@@ -228,6 +234,7 @@ module.exports = {
   formatDate,
   formatPreferredTime,
   ORDER_STATUS,
+  INCOME_STATUS,
   APPLIANCE_TYPES,
   GENDER_MAP,
   ROLE_MAP,

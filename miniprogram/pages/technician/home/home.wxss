@@ -108,7 +108,9 @@
 
 .pending-body {
   flex: 1;
-  padding: 24rpx 28rpx;
+  position: relative;
+  padding: 24rpx 28rpx 24rpx;
+  min-height: 220rpx;
 }
 
 .pending-top {
@@ -161,6 +163,7 @@
   display: flex;
   align-items: flex-start;
   margin-bottom: 20rpx;
+  padding-right: 180rpx;
 }
 
 .pending-addr-icon {
@@ -182,8 +185,9 @@
 
 .pending-bottom {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  min-height: 56rpx;
+  padding-right: 180rpx;
 }
 
 .pending-brand {
@@ -200,20 +204,34 @@
 }
 
 .accept-btn {
-  height: 64rpx;
-  line-height: 64rpx;
-  padding: 0 40rpx;
-  font-size: 26rpx;
+  position: absolute;
+  right: 28rpx;
+  bottom: 24rpx;
+  min-width: 128rpx;
+  height: 56rpx;
+  line-height: 56rpx;
+  padding: 0 28rpx;
+  font-size: 24rpx;
   font-weight: 600;
   background: #2E6CE6;
   color: #FFFFFF;
-  border-radius: 32rpx;
+  border-radius: 28rpx;
   border: none;
   margin: 0;
+  box-sizing: border-box;
 }
 
 .accept-btn::after {
   border: none;
+}
+
+.ongoing-list {
+  margin-bottom: 12rpx;
+}
+
+.ongoing-empty {
+  padding-top: 72rpx;
+  padding-bottom: 88rpx;
 }
 
 .menu-grid {

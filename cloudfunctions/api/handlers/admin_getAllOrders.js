@@ -1,19 +1,24 @@
 const cloud = require("wx-server-sdk");
 cloud.init({ env: cloud.DYNAMIC_CURRENT_ENV });
 const db = cloud.database();
+const _ = db.command;
 const { requireAdmin } = require("./auth_helper");
 
 exports.main = async (event, context) => {
   try {
     await requireAdmin();
     
-    const { status, page = 1, pageSize = 20 } = event;
+    const { status, statuses, page = 1, pageSize = 20 } = event;
     const skip = (page - 1) * pageSize;
-    
-    let query = db.collection("orders").orderBy("createdAt", "desc");
-    if (status) {
-      query = query.where({ status });
+
+    const condition = {};
+    if (Array.isArray(statuses) && statuses.length > 0) {
+      condition.status = _.in(statuses);
+    } else if (status) {
+      condition.status = status;
     }
+
+    let query = db.collection("orders").where(condition).orderBy("createdAt", "desc");
 
     const countRes = await query.count();
     const listRes = await query.skip(skip).limit(pageSize).get();

@@ -30,6 +30,7 @@ Page({
   },
 
   goOrderList() { wx.navigateTo({ url: "/pages/admin/orderList/orderList" }); },
+  goSettlementList() { wx.navigateTo({ url: "/pages/admin/settlementList/settlementList" }); },
   goTechnicians() { wx.navigateTo({ url: "/pages/admin/technicians/technicians" }); },
   goFeedbackList() { wx.navigateTo({ url: "/pages/admin/feedbackList/feedbackList" }); },
 });

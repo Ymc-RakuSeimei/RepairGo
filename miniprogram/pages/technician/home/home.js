@@ -3,6 +3,7 @@ const { callCloud, checkRoleAsync } = require('../../../utils/util');
 Page({
   data: {
     pendingOrders: [],
+    ongoingOrders: [],
     loading: false,
     isRegistered: false,
     techInfo: null,
@@ -22,16 +23,23 @@ Page({
     if (result && result.code === 0 && result.data) {
       this.setData({ isRegistered: result.data.status === 'approved', techInfo: result.data });
       if (result.data.status === 'approved') {
-        this.loadPendingOrders();
+        this.loadHomeOrders();
       }
     }
   },
 
-  async loadPendingOrders() {
+  async loadHomeOrders() {
     this.setData({ loading: true });
-    const result = await callCloud('technician/getPendingOrders');
-    if (result && result.code === 0) {
-      this.setData({ pendingOrders: result.data });
+    const ongoingResult = await callCloud('technician/getMyOrders', {
+      statuses: ['accepted', 'in_progress'],
+    });
+    if (ongoingResult && ongoingResult.code === 0) {
+      this.setData({ ongoingOrders: ongoingResult.data });
+    }
+
+    const pendingResult = await callCloud('technician/getPendingOrders');
+    if (pendingResult && pendingResult.code === 0) {
+      this.setData({ pendingOrders: pendingResult.data });
     }
     this.setData({ loading: false });
   },
@@ -46,7 +54,7 @@ Page({
     const result = await callCloud('technician/acceptOrder', { orderId });
     if (result && result.code === 0) {
       wx.showToast({ title: '接单成功', icon: 'success' });
-      this.loadPendingOrders();
+      this.loadHomeOrders();
     }
   },
 
