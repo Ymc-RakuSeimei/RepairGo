@@ -7,6 +7,9 @@ Page({
     rating: 5,
     reviewContent: '',
     submitting: false,
+    canCancel: false,
+    canPay: false,
+    canReview: false,
   },
 
   async onLoad(options) {
@@ -20,21 +23,25 @@ Page({
     this.setData({ loading: true });
     const result = await callCloud('common/getOrderDetail', { orderId });
     if (result && result.code === 0) {
+      const order = result.data || {};
       this.setData({
         order: {
-          ...result.data,
-          preferredTimeText: formatPreferredTime(result.data.preferredTime),
+          ...order,
+          preferredTimeText: formatPreferredTime(order.preferredTime),
         },
+        canCancel: ['pending', 'accepted'].includes(order.status),
+        canPay: order.status === 'awaiting_payment',
+        canReview: order.status === 'completed',
       });
     }
     this.setData({ loading: false });
   },
 
-  onRatingChange(e) {
-    this.setData({ rating: e.detail.rating });
+  onReviewRatingChange(e) {
+    this.setData({ rating: e.detail.value });
   },
 
-  onInputChange(e) {
+  onReviewInput(e) {
     this.setData({ reviewContent: e.detail.value });
   },
 
@@ -58,7 +65,21 @@ Page({
     this.setData({ submitting: false });
   },
 
-  async onCancelOrder() {
+  async onPayOrder() {
+    const { order } = this.data;
+    const confirm = await new Promise(resolve => {
+      wx.showModal({ title: '确认付款', content: `确认支付维修费用 ¥${order.price || 0} 吗？`, success: (res) => resolve(res.confirm) });
+    });
+    if (!confirm) return;
+
+    const result = await callCloud('user/payOrder', { orderId: order._id });
+    if (result && result.code === 0) {
+      wx.showToast({ title: '支付成功', icon: 'success' });
+      this.loadOrder(order._id);
+    }
+  },
+
+  async onCancel() {
     const { order } = this.data;
     const confirm = await new Promise(resolve => {
       wx.showModal({ title: '确认取消', content: '确定取消此订单吗？', success: (res) => resolve(res.confirm) });

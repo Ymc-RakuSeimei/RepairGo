@@ -1,0 +1,28 @@
+<view class="settlement-page">
+  <view class="section-title">待结算记录</view>
+
+  <view class="settlement-list" wx:if="{{list.length > 0}}">
+    <view class="settlement-item card" wx:for="{{list}}" wx:key="_id">
+      <view class="settlement-header">
+        <text class="order-no">{{item.orderNo}}</text>
+        <text class="amount">¥{{item.amount}}</text>
+      </view>
+      <view class="info-row"><text class="label">师傅</text><text>{{item.technicianName || '未命名师傅'}}</text></view>
+      <view class="info-row"><text class="label">支付状态</text><text>{{item.paidAtText ? '已付款' : '未回填付款时间'}}</text></view>
+      <view class="info-row" wx:if="{{item.paidAtText}}"><text class="label">付款时间</text><text>{{item.paidAtText}}</text></view>
+      <view class="info-row"><text class="label">创建时间</text><text>{{item.createdAtText}}</text></view>
+      <button class="btn-primary settle-btn" bindtap="onSettle" data-id="{{item._id}}" loading="{{settlingId === item._id}}">确认结算</button>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:if="{{!loading && list.length === 0}}">
+    <text class="empty-text">暂无待结算记录</text>
+  </view>
+
+  <view class="loading-wrap" wx:if="{{loading}}">
+    <text>加载中...</text>
+  </view>
+
+  <view style="height: 120rpx;"></view>
+  <role-tabbar role="admin" current="home" />
+</view>

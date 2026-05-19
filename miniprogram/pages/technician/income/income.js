@@ -1,4 +1,4 @@
-const { callCloud, checkRoleAsync, formatDate } = require('../../../utils/util');
+const { callCloud, checkRoleAsync, formatDate, INCOME_STATUS } = require('../../../utils/util');
 
 Page({
   data: {
@@ -30,7 +30,11 @@ Page({
         }
       });
       this.setData({
-        incomeList: list,
+        incomeList: list.map(item => ({
+          ...item,
+          createdAtStr: item.createdAt ? formatDate(item.createdAt) : '',
+          statusText: (INCOME_STATUS[item.status] || {}).text || item.status,
+        })),
         totalSettled,
         totalPending,
       });

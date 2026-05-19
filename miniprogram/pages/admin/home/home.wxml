@@ -45,6 +45,16 @@
       </view>
       <text class="menu-arrow">›</text>
     </view>
+    <view class="menu-item" bindtap="goSettlementList">
+      <view class="menu-left">
+        <view class="menu-dot" style="background:#27AE60"></view>
+        <view class="menu-text">
+          <text class="menu-label">待结算</text>
+          <text class="menu-sub">处理师傅收入结算</text>
+        </view>
+      </view>
+      <text class="menu-arrow">›</text>
+    </view>
     <view class="menu-item" bindtap="goFeedbackList">
       <view class="menu-left">
         <view class="menu-dot" style="background:#FF9500"></view>

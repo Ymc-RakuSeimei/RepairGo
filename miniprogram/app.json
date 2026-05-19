@@ -19,6 +19,7 @@
     "pages/admin/home/home",
     "pages/admin/orderList/orderList",
     "pages/admin/orderDetail/orderDetail",
+    "pages/admin/settlementList/settlementList",
     "pages/admin/technicians/technicians",
     "pages/admin/technicianDetail/technicianDetail",
     "pages/admin/feedbackList/feedbackList",

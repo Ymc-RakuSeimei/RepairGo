@@ -7,6 +7,8 @@ Page({
     repairNotes: '',
     price: '',
     completing: false,
+    canStart: false,
+    canComplete: false,
   },
 
   async onLoad(options) {
@@ -20,11 +22,21 @@ Page({
     this.setData({ loading: true });
     const result = await callCloud('common/getOrderDetail', { orderId });
     if (result && result.code === 0) {
+      const order = result.data || {};
       this.setData({
         order: {
-          ...result.data,
-          preferredTimeText: formatPreferredTime(result.data.preferredTime),
+          ...order,
+          preferredTimeText: formatPreferredTime(order.preferredTime),
+          displayStatusText: order.status === 'accepted'
+            ? '进行中'
+            : order.status === 'awaiting_payment'
+              ? '待用户付款'
+              : '',
         },
+        repairNotes: order.repairNotes || '',
+        price: order.price ? String(order.price) : '',
+        canStart: order.status === 'accepted',
+        canComplete: order.status === 'in_progress',
       });
     }
     this.setData({ loading: false });
@@ -72,7 +84,7 @@ Page({
       price: parseFloat(price),
     });
     if (result && result.code === 0) {
-      wx.showToast({ title: '维修完成', icon: 'success' });
+      wx.showToast({ title: '已提交，待付款', icon: 'success' });
       this.loadOrder(order._id);
     }
     this.setData({ completing: false });

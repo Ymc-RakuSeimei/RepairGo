@@ -30,7 +30,6 @@ exports.main = async (event, context) => {
     }
 
     if (orderAction === "complete" && order.status === "in_progress") {
-      // Validate price before completing
       const finalPrice = parseFloat(price) || 0;
       if (!validatePrice(finalPrice, 0, 10000)) {
         return { code: -1, message: "价格必须在 0 到 10000 之间" };
@@ -38,10 +37,17 @@ exports.main = async (event, context) => {
 
       await db.collection("orders").doc(orderId).update({
         data: {
-          status: "completed",
+          status: "awaiting_payment",
           repairNotes: repairNotes || "",
           price: finalPrice,
-          completedAt: db.serverDate(),
+          serviceFinishedAt: db.serverDate(),
+          paymentStatus: "unpaid",
+          paymentAmount: 0,
+          paymentMethod: "",
+          paymentOrderNo: "",
+          paymentRemark: "",
+          paidAt: null,
+          settlementStatus: "unsettled",
           updatedAt: db.serverDate(),
         },
       });
@@ -50,24 +56,11 @@ exports.main = async (event, context) => {
         data: {
           isBusy: false,
           totalOrders: db.command.inc(1),
-          totalIncome: db.command.inc(finalPrice),
           updatedAt: db.serverDate(),
         },
       });
 
-      await db.collection("income").add({
-        data: {
-          technicianId: tech._id,
-          orderId,
-          orderNo: order.orderNo,
-          amount: finalPrice,
-          type: "repair_fee",
-          status: "pending",
-          createdAt: db.serverDate(),
-        },
-      });
-
-      return { code: 0, message: "维修完成" };
+      return { code: 0, message: "已结束服务，等待用户付款" };
     }
 
     return { code: -1, message: "状态操作无效" };

@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "待结算",
+  "usingComponents": {
+    "role-tabbar": "/components/role-tabbar/role-tabbar"
+  }
+}

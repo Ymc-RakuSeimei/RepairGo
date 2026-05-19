@@ -24,7 +24,15 @@
     <view class="section-title">维修师傅</view>
     <view class="info-row"><text class="label">师傅</text><text>{{order.technicianName}}</text></view>
     <view class="info-row" wx:if="{{order.repairNotes}}"><text class="label">备注</text><text>{{order.repairNotes}}</text></view>
-    <view class="info-row" wx:if="{{order.price}}"><text class="label">费用</text><text>{{order.price}}</text></view>
+    <view class="info-row" wx:if="{{order.price || order.price === 0}}"><text class="label">费用</text><text>¥{{order.price}}</text></view>
+  </view>
+
+  <view class="card">
+    <view class="section-title">付款与结算</view>
+    <view class="info-row"><text class="label">付款状态</text><text>{{order.paymentStatus === 'paid' ? '已付款' : '未付款'}}</text></view>
+    <view class="info-row" wx:if="{{order.paymentAmount || order.paymentAmount === 0}}"><text class="label">付款金额</text><text>¥{{order.paymentAmount}}</text></view>
+    <view class="info-row" wx:if="{{order.paidAt}}"><text class="label">付款时间</text><text>{{order.paidAt}}</text></view>
+    <view class="info-row"><text class="label">结算状态</text><text>{{order.settlementStatus === 'settled' ? '已结算' : '未结算'}}</text></view>
   </view>
 
   <view class="card" wx:if="{{canDispatch}}">

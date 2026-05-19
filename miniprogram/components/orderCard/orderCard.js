@@ -14,8 +14,16 @@ Component({
   observers: {
     order(order) {
       const nextOrder = order || {};
+      const { role } = this.data;
+      const baseStatusInfo = ORDER_STATUS[nextOrder.status] || {};
+      let statusInfo = baseStatusInfo;
+      if (role === 'technician' && nextOrder.status === 'accepted') {
+        statusInfo = { ...baseStatusInfo, text: '进行中' };
+      } else if (role === 'technician' && nextOrder.status === 'awaiting_payment') {
+        statusInfo = { ...baseStatusInfo, text: '待用户付款' };
+      }
       this.setData({
-        statusInfo: ORDER_STATUS[nextOrder.status] || {},
+        statusInfo,
         preferredTimeText: formatPreferredTime(nextOrder.preferredTime),
       });
     },

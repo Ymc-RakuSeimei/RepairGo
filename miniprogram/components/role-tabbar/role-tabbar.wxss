@@ -20,18 +20,15 @@
 }
 
 .tab-icon {
-  font-size: 40rpx;
-  color: #8E8E93;
+  width: 40rpx;
+  height: 40rpx;
   margin-bottom: 4rpx;
+  display: block;
 }
 
 .tab-label {
   font-size: 20rpx;
   color: #8E8E93;
-}
-
-.tab-item.active .tab-icon {
-  color: #2E6CE6;
 }
 
 .tab-item.active .tab-label {

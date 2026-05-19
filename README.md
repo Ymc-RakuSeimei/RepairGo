@@ -49,14 +49,21 @@ RepairGo/
 │   │   ├── arrow.svg
 │   │   ├── avatar.png
 │   │   ├── copy.svg
-│   │   └── icons/
-│   │       ├── avatar.png
-│   │       ├── close.png
-│   │       ├── copy.png
-│   │       ├── customer-service.svg
-│   │       ├── question.svg
-│   │       ├── setting.svg
-│   │       └── share.svg
+│   │   ├── icons/
+│   │   │   ├── avatar.png
+│   │   │   ├── close.png
+│   │   │   ├── copy.png
+│   │   │   ├── customer-service.svg
+│   │   │   ├── question.svg
+│   │   │   ├── setting.svg
+│   │   │   └── share.svg
+│   │   └── tabbar/                        # TabBar 图标（选中/未选中状态）
+│   │       ├── home-active.svg / home-inactive.svg
+│   │       ├── orders-active.svg / orders-inactive.svg
+│   │       ├── profile-active.svg / profile-inactive.svg
+│   │       ├── income-active.svg / income-inactive.svg
+│   │       ├── techs-active.svg / techs-inactive.svg
+│   │       └── feedback-active.svg / feedback-inactive.svg
 │   │
 │   ├── utils/                             # ---------- 工具函数 ----------
 │   │   └── util.js                        # callCloud()、权限校验、常量定义、格式化工具
@@ -87,12 +94,13 @@ RepairGo/
 │       │   ├── profile/                   # 师傅资料
 │       │   └── register/                  # 注册申请成为师傅
 │       │
-│       ├── admin/                         # [管理端] 8 个页面
+│       ├── admin/                         # [管理端] 9 个页面
 │       │   ├── home/                      # 首页（数据概览）
 │       │   ├── orderList/                 # 所有订单（分页+状态筛选）
 │       │   ├── orderDetail/               # 订单详情（派单操作）
 │       │   ├── technicians/               # 师傅列表（审核/禁用）
 │       │   ├── technicianDetail/          # 师傅详情（审核通过/拒绝）
+│       │   ├── settlementList/            # 结算列表（待结算收入，确认结算）
 │       │   ├── feedbackList/              # 反馈列表
 │       │   ├── feedbackDetail/            # 反馈详情（回复/关闭）
 │       │   └── profile/                   # 管理员个人中心
@@ -105,13 +113,14 @@ RepairGo/
         ├── index.js                       # 路由入口：启动时自动扫描 handlers/ 注册
         ├── package.json                   # 依赖：wx-server-sdk ~2.6.3
         │
-        ├── handlers/                      # ---------- 业务处理器（30个） ----------
+        ├── handlers/                      # ---------- 业务处理器（33个） ----------
         │   ├── auth_helper.js             # 认证鉴权：getCurrentUser、requireRole、hasPermission
         │   │
         │   ├── user_login.js              # 登录/注册（新用户自动创建，旧数据迁移）
         │   ├── user_createOrder.js        # 创建维修订单
         │   ├── user_getMyOrders.js        # 获取我的订单列表
         │   ├── user_cancelOrder.js        # 取消订单
+        │   ├── user_payOrder.js           # 支付订单（模拟微信支付）
         │   ├── user_submitReview.js       # 提交订单评价
         │   ├── user_updateProfile.js      # 更新用户资料
         │   ├── user_getAddresses.js       # 获取地址列表
@@ -135,6 +144,8 @@ RepairGo/
         │   ├── admin_getTechnicianDetail.js  # 获取师傅详情
         │   ├── admin_manageTechnician.js  # 审核/拒绝/禁用师傅
         │   ├── admin_getStats.js          # 获取统计数据
+        │   ├── admin_getPendingSettlements.js  # 获取待结算收入列表
+        │   ├── admin_settleIncome.js      # 确认结算（更新收入状态、师傅总收入）
         │   ├── admin_getFeedback.js       # 获取反馈列表
         │   ├── admin_getFeedbackDetail.js # 获取反馈详情
         │   ├── admin_replyFeedback.js     # 回复反馈
@@ -165,23 +176,25 @@ RepairGo/
 | 集合 | 说明 | 关键字段 |
 |------|------|----------|
 | `users` | 用户表 | `roles[]`、`pendingRoles[]`、`nickName`、`phone`、`gender`、`defaultAddressId` |
-| `orders` | 订单表 | `orderNo`、`status`、`technicianId`、`price`、`applianceType`、`faultDescription` |
+| `orders` | 订单表 | `orderNo`、`status`、`technicianId`、`price`、`applianceType`、`faultDescription`、`paymentStatus`、`paymentAmount` |
 | `technicians` | 维修师傅表 | `status`(pending/approved/rejected/disabled)、`isBusy`、`rating`、`totalIncome` |
 | `user_addresses` | 用户地址表 | `province`/`city`/`district`/`detail`、`isDefault`、`tag` |
 | `feedback` | 反馈表 | `status`(open/closed)、`replies[]`、`type`、`orderId` |
+| `income` | 收入结算表 | `technicianId`、`orderId`、`amount`、`status`(pending/settled)、`settledAt` |
 
 ## 订单状态流转
 
 ```
-pending → accepted → in_progress → completed → reviewed
-   ↓
-cancelled
+pending → accepted → in_progress → awaiting_payment → completed → reviewed
+   ↓                                                        ↑
+cancelled                                              支付完成后自动跳转
 ```
 
 - `pending`：用户下单后等待接单
 - `accepted`：师傅接单或管理员派单
 - `in_progress`：师傅上门维修中
-- `completed`：维修完成，等待用户评价
+- `awaiting_payment`：维修完成，等待用户支付
+- `completed`：用户已支付，订单完结
 - `reviewed`：用户已评价，订单完结
 - `cancelled`：用户取消订单
 

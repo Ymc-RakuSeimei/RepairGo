@@ -1,0 +1,54 @@
+.settlement-page {
+  min-height: 100vh;
+  background: #F7F8FA;
+  padding: 20rpx 30rpx;
+  padding-bottom: calc(180rpx + env(safe-area-inset-bottom));
+  box-sizing: border-box;
+}
+
+.section-title {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 20rpx;
+}
+
+.settlement-item {
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+}
+
+.settlement-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12rpx;
+}
+
+.order-no {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1A1A2E;
+}
+
+.amount {
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #27ae60;
+}
+
+.info-row {
+  display: flex;
+  padding: 10rpx 0;
+  font-size: 26rpx;
+}
+
+.label {
+  width: 140rpx;
+  color: #8E8E93;
+  flex-shrink: 0;
+}
+
+.settle-btn {
+  margin-top: 20rpx;
+}

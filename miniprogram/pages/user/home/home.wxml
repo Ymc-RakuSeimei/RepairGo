@@ -28,6 +28,31 @@
     </view>
   </view>
 
+  <view class="section-header">
+    <text class="section-title">进行中订单</text>
+    <view class="section-link" bindtap="goOrderList">
+      <text class="section-count" wx:if="{{ongoingOrderCount > 0}}">共 {{ongoingOrderCount}} 单</text>
+      <text class="section-arrow">查看全部 ›</text>
+    </view>
+  </view>
+
+  <view class="order-list" wx:if="{{ongoingOrders.length > 0}}">
+    <order-card
+      wx:for="{{ongoingOrders}}"
+      wx:key="_id"
+      order="{{item}}"
+      role="user"
+    />
+  </view>
+
+  <view class="empty-card" wx:if="{{!loading && ongoingOrders.length === 0}}">
+    <text class="empty-title">暂无进行中订单</text>
+    <text class="empty-desc">师傅接单后，订单会展示在这里，方便您随时查看进度。</text>
+    <view class="empty-action" bindtap="goCreateOrder">
+      <text>立即下单</text>
+    </view>
+  </view>
+
   <view style="height: 120rpx;"></view>
 
   <role-tabbar role="user" current="home" />

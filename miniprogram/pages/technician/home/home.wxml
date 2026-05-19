@@ -32,6 +32,26 @@
         <text class="stat-label">收入(元)</text>
       </view>
     </view>
+    <!-- 进行中 -->
+    <view class="section-header">
+      <text class="section-title">进行中</text>
+      <text class="section-count" wx:if="{{ongoingOrders.length > 0}}">
+        共 {{ongoingOrders.length}} 单
+      </text>
+    </view>
+    <view class="order-list ongoing-list" wx:if="{{ongoingOrders.length > 0}}">
+      <order-card
+        wx:for="{{ongoingOrders}}"
+        wx:key="_id"
+        order="{{item}}"
+        role="technician"
+      />
+    </view>
+    <view class="empty-state ongoing-empty" wx:if="{{!loading && ongoingOrders.length === 0}}">
+      <text class="empty-icon">🛠</text>
+      <text class="empty-text">暂无进行中订单</text>
+      <text class="empty-hint">已接单和维修中的订单会显示在这里</text>
+    </view>
     <!-- 待接单 -->
     <view class="section-header">
       <text class="section-title">待接订单</text>
@@ -61,8 +81,8 @@
             <view class="pending-brand" wx:if="{{item.applianceBrand}}">
               <text>{{item.applianceBrand}}</text>
             </view>
-            <button class="accept-btn" data-id="{{item._id}}" catchtap="onAcceptOrder">接单</button>
           </view>
+          <button class="accept-btn" data-id="{{item._id}}" catchtap="onAcceptOrder">接单</button>
         </view>
       </view>
     </view>

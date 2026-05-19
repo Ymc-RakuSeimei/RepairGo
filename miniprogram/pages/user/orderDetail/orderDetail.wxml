@@ -59,10 +59,35 @@
       <text class="label">完成时间</text>
       <text>{{order.completedAt}}</text>
     </view>
+    <view class="info-row" wx:if="{{order.serviceFinishedAt}}">
+      <text class="label">结束服务</text>
+      <text>{{order.serviceFinishedAt}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.paidAt}}">
+      <text class="label">付款时间</text>
+      <text>{{order.paidAt}}</text>
+    </view>
     <view class="info-row" wx:if="{{order.repairNotes}}">
       <text class="label">维修备注</text>
       <text>{{order.repairNotes}}</text>
     </view>
+    <view class="info-row" wx:if="{{order.price || order.price === 0}}">
+      <text class="label">维修费用</text>
+      <text>¥{{order.price}}</text>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{canPay}}">
+    <view class="section-title">订单付款</view>
+    <view class="info-row">
+      <text class="label">应付金额</text>
+      <text>¥{{order.price}}</text>
+    </view>
+    <view class="info-row" wx:if="{{order.repairNotes}}">
+      <text class="label">维修备注</text>
+      <text>{{order.repairNotes}}</text>
+    </view>
+    <button class="btn-primary" bindtap="onPayOrder">模拟支付</button>
   </view>
 
   <!-- 评价区域 -->
@@ -71,10 +96,18 @@
     <view class="review-form">
       <view class="rating-row">
         <text class="label">评分</text>
-        <star-rating rating="{{reviewRating}}" bind:change="onReviewRatingChange" size="50" />
+        <star-rating rating="{{rating}}" bind:change="onReviewRatingChange" size="50" />
       </view>
       <textarea class="review-textarea" placeholder="请写下您的评价..." value="{{reviewContent}}" bindinput="onReviewInput" maxlength="200" />
       <button class="btn-primary" bindtap="onSubmitReview">提交评价</button>
+    </view>
+  </view>
+
+  <view class="card" wx:if="{{order.status === 'reviewed'}}">
+    <view class="section-title">服务评价</view>
+    <view class="info-row">
+      <text class="label">状态</text>
+      <text>您已完成评价</text>
     </view>
   </view>
 
