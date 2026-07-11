@@ -1,9 +1,8 @@
-const {
-  APPLIANCE_TYPES,
-  callCloud,
-  formatFullAddress,
-  isValidPhone,
-} = require('../../../utils/util');
+const util = require('../../../utils/util');
+const APPLIANCE_TYPES = util.APPLIANCE_TYPES;
+const callCloud = util.callCloud;
+const formatFullAddress = util.formatFullAddress;
+const isValidPhone = util.isValidPhone;
 
 Page({
   data: {
@@ -15,7 +14,6 @@ Page({
     userName: '',
     userPhone: '',
     userAddress: '',
-    preferredTime: '',
     preferredDate: '',
     currentYear: '',
     availableDates: [],
@@ -246,7 +244,8 @@ Page({
   },
 
   onDateColumnChange(e) {
-    const { column, value } = e.detail;
+    const column = e.detail.column;
+    const value = e.detail.value;
     const datePickerValue = this.data.datePickerValue.slice();
     datePickerValue[column] = value;
 
@@ -275,44 +274,22 @@ Page({
   },
 
   async prefillContactInfo() {
-    const loginRes = await callCloud('user/login', {});
-    if (loginRes && loginRes.code === 0) {
-      const user = loginRes.data || {};
-      const updateData = {};
-
-      if (!this.data.userName && user.nickName) updateData.userName = user.nickName;
-      if (!this.data.userPhone && user.phone) updateData.userPhone = user.phone;
-
-      if (Object.keys(updateData).length) {
-        this.setData(updateData);
-      }
-    }
-
     const addressRes = await callCloud('user/getAddresses', {});
     if (addressRes && addressRes.code === 0) {
       const defaultAddress = (addressRes.data || []).find((item) => item.isDefault) || null;
       if (defaultAddress) {
-        this.applySelectedAddress(defaultAddress, false);
+        this.applySelectedAddress(defaultAddress);
       }
     }
   },
 
-  applySelectedAddress(address, overwrite = true) {
-    const nextData = {
+  applySelectedAddress(address) {
+    this.setData({
       selectedAddress: address,
-    };
-
-    if (overwrite || !this.data.userName) {
-      nextData.userName = address.name || this.data.userName;
-    }
-    if (overwrite || !this.data.userPhone) {
-      nextData.userPhone = address.phone || this.data.userPhone;
-    }
-    if (overwrite || !this.data.userAddress) {
-      nextData.userAddress = formatFullAddress(address);
-    }
-
-    this.setData(nextData);
+      userName: address.name || '',
+      userPhone: address.phone || '',
+      userAddress: formatFullAddress(address),
+    });
   },
 
   goSelectAddress() {
@@ -320,7 +297,7 @@ Page({
       url: '/pages/user/addressList/addressList?mode=select',
       success: (res) => {
         res.eventChannel.on('addressSelected', (address) => {
-          this.applySelectedAddress(address, true);
+          this.applySelectedAddress(address);
         });
       },
     });
@@ -337,7 +314,7 @@ Page({
       mediaType: ['image'],
       success: (res) => {
         const newImages = res.tempFiles.map(f => f.tempFilePath);
-        this.setData({ images: [...this.data.images, ...newImages] });
+        this.setData({ images: this.data.images.concat(newImages) });
       },
     });
   },
@@ -349,24 +326,24 @@ Page({
   },
 
   async onSubmit() {
-    const {
-      typeIndex,
-      applianceTypes,
-      brand,
-      faultDesc,
-      userName,
-      userPhone,
-      userAddress,
-      preferredDate,
-      selectedTimeSlot,
-      images,
-      noAvailablePreferredTime,
-    } = this.data;
+    const typeIndex = this.data.typeIndex;
+    const applianceTypes = this.data.applianceTypes;
+    const brand = this.data.brand;
+    const faultDesc = this.data.faultDesc;
+    const selectedAddress = this.data.selectedAddress;
+    const userName = this.data.userName;
+    const userPhone = this.data.userPhone;
+    const userAddress = this.data.userAddress;
+    const preferredDate = this.data.preferredDate;
+    const selectedTimeSlot = this.data.selectedTimeSlot;
+    const images = this.data.images;
+    const noAvailablePreferredTime = this.data.noAvailablePreferredTime;
 
     if (typeIndex < 0) { wx.showToast({ title: '请选择电器类型', icon: 'none' }); return; }
-    if (!userName.trim()) { wx.showToast({ title: '请填写姓名', icon: 'none' }); return; }
-    if (!isValidPhone(userPhone)) { wx.showToast({ title: '请输入正确的手机号', icon: 'none' }); return; }
-    if (!userAddress.trim()) { wx.showToast({ title: '请填写地址', icon: 'none' }); return; }
+    if (!selectedAddress) { wx.showToast({ title: '请选择服务地址', icon: 'none' }); return; }
+    if (!userName.trim()) { wx.showToast({ title: '地址缺少联系人姓名', icon: 'none' }); return; }
+    if (!isValidPhone(userPhone)) { wx.showToast({ title: '地址缺少有效手机号', icon: 'none' }); return; }
+    if (!userAddress.trim()) { wx.showToast({ title: '地址信息不完整', icon: 'none' }); return; }
     if (!faultDesc.trim()) { wx.showToast({ title: '请描述故障', icon: 'none' }); return; }
     if (noAvailablePreferredTime) { wx.showToast({ title: '当前年度已无可预约时段', icon: 'none' }); return; }
     if (!preferredDate) { wx.showToast({ title: '请选择预约日期', icon: 'none' }); return; }

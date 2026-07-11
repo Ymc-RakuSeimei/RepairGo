@@ -19,7 +19,7 @@
     <view class="section-title">维修技能（可多选）</view>
     <view class="skill-grid">
       <view
-        class="skill-tag {{selectedSkills.includes(item) ? 'active' : ''}}"
+        class="skill-tag {{selectedSkillMap[item] ? 'active' : ''}}"
         wx:for="{{skills}}"
         wx:key="*this"
         data-skill="{{item}}"

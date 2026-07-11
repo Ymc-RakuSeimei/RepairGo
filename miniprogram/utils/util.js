@@ -5,7 +5,7 @@ const callCloud = async (name, data = {}) => {
     const funcName = name.replace(/\//g, '_');
     const res = await wx.cloud.callFunction({
       name: 'api',
-      data: { action: funcName, ...data }
+      data: Object.assign({ action: funcName }, data)
     });
     wx.hideLoading();
     if (res.result && res.result.code === -1) {
@@ -47,8 +47,10 @@ const formatDate = (date, fmt = 'YYYY-MM-DD HH:mm') => {
     'ss': String(d.getSeconds()).padStart(2, '0'),
   };
   let result = fmt;
-  for (const [key, val] of Object.entries(map)) {
-    result = result.replace(key, val);
+  const keys = Object.keys(map);
+  for (let i = 0; i < keys.length; i++) {
+    const key = keys[i];
+    result = result.replace(key, map[key]);
   }
   return result;
 };
@@ -136,13 +138,11 @@ const formatFullAddress = (address) => {
   if (!address) return '';
   if (typeof address === 'string') return address;
 
-  const {
-    province = '',
-    city = '',
-    district = '',
-    detail = '',
-    fullAddress = '',
-  } = address;
+  const province = address.province || '';
+  const city = address.city || '';
+  const district = address.district || '';
+  const detail = address.detail || '';
+  const fullAddress = address.fullAddress || '';
 
   return fullAddress || [province, city, district, detail].filter(Boolean).join(' ');
 };

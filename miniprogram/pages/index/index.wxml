@@ -12,8 +12,8 @@
     </view>
   </view>
 
-  <!-- Phone bind screen -->
-  <view class="login-card" wx:if="{{showPhoneBind}}">
+  <!-- Login screen -->
+  <view class="login-card" wx:if="{{showLogin}}">
     <view class="header">
       <view class="logo-wrap">
         <view class="logo-circle">
@@ -25,10 +25,40 @@
     </view>
 
     <view class="login-actions">
-      <button class="phone-btn" open-type="getPhoneNumber" bindgetphonenumber="onGetPhoneNumber">
+      <button class="login-btn" bindtap="onTapLogin" loading="{{submitting}}">
         微信一键登录
       </button>
-      <text class="skip-link" bindtap="onSkipPhone">暂时跳过</text>
+      <text class="skip-link" bindtap="onSkipLogin">暂时跳过</text>
+    </view>
+  </view>
+
+  <!-- Profile popup: avatar + nickname -->
+  <view class="popup-mask" wx:if="{{showProfilePopup}}" catchtouchmove="preventMove">
+    <view class="popup-panel">
+      <text class="popup-title">完善微信资料</text>
+      <text class="popup-desc">选择微信头像并填写昵称</text>
+
+      <button class="avatar-picker" open-type="chooseAvatar" bindchooseavatar="onChooseAvatar">
+        <image wx:if="{{avatarUrl}}" class="avatar-image" src="{{avatarUrl}}" mode="aspectFill" />
+        <view wx:else class="avatar-placeholder">
+          <text class="avatar-hint">点击获取微信头像</text>
+        </view>
+      </button>
+
+      <input
+        class="nickname-input"
+        type="nickname"
+        placeholder="点击获取微信昵称"
+        value="{{nickName}}"
+        bindinput="onNickNameInput"
+        bindblur="onNickNameInput"
+        maxlength="20"
+      />
+
+      <button class="login-btn popup-confirm-btn" bindtap="onConfirmProfile" loading="{{submitting}}">
+        确认并登录
+      </button>
+      <text class="skip-link" bindtap="onCloseProfilePopup">取消</text>
     </view>
   </view>
 </view>

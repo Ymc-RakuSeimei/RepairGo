@@ -1,8 +1,12 @@
-const { callCloud, isValidPhone } = require('../../../utils/util');
+const util = require('../../../utils/util');
+const callCloud = util.callCloud;
+const isValidPhone = util.isValidPhone;
+const APPLIANCE_TYPES = util.APPLIANCE_TYPES;
 
 Page({
   data: {
-    skills: ['空调', '冰箱', '洗衣机', '热水器', '电视', '油烟机', '燃气灶', '微波炉', '电磁炉'],
+    skills: APPLIANCE_TYPES,
+    selectedSkillMap: {},
     selectedSkills: [],
     realName: '',
     phone: '',
@@ -12,33 +16,57 @@ Page({
 
   onInputChange(e) {
     const field = e.currentTarget.dataset.field;
-    this.setData({ [field]: e.detail.value });
+    const update = {};
+    update[field] = e.detail.value;
+    this.setData(update);
   },
 
   toggleSkill(e) {
     const skill = e.currentTarget.dataset.skill;
-    let { selectedSkills } = this.data;
-    if (selectedSkills.includes(skill)) {
-      selectedSkills = selectedSkills.filter(s => s !== skill);
-    } else {
-      selectedSkills.push(skill);
-    }
-    this.setData({ selectedSkills });
+    const selectedSkillMap = Object.assign({}, this.data.selectedSkillMap);
+    selectedSkillMap[skill] = !selectedSkillMap[skill];
+
+    const selectedSkills = this.data.skills.filter(function (item) {
+      return selectedSkillMap[item];
+    });
+
+    this.setData({
+      selectedSkillMap: selectedSkillMap,
+      selectedSkills: selectedSkills,
+    });
   },
 
   async onSubmit() {
-    const { realName, phone, serviceArea, selectedSkills } = this.data;
-    if (!realName.trim()) { wx.showToast({ title: '请填写姓名', icon: 'none' }); return; }
-    if (!isValidPhone(phone)) { wx.showToast({ title: '请输入正确的手机号', icon: 'none' }); return; }
-    if (selectedSkills.length === 0) { wx.showToast({ title: '请选择至少一项技能', icon: 'none' }); return; }
+    const realName = this.data.realName;
+    const phone = this.data.phone;
+    const serviceArea = this.data.serviceArea;
+    const selectedSkills = this.data.selectedSkills;
+
+    if (!realName.trim()) {
+      wx.showToast({ title: '请填写姓名', icon: 'none' });
+      return;
+    }
+    if (!isValidPhone(phone)) {
+      wx.showToast({ title: '请输入正确的手机号', icon: 'none' });
+      return;
+    }
+    if (selectedSkills.length === 0) {
+      wx.showToast({ title: '请选择至少一项技能', icon: 'none' });
+      return;
+    }
 
     this.setData({ submitting: true });
     const result = await callCloud('technician/register', {
-      realName, phone, serviceArea, skills: selectedSkills,
+      realName: realName,
+      phone: phone,
+      serviceArea: serviceArea,
+      skills: selectedSkills,
     });
     if (result && result.code === 0) {
       wx.showToast({ title: '申请已提交', icon: 'success' });
-      setTimeout(() => wx.navigateBack(), 1500);
+      setTimeout(function () {
+        wx.navigateBack();
+      }, 1500);
     }
     this.setData({ submitting: false });
   },

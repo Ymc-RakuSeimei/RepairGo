@@ -146,6 +146,20 @@
   line-height: 1.6;
 }
 
+.address-empty-hint {
+  margin: 12rpx 0 18rpx;
+  padding: 32rpx 24rpx;
+  border-radius: 16rpx;
+  background: #F7F8FA;
+  border: 2rpx dashed #D1D1D6;
+  text-align: center;
+}
+
+.hint-text {
+  font-size: 26rpx;
+  color: #8E8E93;
+}
+
 .address-input {
   width: 100%;
 }

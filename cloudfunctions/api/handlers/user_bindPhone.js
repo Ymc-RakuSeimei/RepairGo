@@ -16,12 +16,16 @@ exports.main = async (event, context) => {
     });
 
     const phoneNumber = phoneRes.phone_info.phoneNumber;
+    const { nickName, avatarUrl } = event;
 
     const userRes = await db.collection('users').where({ _openid: openid }).get();
+    const profileData = {};
+    if (nickName) profileData.nickName = nickName;
+    if (avatarUrl) profileData.avatarUrl = avatarUrl;
 
     if (userRes.data.length > 0) {
       await db.collection('users').doc(userRes.data[0]._id).update({
-        data: { phone: phoneNumber, updatedAt: db.serverDate() },
+        data: { phone: phoneNumber, ...profileData, updatedAt: db.serverDate() },
       });
     } else {
       await db.collection('users').add({
@@ -29,8 +33,8 @@ exports.main = async (event, context) => {
           _openid: openid,
           roles: ['user'],
           pendingRoles: [],
-          nickName: '',
-          avatarUrl: '',
+          nickName: nickName || '',
+          avatarUrl: avatarUrl || '',
           phone: phoneNumber,
           address: '',
           gender: 0,
@@ -40,7 +44,14 @@ exports.main = async (event, context) => {
       });
     }
 
-    return { code: 0, data: { phone: phoneNumber } };
+    return {
+      code: 0,
+      data: {
+        phone: phoneNumber,
+        nickName: nickName || '',
+        avatarUrl: avatarUrl || '',
+      },
+    };
   } catch (err) {
     console.error('bindPhone error:', err);
     return { code: -1, message: '手机号绑定失败' };

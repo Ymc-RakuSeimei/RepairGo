@@ -69,6 +69,35 @@
   flex-shrink: 0;
 }
 
+.skills-row {
+  align-items: flex-start;
+}
+
+.skill-grid {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12rpx;
+}
+
+.skill-tag {
+  padding: 10rpx 24rpx;
+  border-radius: 30rpx;
+  font-size: 24rpx;
+  background: #f0f0f0;
+  color: #666;
+}
+
+.skill-tag.active {
+  background: #4A90D9;
+  color: #fff;
+}
+
+.skill-empty {
+  font-size: 28rpx;
+  color: #999;
+}
+
 /* Role switch section */
 .menu-section {
   background: #FFFFFF;

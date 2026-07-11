@@ -9,9 +9,14 @@ var getEntryRole = util.getEntryRole;
 Page({
   data: {
     loading: true,
-    showPhoneBind: false,
+    showLogin: false,
+    showProfilePopup: false,
     user: null,
     entryRole: '',
+    nickName: '',
+    avatarUrl: '',
+    avatarFileID: '',
+    submitting: false,
   },
 
   onLoad() {
@@ -30,13 +35,16 @@ Page({
         setActualRole(entryRole);
         setCurrentRole(entryRole);
 
-        // Check if phone is bound
-        if (!user.phone) {
+        // 首次登录或资料不完整：展示一键登录
+        if (!user.nickName || !user.avatarUrl) {
           this.setData({
             loading: false,
-            showPhoneBind: true,
-            user,
-            entryRole,
+            showLogin: true,
+            user: user,
+            entryRole: entryRole,
+            nickName: user.nickName || '',
+            avatarUrl: user.avatarUrl || '',
+            avatarFileID: user.avatarUrl || '',
           });
         } else {
           wx.redirectTo({ url: ROLE_MAP[entryRole].home });
@@ -52,25 +60,76 @@ Page({
     }
   },
 
-  async onGetPhoneNumber(e) {
-    if (!e.detail.code) {
-      wx.showToast({ title: '获取手机号失败', icon: 'none' });
-      return;
-    }
+  onTapLogin() {
+    this.setData({ showProfilePopup: true });
+  },
 
-    const result = await callCloud('user/bindPhone', { code: e.detail.code });
-    if (result && result.code === 0) {
-      const userInfo = getApp().globalData.userInfo;
-      if (userInfo) {
-        userInfo.phone = result.data.phone;
-      }
-      wx.redirectTo({ url: ROLE_MAP[this.data.entryRole].home });
-    } else {
-      wx.showToast({ title: '手机号绑定失败，请重试', icon: 'none' });
+  onCloseProfilePopup() {
+    this.setData({ showProfilePopup: false });
+  },
+
+  preventMove() {},
+
+  async onChooseAvatar(e) {
+    const tempPath = e.detail.avatarUrl;
+    if (!tempPath) return;
+
+    try {
+      wx.showLoading({ title: '上传头像中...', mask: true });
+      const ext = tempPath.split('.').pop() || 'png';
+      const cloudPath = 'avatars/' + Date.now() + '-' + Math.random().toString(36).slice(2) + '.' + ext;
+      const uploadRes = await wx.cloud.uploadFile({ cloudPath: cloudPath, filePath: tempPath });
+      this.setData({
+        avatarUrl: tempPath,
+        avatarFileID: uploadRes.fileID,
+      });
+    } catch (err) {
+      console.error('Avatar upload failed:', err);
+      wx.showToast({ title: '头像上传失败', icon: 'none' });
+    } finally {
+      wx.hideLoading();
     }
   },
 
-  onSkipPhone() {
+  onNickNameInput(e) {
+    this.setData({ nickName: e.detail.value });
+  },
+
+  goHome() {
     wx.redirectTo({ url: ROLE_MAP[this.data.entryRole].home });
+  },
+
+  async onConfirmProfile() {
+    var nickName = (this.data.nickName || '').trim();
+    var avatarFileID = this.data.avatarFileID;
+    var user = this.data.user;
+
+    if (!avatarFileID) {
+      wx.showToast({ title: '请先选择微信头像', icon: 'none' });
+      return;
+    }
+    if (!nickName) {
+      wx.showToast({ title: '请先填写微信昵称', icon: 'none' });
+      return;
+    }
+
+    this.setData({ submitting: true });
+    const result = await callCloud('user/updateProfile', {
+      nickName: nickName,
+      avatarUrl: avatarFileID,
+      phone: (user && user.phone) || '',
+      gender: (user && user.gender) || 'unknown',
+    });
+
+    if (result && result.code === 0) {
+      getApp().globalData.userInfo = result.data;
+      this.setData({ showProfilePopup: false });
+      this.goHome();
+    }
+    this.setData({ submitting: false });
+  },
+
+  onSkipLogin() {
+    this.goHome();
   },
 });

@@ -34,14 +34,6 @@
 
   <view class="card">
     <view class="section-title">联系信息</view>
-    <view class="form-item">
-      <text class="form-label">姓名</text>
-      <input class="form-input" placeholder="请输入您的姓名" value="{{userName}}" data-field="userName" bindinput="onInputChange" />
-    </view>
-    <view class="form-item">
-      <text class="form-label">电话</text>
-      <input class="form-input" type="number" placeholder="请输入联系电话" value="{{userPhone}}" data-field="userPhone" bindinput="onInputChange" maxlength="11" />
-    </view>
 
     <view class="address-panel">
       <view class="address-head">
@@ -63,7 +55,9 @@
         <text class="selected-address">{{userAddress}}</text>
       </view>
 
-      <input class="form-input address-input" placeholder="请输入维修地址" value="{{userAddress}}" data-field="userAddress" bindinput="onInputChange" />
+      <view wx:else class="address-empty-hint" bindtap="goSelectAddress">
+        <text class="hint-text">请选择地址，联系人姓名和手机号将自动同步</text>
+      </view>
     </view>
 
     <view class="form-item time-item">

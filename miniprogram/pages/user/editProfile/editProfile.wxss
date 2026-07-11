@@ -29,6 +29,7 @@
 .field-label {
   display: block;
   font-size: 28rpx;
+  margin-right: 50rpx;
   color: #666;
   margin-bottom: 18rpx;
 }

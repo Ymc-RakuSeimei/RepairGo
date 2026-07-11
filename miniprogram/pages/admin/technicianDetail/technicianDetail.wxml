@@ -15,7 +15,12 @@
 
   <view class="card">
     <view class="info-row"><text class="label">服务区域</text><text>{{tech.serviceArea || "未设置"}}</text></view>
-    <view class="info-row"><text class="label">维修技能</text><text>{{tech.skills.join("、")}}</text></view>
+    <view class="info-row skills-row"><text class="label">维修技能</text>
+      <view class="skill-grid">
+        <view class="skill-tag active" wx:for="{{tech.skills}}" wx:key="*this">{{item}}</view>
+        <text wx:if="{{!tech.skills.length}}" class="skill-empty">未设置</text>
+      </view>
+    </view>
     <view class="info-row"><text class="label">总单数</text><text>{{tech.totalOrders}}</text></view>
     <view class="info-row"><text class="label">总收入</text><text>{{tech.totalIncome}}</text></view>
     <view class="info-row"><text class="label">状态</text><text>{{tech.status === "approved" ? "已认证" : tech.status === "pending" ? "待审核" : tech.status === "disabled" ? "已禁用" : "未通过"}}</text></view>

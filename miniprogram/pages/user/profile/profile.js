@@ -1,12 +1,12 @@
-const {
-  checkRoleAsync,
-  getUserRoles,
-  getUserPendingRoles,
-  getActualRole,
-  setCurrentRole,
-  ROLE_MAP,
-  getGenderLabel,
-} = require('../../../utils/util');
+const util = require('../../../utils/util');
+const checkRoleAsync = util.checkRoleAsync;
+const getUserRoles = util.getUserRoles;
+const getUserPendingRoles = util.getUserPendingRoles;
+const getActualRole = util.getActualRole;
+const setCurrentRole = util.setCurrentRole;
+const ROLE_MAP = util.ROLE_MAP;
+const getGenderLabel = util.getGenderLabel;
+const callCloud = util.callCloud;
 
 Page({
   data: {
@@ -18,6 +18,7 @@ Page({
     hasTechnicianRole: false,
     hasAdminRole: false,
     genderText: '未设置',
+    stats: null,
   },
 
   async onShow() {
@@ -28,8 +29,8 @@ Page({
       const actualRole = getActualRole();
       this.setData({
         userInfo: user,
-        roles,
-        pendingRoles,
+        roles: roles,
+        pendingRoles: pendingRoles,
         isDeveloper: actualRole === 'developer',
         techPending: pendingRoles.includes('technician'),
         hasTechnicianRole: roles.includes('technician'),
@@ -37,6 +38,13 @@ Page({
         genderText: getGenderLabel(user.gender),
       });
       this.loadStats();
+    }
+  },
+
+  async loadStats() {
+    const result = await callCloud('user/getStats', {});
+    if (result && result.code === 0) {
+      this.setData({ stats: result.data });
     }
   },
 
