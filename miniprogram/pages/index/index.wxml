@@ -7,7 +7,7 @@
           <text class="logo-icon">R</text>
         </view>
       </view>
-      <text class="title">电器维修</text>
+      <text class="title">RepairGo</text>
       <text class="subtitle">正在登录...</text>
     </view>
   </view>
@@ -20,7 +20,7 @@
           <text class="logo-icon">R</text>
         </view>
       </view>
-      <text class="title">电器维修</text>
+      <text class="title">RepairGo</text>
       <text class="subtitle">一键登录，享受便捷维修服务</text>
     </view>
 

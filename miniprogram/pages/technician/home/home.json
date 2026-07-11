@@ -2,7 +2,6 @@
   "navigationBarTitleText": "维修中心",
   "usingComponents": {
     "role-tabbar": "/components/role-tabbar/role-tabbar",
-    "order-card": "/components/orderCard/orderCard",
-    "status-badge": "/components/statusBadge/statusBadge"
+    "order-card": "/components/orderCard/orderCard"
   }
 }

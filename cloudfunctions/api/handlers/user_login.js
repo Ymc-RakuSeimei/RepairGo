@@ -67,7 +67,6 @@ exports.main = async (event, context) => {
     // New user
     const newUser = {
       _openid: openid,
-      role: 'user',
       roles: ['user'],
       pendingRoles: [],
       nickName: event.nickName || '',

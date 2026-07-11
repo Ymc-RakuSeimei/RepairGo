@@ -27,7 +27,6 @@ exports.main = async (event, context) => {
       await db.collection('users').add({
         data: {
           _openid: openid,
-          role: 'user',
           roles: ['user'],
           pendingRoles: [],
           nickName: '',
